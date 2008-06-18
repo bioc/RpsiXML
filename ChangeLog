@@ -1,0 +1,53 @@
+2008-06-18 10:15  d.zhang
+
+	* R/psi25parser.R: Bug fix in psimi25XML2Graph: if bait and pray
+	  list contains NA, they will be replaced with character NA in
+	  order to avoid the cases where the genBPGraph method has to
+	  select a NA row/column from a matrix. I still wonder how we can
+	  treat the identifier better, can we get a function to build a
+	  graph based on source code and then convert them to uniprot? It
+	  is not easy to translate uniprot to other identifiers: imagine a
+	  sourceID without Uniprot but with other annotation, say MIM, you
+	  then have a NA as the uniprot, which means you have actually lost
+	  your source ID and its information.
+
+2008-06-17 17:00  tchiang@fhcrc.org
+
+	* DESCRIPTION, NAMESPACE, R, R/classDefs.R, R/genericFuncs.R,
+	  R/handlers.R, R/hyperGraphs.R, R/methodDefs.R, R/psi25parser.R,
+	  R/psimi25Source.R, R/validatePSIMI25.R, inst, inst/doc,
+	  inst/doc/RpsiXML.Rnw, inst/extdata, inst/extdata/psi25files,
+	  inst/extdata/psi25files/biogrid_200804_test.xml,
+	  inst/extdata/psi25files/dip_2008_test.xml,
+	  inst/extdata/psi25files/hprd_200709_test.xml,
+	  inst/extdata/psi25files/intact_2008_test.xml,
+	  inst/extdata/psi25files/intact_complexSample.xml,
+	  inst/extdata/psi25files/mint_200711_test.xml,
+	  inst/extdata/psi25files/mips_2007_test.xml, inst/extdata/schemas,
+	  inst/extdata/schemas/MIF25.xsd, man, man/BIOGRID.PSIMI25.Rd,
+	  man/availableXrefs-methods.Rd, man/availableXrefs.Rd,
+	  man/bait.Rd, man/complexName.Rd, man/complexes.Rd,
+	  man/eListHandler.Rd, man/getAbstractByPMID.Rd,
+	  man/interactionType.Rd, man/interactions.Rd,
+	  man/interactorInfo-methods.Rd, man/interactorInfo.Rd,
+	  man/interactors-methods.Rd, man/interactors.Rd,
+	  man/list2Matrix.Rd, man/null2na.Rd, man/organismName.Rd,
+	  man/parseComplex.Rd, man/parsePsimi25Interaction.Rd,
+	  man/psimi25Complex-class.Rd, man/psimi25ComplexEntry-class.Rd,
+	  man/psimi25Experiment-class.Rd, man/psimi25Graph-class.Rd,
+	  man/psimi25Hypergraph-class.Rd, man/psimi25Interaction-class.Rd,
+	  man/psimi25InteractionEntry-class.Rd,
+	  man/psimi25Interactor-class.Rd, man/psimi25Source-class.Rd,
+	  man/psimi25XML2Graph.Rd, man/releaseDate.Rd,
+	  man/separateXMLDataByExpt.Rd, man/sourceDb-methods.Rd,
+	  man/sourceDb.Rd, man/sourceId-methods.Rd, man/sourceId.Rd,
+	  man/taxId-methods.Rd, man/taxId.Rd, man/translateID-methods.Rd,
+	  man/translateID.Rd, man/uniprot-methods.Rd, man/uniprot.Rd,
+	  man/validatePSIMI25.Rd, tests, tests/psimi25Source_test.R: I am
+	  populating the new package RpsiXML
+
+2008-05-27 17:07  p.aboyoun
+
+	* .: Creating a new package directory for Tony Chiang and Jitao
+	  "David" Zhang.
+
