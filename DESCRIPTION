@@ -1,5 +1,5 @@
 Package: RpsiXML
-Version: 0.0.1
+Version: 0.0.2
 Date: 2008-05-20
 Title: R interface to PSI-MI 2.5 files
 Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de> with contributions from T Chiang
