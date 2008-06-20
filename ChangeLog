@@ -1,3 +1,39 @@
+2008-06-20 09:02  d.zhang
+
+	* DESCRIPTION: Version 0.0.2: Passing R-2.7.0 and R-2.8.0-devel
+	  checking without warning or noting
+
+2008-06-20 08:59  d.zhang
+
+	* R/handlers.R: Syntax change: pairvec in iListHandler and curEL in
+	  eListHander are assigned with a foo value to avoid the warning of
+	  invisible global variable binding
+
+2008-06-20 08:20  tchiang@fhcrc.org
+
+	* DESCRIPTION: Bumping the version number
+
+2008-06-20 07:45  d.zhang
+
+	* NAMESPACE: Trivial change: warning under R-2.8.0-dev removed by
+	  importing generic function definition 'abstract' from Biobase
+	  package. It does not work so far since i got a tippfehler, sorry
+
+2008-06-18 11:17  d.zhang
+
+	* ChangeLog: ChangeLog (produced with svn2cl) added
+
+2008-06-18 10:59  d.zhang
+
+	* R/validatePSIMI25.R: Syntax fix: windows will warns the user not
+	  supported
+
+2008-06-18 10:58  d.zhang
+
+	* NAMESPACE, R/genericFuncs.R: Syntax fix: non-generic functions
+	  have been removed from genericFuns; validatePSIMI25 is now
+	  exported
+
 2008-06-18 10:15  d.zhang
 
 	* R/psi25parser.R: Bug fix in psimi25XML2Graph: if bait and pray
