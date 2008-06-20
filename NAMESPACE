@@ -1,5 +1,5 @@
 import(annotate, graph, hypergraph, RBGL)
-importForm("Biobase", "abstract")
+importFrom("Biobase", "abstract")
 
 exportClasses(psimi25InteractionEntry,
               psimi25ComplexEntry,
