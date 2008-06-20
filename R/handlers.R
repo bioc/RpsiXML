@@ -16,7 +16,7 @@
 
 iListHandler <- function() {
   iList <- list()
-  parivec <- ""
+  pairvec <- ""
   curEL <- 1
   curPIR <- NULL
   inI <- inEL <- inER <- inPL <- inPP <- inPIR <- FALSE
@@ -95,6 +95,8 @@ eListHandler <- function() {
   eList <- list()
   inED <- inOrg <- inID <- inPD <- inNA <- inSL <- FALSE
   inPR <- inSR <- FALSE
+  curEL <- 1
+  
   startElement = function(x, atts, ...) {
     if (x == "experimentDescription")
       {
