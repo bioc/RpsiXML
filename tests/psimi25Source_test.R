@@ -76,15 +76,15 @@ dipSet <- parsePsimi25Interaction(dipxml, DIP.PSIMI25)
 ##############################
 ## Validating PSI-MI 2.5 Files
 ##############################
-okFile <- system.file("extdata/psi25files/intact_2008_test.xml",
-                      package="RpsiXML")
-errorFile <- system.file("extdata/psi25files/mips_2007_test.xml",
-                         package="RpsiXML")
-mif25Schema <- system.file("extdata/schemas/MIF25.xsd",package="RpsiXML")
-stopifnot(file.exists(okFile) &&
-          file.exists(errorFile) &&
-          file.exists(mif25Schema))
-
-validatePSIMI25(okFile)
-validatePSIMI25(errorFile)
-validatePSIMI25(errorFile, ignore.stderr=FALSE)
+#okFile <- system.file("extdata/psi25files/intact_2008_test.xml",
+#                      package="RpsiXML")
+#errorFile <- system.file("extdata/psi25files/mips_2007_test.xml",
+#                         package="RpsiXML")
+#mif25Schema <- system.file("extdata/schemas/MIF25.xsd",package="RpsiXML")
+#stopifnot(file.exists(okFile) &&
+#          file.exists(errorFile) &&
+#          file.exists(mif25Schema))
+#
+#validatePSIMI25(okFile)
+#validatePSIMI25(errorFile)
+#validatePSIMI25(errorFile, ignore.stderr=FALSE)
