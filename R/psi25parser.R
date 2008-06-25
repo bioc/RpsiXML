@@ -365,7 +365,7 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
   })
   
   free(psimi25Doc)
-  if (length(entryList) > 0) {
+  if (length(entryList) > 1) {
     el <- new("psimi25InteractionEntry")
     organismName(el) <- unique(unlist(sapply(entryList, organismName)))
     taxId(el) <-  unique(unlist(sapply(entryList, taxId)))
