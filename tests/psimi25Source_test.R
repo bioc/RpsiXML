@@ -68,6 +68,11 @@ dipxml <- file.path(xmlDir, "dip_2008_test.xml")
 
 dipSet <- parsePsimi25Interaction(dipxml, DIP.PSIMI25)
 
+## MatrixDB
+
+matrixdbxml <- file.path(xmlDir, "matrixdb_20080609.xml")
+matrixdbSet <- parsePsimi25Interaction(matrixdbxml, MATRIXDB.PSIMI25)
+
 ## MIPS: schema check failed
 #mipsxml <- file.path(xmlDir, "mips_2007_test.xml")
 
@@ -88,3 +93,4 @@ dipSet <- parsePsimi25Interaction(dipxml, DIP.PSIMI25)
 #validatePSIMI25(okFile)
 #validatePSIMI25(errorFile)
 #validatePSIMI25(errorFile, ignore.stderr=FALSE)
+
