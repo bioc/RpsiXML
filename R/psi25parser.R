@@ -365,8 +365,17 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
   })
   
   free(psimi25Doc)
-  entryList <- entryList[[1]]
-  entryList
+  if (length(entryList) > 0) {
+    el <- new("psimi25InteractionEntry")
+    organismName(el) <- unique(unlist(sapply(entryList, organismName)))
+    taxId(el) <-  unique(unlist(sapply(entryList, taxId)))
+    releaseDate(el) <- unique(unlist(sapply(entryList, releaseDate)))
+    interactors(el) <- unlist(sapply(entryList, interactors))
+    interactions(el) <- unlist(sapply(entryList, interactions))
+    return(el)
+  } else {
+    return(entryList)
+  }
 }
 
 
