@@ -228,6 +228,21 @@ setMethod("availableXrefs",
 
 setMethod("interactors", signature(x="psimi25InteractionEntry"),
           function(x) x@interactors)
+setClassUnion("ListorNull", c("list", "NULL"))
+setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="ListorNull"),
+          function(x,value) {
+            if (is.null(value)) {
+              x@interactors <- list()
+            } else {
+              vcInt <- sapply(value, inherits, "psimi25Interactor")
+              if(!all(vcInt))
+                stop("'value' must be a list of psimi25Interactors")
+              x@interactors <- value
+            }
+            return(x)
+            })
+                 
+
 setMethod("interactors", signature(x="psimi25ComplexEntry"),
           function(x) x@interactors)
 setMethod("interactors", signature(x="psimi25Graph"),
@@ -277,6 +292,15 @@ setMethod("interactorInfo", signature(x="list"),
 
 setMethod("interactions", signature(x="psimi25InteractionEntry"),
           function(x) x@interactions)
+setReplaceMethod("interactions", signature(x="psimi25InteractionEntry", value="list"),
+          function(x, value) {
+            vlInteraction <- sapply(value, inherits, "psimi25Interaction")
+            if(!all(vlInteraction))
+              stop("'value' must be a list of psimi25Interaction")
+            x@interactions <- value
+            return(x)
+            })
+
 setMethod("complexes", signature(x="psimi25ComplexEntry"),
           function(x) x@complexes)
 setMethod("taxId", signature(x="psimi25Complex"),
@@ -350,10 +374,26 @@ pubmedID <- function(x) {
 
 setMethod("organismName", signature(x="psimi25InteractionEntry"),
           function(x) x@organismName)
+setReplaceMethod("organismName", signature(x="psimi25InteractionEntry", value="character"),
+                 function(x, value) {
+                   x@organismName <- value
+                   return(x)
+                 })
 setMethod("taxId", signature(x="psimi25InteractionEntry"),
           function(x) x@taxId)
+setReplaceMethod("taxId", signature(x="psimi25InteractionEntry", value="character"),
+                 function(x, value) {
+                   x@taxId <- value
+                   return(x)
+                   
+                 })
 setMethod("releaseDate", signature(x="psimi25InteractionEntry"),
           function(x) x@releaseDate)
+setReplaceMethod("releaseDate", signature(x="psimi25InteractionEntry", value="character"),
+                 function(x, value) {
+                   x@releaseDate <- value
+                   return(x)
+                 })
 
 setMethod("interactionType", signature(x="psimi25Interaction"),
           function(x) x@interactionType)
