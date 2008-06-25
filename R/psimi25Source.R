@@ -18,3 +18,6 @@ DIP.PSIMI25 <- new("psimi25Source", label="IntAct", sourceDb="dip",
            uniprotSymbol = "uniprot knowledge base")
 
 MIPS.PSIMI25 <- new("psimi25Source", label="MIPS", sourceDb="MI")
+
+MATRIXDB.PSIMI25 <- new("psimi25Source", label="MatrixDB", sourceDb="matrixdb",
+                        uniprotSymbol="uniprotkb")
