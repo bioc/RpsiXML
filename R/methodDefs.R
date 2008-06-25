@@ -32,7 +32,7 @@ setMethod("show", "psimi25InteractionEntry", function(object) {
       "==================================\n",
       "[ organism ]: ", object@organismName, "\n",
       "[ taxonomy ID ]: ", object@taxId, "\n",
-      "[ interactors ]: there are ", nrow(object@interactors), 
+      "[ interactors ]: there are ", length(interactors(object)), 
       " interactors in total, here are the first few ones:\n")
   print(utils::head(interactorInfo(object)))
   cat("...\n", "[ interactions ]: there are ", 
