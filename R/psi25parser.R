@@ -370,8 +370,8 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
     organismName(el) <- unique(unlist(sapply(entryList, organismName, simplify=FALSE)))
     taxId(el) <-  unique(unlist(sapply(entryList, taxId, simplify=FALSE)))
     releaseDate(el) <- unique(unlist(sapply(entryList, releaseDate,simplify=FALSE)))
-    interactors(el) <- unlist(sapply(entryList, interactors))
-    interactions(el) <- unlist(sapply(entryList, interactions))
+    interactors(el) <- unique(unlist(sapply(entryList, interactors)))
+    interactions(el) <- unique(unlist(sapply(entryList, interactions)))
     return(el)
   } else {
     return(entryList[[1]])
