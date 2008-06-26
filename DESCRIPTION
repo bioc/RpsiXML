@@ -1,11 +1,11 @@
 Package: RpsiXML
-Version: 0.0.3
+Version: 0.0.4
 Date: 2008-05-20
 Title: R interface to PSI-MI 2.5 files
 Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de> with contributions from Tony Chiang <tchiang@ebi.ac.uk>
 Maintainer: Jitao David Zhang<j.zhang@dkfz.de>
 Depends: annotate, XML (>= 1.9-0), Biobase, graph, hypergraph, RBGL, methods
 Description: Queries, data structure and interface to visualization of interaction datasets
-License: LGPL
+License: LGPL-3
 URL: http://www.bioconductor.org
 biocViews: Infrastructure, Proteomics
