@@ -58,6 +58,7 @@ currently, the databases that are supported by \Rpackage{RpsiXML} are:
   \item[4.] HPRD
   \item[5.] BioGRID
   \item[6.] MIPS/CORUM
+  \item[7.] MatrixDB
 \end{itemize}
 
 \noindent We plan to support other databases which are now porting to the PSI-MI XML2.5 
@@ -92,6 +93,9 @@ FTP or download site:
     \hline
     \bf{CORUM/MIPS} &
     \textit{http://mips.gsf.de/genre/proj/corum} \\
+    \hline
+    \bf{MatrixDB} &
+    \textit{not published yet} \\
     \hline
   \end{tabular}
   \label{ta:repos}
@@ -149,6 +153,9 @@ repository:
     \hline
     \bf{CORUM/MIPS} &
     mips$\_$2007$\_$test.xml \\
+    \hline
+    \bf{MatrixDB} &
+    matrixdb$\_$20080609.xml \\
     \hline
   \end{tabular}
   \label{ta:sample}
