@@ -22,7 +22,7 @@ gridHumanxml <- file.path(xmlDir, "biogrid_2008_test_human.xml")
 
 if(file.exists(gridLargexml)) {
 Rprof("gridLarge.prof")
-gridLargeSet <- parsePsimi25Interaction(gridLargexml, BIOGRID.PSIMI25)
+gridLargeSet <- parsePsimi25Interaction(gridLargexml, BIOGRID.PSIMI25, verbose=TRUE)
 Rprof(NULL)
 }
 if(file.exists(gridHumanxml)){

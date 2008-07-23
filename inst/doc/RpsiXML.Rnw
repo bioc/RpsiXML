@@ -183,8 +183,8 @@ intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
 \noindent and then we parse the file using the \Rfunction{parsePsimi25Interaction} function:
 
 <<parseInteraction, echo=TRUE, results=hide>>=
-intactSample <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
-intactComplexSample <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25)
+intactSample <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25,verbose=FALSE)
+intactComplexSample <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25,verbose=FALSE)
 @ 
 
 The two arguments taken by \Rfunction{parsePsimi25Interaction} is:
@@ -247,7 +247,8 @@ of this function is not readily accessible for computational analysis. For this 
 from the \textit{IntAct} sample XML file:
 
 <<intactGraph>>=
-intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25, type="interaction")
+intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25, 
+                                type="interaction",verbose=FALSE)
 nodes(intactGraph)
 degree(intactGraph)
 @ 
@@ -256,7 +257,7 @@ And we can also build a protein complex membership hyper-graph from the sample c
 file:
 
 <<intactHyperGraph>>=
-intactHG <- psimi25XML2Graph(intactxml, INTACT.PSIMI25, type="complex")
+intactHG <- psimi25XML2Graph(intactxml, INTACT.PSIMI25, type="complex",verbose=FALSE)
 @ 
 
 There is a caveat for the function \Rfunction{psimi25XML2Graph}; it does not decipher between the
@@ -274,7 +275,8 @@ there is rarely an associated pubmed ID for this type of data.
 
 <<separateXML>>=
 graphs <- separateXMLDataByExpt(xmlFiles = intactxml, psimi25source=INTACT.PSIMI25, 
-                                       type="indirect", directed=TRUE, abstract=TRUE) 
+                                type="indirect", directed=TRUE, abstract=TRUE,
+                                verbose=FALSE) 
 @ 
 
 Now we look at the input parameters:

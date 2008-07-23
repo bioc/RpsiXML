@@ -11,12 +11,15 @@
   \code{parsePsimi25Complex} is the parser for complex data.
 }
 \usage{
-parsePsimi25Interaction(psimi25file, psimi25source)
+parsePsimi25Interaction(psimi25file, psimi25source, verbose=TRUE)
+parsePsimi25Complex(psimi25file, psimi25source, verbose=FALSE)
 }
 
 \arguments{
   \item{psimi25file}{ character, file name or URL of the XML document }
-  \item{psimi25source}{ A supported data repository source, see also \code{\link{psimi25Source-class}} }
+  \item{psimi25source}{ A supported data repository source, see also
+    \code{\link{psimi25Source-class}} }
+  \item{verbose}{ logical, whether the parsing state should be displayed verbosely.}
 }
 \value{
   \code{psimi25Interaction} returns a list of \code{psimi25InteractionEntry}
@@ -50,7 +53,7 @@ gridxml <- file.path(xmlDir, "biogrid_200804_test.xml")
 gridSet <- parsePsimi25Interaction(gridxml, BIOGRID.PSIMI25)
 
 intactxml <- file.path(xmlDir, "intact_2008_test.xml")
-intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
+intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25, verbose=TRUE)
 
 # parse complex data
 intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")

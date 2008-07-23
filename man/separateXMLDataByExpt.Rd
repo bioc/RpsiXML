@@ -7,7 +7,7 @@
   type of the files.
 }
 \usage{
-separateXMLDataByExpt(xmlFiles, psimi25source, type = "direct", directed = TRUE, abstract = FALSE)
+separateXMLDataByExpt(xmlFiles, psimi25source, type = "direct", directed = TRUE, abstract = FALSE,...)
 }
 \arguments{
   \item{xmlFiles}{ Single file name or a vector of PSI-MI 2.5 XML file names or
@@ -17,7 +17,10 @@ separateXMLDataByExpt(xmlFiles, psimi25source, type = "direct", directed = TRUE,
   \item{psimi25source}{ Source of the PSI-MI 2.5 XML file, see \code{\link{psimi25Source-class}}}
   \item{directed}{ Logical, whehter the returned graph object should be
     directed or undirected.}
-  \item{abstract}{Logical; if TRUE, the abstract information will be appended to the graph object.}
+  \item{abstract}{Logical; if TRUE, the abstract information will be
+    appended to the graph object.}
+  \item{...}{ Other parameters passed to
+    \code{\link{parsePsimi25Interaction}}, for example \code{verbose=TRUE}}
 }
 \value{
  A list of \code{\link{psimi25Graph-class}} are generated indexed by the pubmedID of

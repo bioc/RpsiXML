@@ -7,7 +7,8 @@
   type of the files.
 }
 \usage{
-psimi25XML2Graph(psimi25files, psimi25source, type = "interaction", directed = TRUE)
+psimi25XML2Graph(psimi25files, psimi25source, type = "interaction",
+directed = TRUE, ...)
 }
 
 \arguments{
@@ -21,6 +22,8 @@ psimi25XML2Graph(psimi25files, psimi25source, type = "interaction", directed = T
     contains curated protein complex membership data.}
   \item{directed}{ Logical, whehter the returned graph object should be
     directed or undirected }
+  \item{...}{ Other parameters passed to
+    \code{\link{parsePsimi25Interaction}} }
 }
 \value{
  If type is "interaction",  then a resulting psimi25Graph object is genertated on the
