@@ -45,6 +45,18 @@ genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
   
 }
 
+statusDisplay <- function(...) {
+  cat(...)
+}
+statusIndicator <- function(x, length, N=40) {
+  stages <- round(length/N + 0.5)
+  if (x > length) {warning("Indicator received wrong message!\n"); x <- length}
+  if (x %% stages == 0 | x == length) {
+    per <- round(x/length,2)
+    statusDisplay("\r  ",per*100, "% ", rep("=",round(N*per)), ">",sep="")
+  }
+}
+
 ####################################################
 ## PSI-MI 2.5 XML entry parsers
 ## Low-level parsers, only accessible for developers
@@ -194,7 +206,7 @@ genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
 ##############################################
 
 ## File parser: parsing file into interaction entries
-parsePsimi25Interaction <- function (psimi25file, psimi25source) {
+parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
   psimi25Doc <- xmlTreeParse(psimi25file, useInternalNodes = TRUE)
                            
   psimi25NS <- getDefaultNamespace(psimi25Doc)
@@ -207,7 +219,6 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
     return(null2na(x))
   }
 
-        
   getMapping <- function(x, matrix, nameCol, valueCol) {
     names <- matrix[,nameCol]
     ind <- match(x, names)
@@ -222,7 +233,12 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
   ## get interaction details from interaction node
   getInteraction <- function(theNodes, index,  sourcedb, expEnv, interactorInfo, namespaces) {
     interactions <- vector("list",length=length(theNodes))
+    if (verbose)
+      statusDisplay("  Parsing interactions:\n")
     for (i in seq(along=theNodes)) {
+      if (verbose) {
+        statusIndicator(i, length(theNodes))
+      }
       theNode <- theNodes[[i]]
       subDoc <- xmlDoc(theNode)
       psimi25Ids <- xpathApply(doc = subDoc,
@@ -329,10 +345,17 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
                                neutralComponent = neutralComponentUniprot
                                )
     }
+    if(verbose) {
+      statusDisplay("\n")
+    }
     interactions
   }
-  
+
+  if(verbose)
+    statusDisplay(paste(length(entryCount),"Entries found\n",sep=" "))
   entryList <- lapply(seq(entryCount), function(i) {
+    if(verbose)
+      statusDisplay(paste("Parsing entry",i,"\n",sep=" "))
     basePath <- paste("/ns:entrySet/ns:entry[", i, "]", sep = "", 
                       collapse = "")
     thisEntry <- new("psimi25InteractionEntry")
@@ -344,12 +367,19 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
                                   namespaces)
 
     experimentEnv <- new.env(parent = emptyenv(), hash = TRUE)
+    if(verbose)
+      statusDisplay("  Parsing experiments: ")
     lapply(experimentNodes, function(thisExperiment) {
       experimentId <- xmlGetAttr(thisExperiment, name = "id")
       experimentData <- parseExperiment(psimi25source, thisExperiment,namespaces)
       assign(experimentId, experimentData, envir = experimentEnv)
+      if(verbose)
+        statusDisplay(".")
       ""
     })
+    if(verbose)
+      statusDisplay("\n")
+    
     releaseDatePath <- paste(basePath, "/ns:source", sep = "", 
                              collapse = "")
     releaseDate <- xpathApply(doc = psimi25Doc, path = releaseDatePath, 
@@ -371,12 +401,18 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
                             name = "id")
     interactorCount <- length(interactorNodes)
     interactors <- vector("list",length=interactorCount)
+    if(verbose)
+      statusDisplay("  Parsing interactors:\n")
     if (interactorCount > 0) {
       for (p in seq(interactorCount)) {
+        if(verbose)
+          statusIndicator(p, interactorCount)
         theRes <- parseInteractor(psimi25source, interactorNodes[[p]], namespaces)
         interactors[[p]] <- theRes
       }
-    } 
+    }
+    if(verbose)
+      statusDisplay("\n")
     interactorInfMat <- interactorInfo(interactors)
     names(interactors) <- interactorInfMat[,"uniprotId"]
     
@@ -417,8 +453,8 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source) {
 
 
 ## File parser: parsing file into complex
-parsePsimi25Complex <- function(psi25File, psimi25source) {
-  psiDoc <- xmlTreeParse(psi25File, useInternalNodes=TRUE)
+parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
+  psiDoc <- xmlTreeParse(psimi25file, useInternalNodes=TRUE)
   psiNS <- xmlNamespaceDefinitions(psiDoc)
   namespaces <- c(ns=psiNS[[1]]$uri)
 
@@ -435,16 +471,25 @@ parsePsimi25Complex <- function(psi25File, psimi25source) {
   interactorIds <- sapply(interactorNodes, xmlGetAttr, name="id")
   interactorCount <- length(interactorNodes)
   interactors <- vector("list", length=interactorCount)
+  if(verbose)
+    statusDisplay("  Parsing interactors:\n")
   for (i in seq(interactorCount)) {
+    if(verbose)
+      statusIndicator(i, interactorCount)
     theRes <- parseInteractor(psimi25source, interactorNodes[[i]], namespaces)
     interactors[[i]] <- theRes
   }
+  if(verbose)
+    statusDisplay("\n")
+  
   interactorInfo <- interactorInfo(interactors)
   names(interactors) <- interactorInfo[,"uniprotId"]
   ##############
   # complex    #
   ##############
   complexNodes <- getNodeSet(psiDoc, "//ns:interactionList/ns:interaction", namespaces)
+  if (verbose)
+    statusDisplay("  Parsing complexes:\n")
   complexList <- lapply(complexNodes, function(thisNode) {
     thisComplex <- parseComplex(psimi25source, thisNode, namespaces)
     participantRef <- split(thisComplex$interactorIds, 
@@ -462,6 +507,7 @@ parsePsimi25Complex <- function(psi25File, psimi25source) {
     participants <- data.frame(sourceId=participants, uniprotId = participantsUniProt, multiplicity=multiplicity)
     thisOrganism <- unique(as.character(interactorInfo[participantIndex,"organismName"]))
     thisTaxid <- unique(as.character(interactorInfo[participantIndex, "taxId"]))
+
     new("psimi25Complex",
         sourceDb = thisComplex$sourceDb,
         sourceId = thisComplex$sourceId,
@@ -473,6 +519,8 @@ parsePsimi25Complex <- function(psi25File, psimi25source) {
         attributes=thisComplex$attributes
         )
   })
+  if(verbose)
+    statusDisplay("\n")
   free(psiDoc)
   new("psimi25ComplexEntry",
       interactors=interactors,
@@ -483,7 +531,7 @@ parsePsimi25Complex <- function(psi25File, psimi25source) {
 ## File parser: parsing file into graph
 psimi25XML2Graph <- function(psimi25files,psimi25source,
                              type="interaction",
-                             directed=TRUE) {
+                             directed=TRUE,...) {
 
   options(error=recover)
   
@@ -491,7 +539,7 @@ psimi25XML2Graph <- function(psimi25files,psimi25source,
 
   if(type == "interaction"){
 
-    result <- lapply(psimi25files, parsePsimi25Interaction, psimi25source)
+    result <- lapply(psimi25files, parsePsimi25Interaction, psimi25source,...)
     
     baitList <- lapply(result, function(x){
       baits <- sapply(x@interactions, function(y) y@baitUniProt)
@@ -538,7 +586,7 @@ psimi25XML2Graph <- function(psimi25files,psimi25source,
   }
   
   if (type == "complex"){
-    result <- lapply(psimi25files, parsePsimi25Complex, psimi25source)
+    result <- lapply(psimi25files, parsePsimi25Complex, psimi25source,...)
 
     listOfListOfComps <- lapply(result, function(x){
       lapply(x@complexes, function(y){
@@ -569,7 +617,7 @@ psimi25XML2Graph <- function(psimi25files,psimi25source,
 }
 
 
-separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", directed=TRUE, abstract=FALSE){
+separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", directed=TRUE, abstract=FALSE,...){
   
 
   if(!(type %in% c("direct","indirect", "eg"))){
@@ -587,7 +635,7 @@ separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", dire
     interactionTypeWanted = c("spr")}
   
   #create a list of psimi25interaction objects corresponding to the list of xml files
-  ie <- lapply(xmlFiles, parsePsimi25Interaction, psimi25source)
+  ie <- lapply(xmlFiles, parsePsimi25Interaction, psimi25source,...)
 
   
   #create an aggregate interactor list from all psimi25interactio objects
