@@ -1,3 +1,18 @@
+2008-06-24 07:01  d.zhang
+
+	* DESCRIPTION, tests/psimi25Source_test.R: Trivial change:
+	  Description file the contact info of Tony completed; validate
+	  file function temporarily not exported so the test lines are also
+	  commented out
+
+2008-06-24 06:46  d.zhang
+
+	* NAMESPACE: validate function does not export for now
+
+2008-06-20 09:10  d.zhang
+
+	* ChangeLog: changelog
+
 2008-06-20 09:02  d.zhang
 
 	* DESCRIPTION: Version 0.0.2: Passing R-2.7.0 and R-2.8.0-devel
