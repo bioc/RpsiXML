@@ -6,6 +6,7 @@
 \alias{MINT.PSIMI25}
 \alias{MIPS.PSIMI25}
 \alias{MATRIXDB.PSIMI25}
+\alias{CORUM.PSIMI25}
 \docType{data}
 \title{ Supported PSI-MI 2.5 XML data sources}
 \description{

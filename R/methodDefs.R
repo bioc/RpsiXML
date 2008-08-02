@@ -228,20 +228,20 @@ setMethod("availableXrefs",
 
 setMethod("interactors", signature(x="psimi25InteractionEntry"),
           function(x) x@interactors)
-setClassUnion("ListorNull", c("list", "NULL"))
-setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="ListorNull"),
+
+setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="NULL"),
           function(x,value) {
-            if (is.null(value)) {
-              x@interactors <- list()
-            } else {
-              vcInt <- sapply(value, inherits, "psimi25Interactor")
-              if(!all(vcInt))
-                stop("'value' must be a list of psimi25Interactors")
-              x@interactors <- value
-            }
+            x@interactors <- list()
             return(x)
-            })
-                 
+          })
+setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="list"),
+          function(x,value) {
+            vcInt <- sapply(value, inherits, "psimi25Interactor")
+            if(!all(vcInt))
+              stop("'value' must be a list of psimi25Interactors")
+            x@interactors <- value
+            return(x)
+            })           
 
 setMethod("interactors", signature(x="psimi25ComplexEntry"),
           function(x) x@interactors)
