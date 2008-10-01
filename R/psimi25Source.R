@@ -23,3 +23,5 @@ MATRIXDB.PSIMI25 <- new("psimi25Source", label="MatrixDB", sourceDb="matrixdb",
                         uniprotSymbol="uniprotkb")
 
 CORUM.PSIMI25 <- new("psimi25Source", label="MIPS", sourceDb="MIPS", uniprotSymbol="swissprot")
+
+MPACT.PSIMI25 <- new("psimi25Source", label="mips",sourceDb="MIPS", uniprotSymbol="uniprotkb")

@@ -59,6 +59,7 @@ currently, the databases that are supported by \Rpackage{RpsiXML} are:
   \item[5.] BioGRID
   \item[6.] MIPS/CORUM
   \item[7.] MatrixDB
+  \item[8.] MPact
 \end{itemize}
 
 \noindent We plan to support other databases which are now porting to the PSI-MI XML2.5 
@@ -96,6 +97,9 @@ FTP or download site:
     \hline
     \bf{MatrixDB} &
     \textit{not published yet} \\
+    \hline
+    \bf{MPact} &
+    \textit{ftp://ftpmips.gsf.de/yeast/PPI}\\
     \hline
   \end{tabular}
   \label{ta:repos}

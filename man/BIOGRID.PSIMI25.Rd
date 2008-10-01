@@ -7,6 +7,7 @@
 \alias{MIPS.PSIMI25}
 \alias{MATRIXDB.PSIMI25}
 \alias{CORUM.PSIMI25}
+\alias{MPACT.PSIMI25}
 \docType{data}
 \title{ Supported PSI-MI 2.5 XML data sources}
 \description{
@@ -31,5 +32,6 @@
   \item{IntAct}{\url{http://www.ebi.ac.uk/intact}}
   \item{MINT}{\url{http://mint.bio.uniroma2.it/mint}}
   \item{MIPS/CORUM}{\url{http://mips.gsf.de/}}
+  \item{MPact}{\url{http://mips.gsf.de/genre/proj/mpact}}
 }
 \keyword{models}
