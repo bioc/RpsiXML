@@ -72,7 +72,7 @@ statusIndicator <- function(x, length, N=40) {
                                        namespaces = namespaces)
                             )
   expPubMed <- unlist(xpathApply(doc = subDoc,
-                                 path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']", 
+                                 path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']|/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='PUBMED']", 
                                  fun = xmlGetAttr,
                                  name = "id",
                                  namespaces = namespaces)
