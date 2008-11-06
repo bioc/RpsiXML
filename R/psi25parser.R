@@ -71,8 +71,9 @@ statusIndicator <- function(x, length, N=40) {
                                        fun = xmlValue,
                                        namespaces = namespaces)
                             )
+  ## it seems that xpathApply treats XPath in a case-insensitive way, to be confirmed
   expPubMed <- unlist(xpathApply(doc = subDoc,
-                                 path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']|/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='PUBMED']|/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='PubMed']", 
+                                 path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']", 
                                  fun = xmlGetAttr,
                                  name = "id",
                                  namespaces = namespaces)
