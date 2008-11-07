@@ -14,7 +14,7 @@ MINT.PSIMI25 <-  new("psimi25Source", label="MINT", sourceDb="mint",
 INTACT.PSIMI25 <- new("psimi25Source", label="IntAct", sourceDb="intact",
              uniprotSymbol =  "uniprotkb")
 
-DIP.PSIMI25 <- new("psimi25Source", label="IntAct", sourceDb="dip",
+DIP.PSIMI25 <- new("psimi25Source", label="DIP", sourceDb="dip",
            uniprotSymbol = "uniprot knowledge base")
 
 MIPS.PSIMI25 <- new("psimi25Source", label="MIPS", sourceDb="MI")
