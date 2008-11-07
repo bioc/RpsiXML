@@ -5,6 +5,7 @@
 \alias{show,psimi25Interaction-method}
 \alias{bait,psimi25Interaction-method}
 \alias{prey,psimi25Interaction-method}
+\alias{confidenceValue,psimi25Interaction-method}
 
 \title{Class "psimi25Interaction"}
 \description{ A class representing interaction data }
@@ -52,7 +53,9 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
       UniProt ID of the bait}
     \item{prey}{\code{signature(x = "psimi25Interaction")}: returns the
       UniProt ID(s) of the prey(s)}
-	 }
+    \item{confidenceValue}{\code{signature(x = "psimi25Interaction")}:
+    returns the confidence value of the interaction}
+  }
 }
 \author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <j.zhang@dkfz.de> }
 \seealso{
