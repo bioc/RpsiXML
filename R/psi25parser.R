@@ -71,6 +71,14 @@ statusIndicator <- function(x, length, N=40) {
                                        fun = xmlValue,
                                        namespaces = namespaces)
                             )
+  if(length(interactionType) == 0 && is.null(interactionType)) {
+    interactionType <- unlist(xpathApply(doc = subDoc,
+                                         path = "/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:fullName",
+                                         fun = xmlValue,
+                                         namespaces = namespaces)
+                            )
+  }
+  
   ## it seems that xpathApply treats XPath in a case-insensitive way, to be confirmed
   expPubMed <- unlist(xpathApply(doc = subDoc,
                                  path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']", 
@@ -263,6 +271,12 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
                                              path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:shortLabel",
                                              fun = xmlValue,
                                              namespaces = namespaces))[[1]])
+        if(length(interactionType) == 1 && is.na(interactionType)) {
+          interactionType <- null2na(unlist(xpathApply(doc = subDoc,
+                                                       path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:fullName",
+                                                       fun = xmlValue,
+                                                       namespaces = namespaces))[[1]]) 
+        }
         expPsimi25 <- null2na(unlist(xpathApply(doc = subDoc,
                                              path = sprintf("/ns:interaction/ns:experimentList/ns:experimentDescription/ns:xref/ns:primaryRef[@db='%s']",sourcedb),
                                              fun = xmlGetAttr,

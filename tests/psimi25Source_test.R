@@ -65,9 +65,11 @@ complexMembers(complexSample)
 
 ## DIP: schema check failed, namespace not unique, modified
 dipxml <- file.path(xmlDir, "dip_2008_test.xml")
-
 dipSet <- parsePsimi25Interaction(dipxml, DIP.PSIMI25)
-
+dipInteractions <- interactions(dipSet)
+dipInteractionTypes <- sapply(dipInteractions, interactionType)
+stopif(any(is.na(dipInteractionTypes)))
+       
 ## MatrixDB
 
 matrixdbxml <- file.path(xmlDir, "matrixdb_20080609.xml")

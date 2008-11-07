@@ -194,6 +194,10 @@ setMethod("initialize",
             callNextMethod(.Object, ...)
           })
 
+setMethod("confidenceValue", "psimi25Interaction", function(x) {
+   return(x@confidenceValue)
+})
+
 ### interactors
 xref <- function(x) {
   if(!inherits(x,"psimi25Interactor")) {
@@ -345,12 +349,6 @@ participant <- function(x) {
     stop("'x' must be an object of 'psimi25Interaction'")
   }
   x@participant
-}
-confidenceValue <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@confidenceValue
 }
 inhibitor <- function(x) {
   if(!inherits(x,"psimi25Interaction")) {
