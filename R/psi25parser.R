@@ -547,40 +547,16 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
 psimi25XML2Graph <- function(psimi25files,psimi25source,
                              type="interaction",
                              directed=TRUE,...) {
-  options(error=recover)
-    stopifnot(type %in% c("interaction","complex"))
+  stopifnot(type %in% c("interaction","complex"))
 
   if(type == "interaction"){
     result <- lapply(psimi25files, parsePsimi25Interaction, psimi25source,...)
-    bpGraph <- interactionEntry2graph(result)    
+    bpGraph <- interactionEntry2graph(result, directed=directed)
   }
   
   if (type == "complex"){
     result <- lapply(psimi25files, parsePsimi25Complex, psimi25source,...)
-
-    listOfListOfComps <- lapply(result, function(x){
-      lapply(x@complexes, function(y){
-        p <- as.vector(rep(y@members[,2], y@members[,3]))
-        
-        attr(p, "complexName") <- y@fullName 
-        p
-        })
-      })
-    he <- do.call(c, listOfListOfComps)
-    nodes <- unique(unlist(he))
-    hEdges <- lapply(he, function(x) {e <- Hyperedge(x, attr(x,"complexName"))})
-
-    bpInteractors <- list()
-    for(i in seq(result)) {
-      ints <- interactors(result[[i]])
-      newInts <- which(!names(ints) %in% bpInteractors)
-      bpInteractors <- append(bpInteractors, ints[newInts])
-    }
-    
-    bpGraph <- new("psimi25Hypergraph",
-                   interactors=bpInteractors,
-                   nodes=nodes,
-                   hyperedges = hEdges)
+    bpGraph <- complexEntry2graph(result)
   }
 
   return(bpGraph)
@@ -602,7 +578,6 @@ interactionEntry2graph <- function(interactionEntry, directed=TRUE) {
   index <- sapply(baitList, function(x) class(x)) == sapply(preyList, function(x) class(x))
   
   for(i in 1:length(index)){
-    
     if(!index[i]){
       newBait <- vector(length=length(unlist(preyList[[i]])))
       k <- 1
@@ -611,8 +586,7 @@ interactionEntry2graph <- function(interactionEntry, directed=TRUE) {
         k <- k + length(preyList[[i]][[j]])
       }
       baitList[[i]] <- newBait
-    }
-    
+    } 
   }
   
   
@@ -632,7 +606,37 @@ interactionEntry2graph <- function(interactionEntry, directed=TRUE) {
   }
   bpGraph <- as(bpG, "psimi25Graph")
   bpGraph@interactors <- bpInteractors
+  
+  return(bpGraph)
+}
 
+complexEntry2graph <- function(complexEntry) {
+  if(!is(complexEntry, "list")) {
+    complexEntry <- list(complexEntry)
+  }
+  listOfListOfComps <- lapply(complexEntry, function(x){
+    lapply(x@complexes, function(y){
+      p <- as.vector(rep(y@members[,2], y@members[,3]))
+      
+      attr(p, "complexName") <- y@fullName 
+      p
+    })
+  })
+  he <- do.call(c, listOfListOfComps)
+  nodes <- unique(unlist(he))
+  hEdges <- lapply(he, function(x) {e <- Hyperedge(x, attr(x,"complexName"))})
+  
+  bpInteractors <- list()
+  for(i in seq(complexEntry)) {
+    ints <- interactors(complexEntry[[i]])
+    newInts <- which(!names(ints) %in% bpInteractors)
+    bpInteractors <- append(bpInteractors, ints[newInts])
+  }
+  
+  bpGraph <- new("psimi25Hypergraph",
+                 interactors=bpInteractors,
+                 nodes=nodes,
+                 hyperedges = hEdges)
   return(bpGraph)
 }
                               
