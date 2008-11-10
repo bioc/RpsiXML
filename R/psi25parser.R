@@ -547,57 +547,12 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
 psimi25XML2Graph <- function(psimi25files,psimi25source,
                              type="interaction",
                              directed=TRUE,...) {
-
   options(error=recover)
-  
-  stopifnot(type %in% c("interaction","complex"))
+    stopifnot(type %in% c("interaction","complex"))
 
   if(type == "interaction"){
-
     result <- lapply(psimi25files, parsePsimi25Interaction, psimi25source,...)
-    
-    baitList <- lapply(result, function(x){
-      baits <- sapply(x@interactions, function(y) y@baitUniProt)
-    })
-    
-    preyList <- lapply(result, function(x){
-      prey <- sapply(x@interactions, function(y) y@preyUniProt)
-    })
-
-    index <- sapply(baitList, function(x) class(x)) == sapply(preyList, function(x) class(x))
-
-    for(i in 1:length(index)){
-
-        if(!index[i]){
-            newBait <- vector(length=length(unlist(preyList[[i]])))
-            k <- 1
-            for(j in 1:length(preyList[[i]])){
-                newBait[k:(k+length(preyList[[i]][[j]])-1)] <- rep(baitList[[i]][j], length(preyList[[i]][[j]]))
-                k <- k + length(preyList[[i]][[j]])
-            }
-            baitList[[i]] <- newBait
-        }
-
-    }
-
-    
-    b <- unlist(baitList); b[is.na(b)] <- "NA";
-    p <- unlist(preyList); p[is.na(p)] <- "NA";
-    
-    bpList <- split(p,b)
-    bpMat <- list2Matrix(bpList)
-    
-    bpG <- genBPGraph(bpMat, directed = directed)
-    
-    bpInteractors <- list()
-    for(i in seq(result)) {
-      ints <- interactors(result[[i]])
-      newInts <- which(!names(ints) %in% bpInteractors)
-      bpInteractors <- append(bpInteractors, ints[newInts])
-    }
-    bpGraph <- as(bpG, "psimi25Graph")
-    bpGraph@interactors <- bpInteractors
-    
+    bpGraph <- interactionEntry2graph(result)    
   }
   
   if (type == "complex"){
@@ -631,7 +586,56 @@ psimi25XML2Graph <- function(psimi25files,psimi25source,
   return(bpGraph)
 }
 
+interactionEntry2graph <- function(interactionEntry, directed=TRUE) {
+  if(is(interactionEntry, "psimi25InteractionEntry")) {
+    interactionEntry <- list(interactionEntry)
+  }
+  
+  baitList <- lapply(interactionEntry, function(x){
+    baits <- sapply(x@interactions, function(y) y@baitUniProt)
+  })
+    
+  preyList <- lapply(interactionEntry, function(x){
+    prey <- sapply(x@interactions, function(y) y@preyUniProt)
+  })
 
+  index <- sapply(baitList, function(x) class(x)) == sapply(preyList, function(x) class(x))
+  
+  for(i in 1:length(index)){
+    
+    if(!index[i]){
+      newBait <- vector(length=length(unlist(preyList[[i]])))
+      k <- 1
+      for(j in 1:length(preyList[[i]])){
+        newBait[k:(k+length(preyList[[i]][[j]])-1)] <- rep(baitList[[i]][j], length(preyList[[i]][[j]]))
+        k <- k + length(preyList[[i]][[j]])
+      }
+      baitList[[i]] <- newBait
+    }
+    
+  }
+  
+  
+  b <- unlist(baitList); b[is.na(b)] <- "NA";
+  p <- unlist(preyList); p[is.na(p)] <- "NA";
+  
+  bpList <- split(p,b)
+  bpMat <- list2Matrix(bpList)
+  
+  bpG <- genBPGraph(bpMat, directed = directed)
+  
+  bpInteractors <- list()
+  for(i in seq(interactionEntry)) {
+    ints <- interactors(interactionEntry[[i]])
+    newInts <- which(!names(ints) %in% bpInteractors)
+    bpInteractors <- append(bpInteractors, ints[newInts])
+  }
+  bpGraph <- as(bpG, "psimi25Graph")
+  bpGraph@interactors <- bpInteractors
+
+  return(bpGraph)
+}
+                              
 separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", directed=TRUE, abstract=FALSE,...){
   
 
