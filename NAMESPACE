@@ -62,7 +62,7 @@ export(parsePsimi25Interaction,
        complexAttributes,
        null2na, 
        getAbstractByPMID,
-       xref
-       ## validate, temporarily not export
-       ## validatePSIMI25
+       xref,
+       ## validate
+       validatePSIMI25
        )
