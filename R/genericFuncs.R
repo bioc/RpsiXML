@@ -36,3 +36,7 @@ setGeneric("parseInteractor", function(x,...)
 setGeneric("parseComplex", function(x,...)
            standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
+
+## count methods
+setGeneric("numInteractors", function(x) standardGeneric("numInteractors"))
+setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))

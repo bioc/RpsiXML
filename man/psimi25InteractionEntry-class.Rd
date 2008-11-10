@@ -7,7 +7,8 @@
 \alias{releaseDate,psimi25InteractionEntry-method}
 \alias{show,psimi25InteractionEntry-method}
 \alias{taxId,psimi25InteractionEntry-method}
-
+\alias{numInteractors,psimi25InteractionEntry-method}
+\alias{numInteractions,psimi25InteractionEntry-method}
 \title{Class "psimi25InteractionEntry" }
 \description{ A class representing interaction data parsed from PSI-MI
   2.5 XML files}
@@ -43,7 +44,12 @@ all the interactors within the psimi25InteractionEntry and print them }
       print method}
     \item{taxId}{\code{signature(x = "psimi25InteractionEntry")}:
       returns NCBI taxonomy ID }
-	 }
+    \item{numInteractors}{\code{signature(x = "psimi25InteractionEny")}:
+      returns the number of interactors }
+    \item{numInteractions}{\code{signature(x = "psimi25InteractionEny")}:
+      returns the number of interactions }
+  }
+  
 }
 \author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <j.zhang@dkfz.de> }
 \seealso{

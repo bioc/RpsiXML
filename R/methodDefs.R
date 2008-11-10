@@ -406,3 +406,13 @@ setMethod("parseInteractor", signature(x="psimi25Source"),
 setMethod("parseComplex", signature(x="psimi25Source"),
           function(x,...) x@parseComplex(...,x)
           )
+
+setMethod("numInteractors", signature(x="psimi25InteractionEntry"), function(x) {
+  xit <- interactors(x)
+  return(length(xit))
+})
+
+setMethod("numInteractions", signature(x="psimi25InteractionEntry"), function(x) {
+  xit <- interactions(x)
+  return(length(xit))
+})
