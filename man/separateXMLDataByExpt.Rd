@@ -39,6 +39,6 @@ separateXMLDataByExpt(xmlFiles, psimi25source, type = "direct", directed = TRUE,
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
 intactxml <- file.path(xmlDir, "intact_2008_test.xml")
-intactGraph <- separateXMLDataByExpt(intactxml, INTACT.PSIMI25)
+intactGraph <- separateXMLDataByExpt(intactxml, INTACT.PSIMI25, type="indirect")
 }
 \keyword{ models }

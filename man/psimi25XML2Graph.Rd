@@ -1,10 +1,15 @@
 \name{psimi25XML2Graph}
 \alias{psimi25XML2Graph}
+\alias{interactionEntry2graph}
+\alias{complexEntry2graph}
 \title{ Convert a vector of PSI-MI 2.5 XML files into graph objects }
 \description{
   The function \code{psimi25XML2Graph} take a vector of XML 2.5 files
   from te same data source and generates a graph object based on the
   type of the files.
+  \code{psimi25XML2Graph} is a wrapper for \code{interactionEntry2graph}
+  and \code{complexEntry2graph}, which transform interactionEntry list
+  and complexEntry list into graphs respectively.
 }
 \usage{
 psimi25XML2Graph(psimi25files, psimi25source, type = "interaction",
