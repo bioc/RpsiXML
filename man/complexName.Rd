@@ -9,13 +9,14 @@
   the form of \code{\link{psimi25Complex-class}} object.
 }
 \usage{
-complexName(x)
-complexMembers(x)
-complexAttributes(x)
+complexName(x,...)
+complexMembers(x,...)
+complexAttributes(x,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{ An object of \code{\link{psimi25Complex-class}} }
+  \item{...}{Not implemented yet}
 }
 \details{
   See examples

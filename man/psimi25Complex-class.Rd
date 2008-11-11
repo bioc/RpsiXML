@@ -2,6 +2,9 @@
 \docType{class}
 \alias{psimi25Complex-class}
 \alias{show,psimi25Complex-method}
+\alias{complexAttributes,psimi25Complex-method}
+\alias{complexMembers,psimi25Complex-method}
+\alias{complexName,psimi25Complex-method}
 
 \title{Class "psimi25Complex"}
 \description{ A class representing complex data}
@@ -34,6 +37,12 @@
     \item{sourceDb}{\code{signature(x = "psimi25Complex")}: returns source database }
     \item{sourceId}{\code{signature(x = "psimi25Complex")}: returns
       source ID }
+    \item{complexAttributes}{\code{signature(x = "psimi25Complex")}: returns
+      attributes of the complex}
+    \item{complexMembers}{\code{signature(x = "psimi25Complex")}: returns
+      members of the complex}
+    \item{complexName}{\code{signature(x = "psimi25Complex")}: returns
+      complex name }
 	 }
 }
 \author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
