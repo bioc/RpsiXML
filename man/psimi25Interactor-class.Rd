@@ -2,6 +2,7 @@
 \docType{class}
 \alias{psimi25Interactor-class}
 \alias{show,psimi25Interactor-method}
+\alias{xref,psimi25Interactor-method}
 
 \title{A class representing interactor from PSI-MI 2.5 XML files}
 \description{A class representing interactor from PSI-MI 2.5 XML files}
@@ -27,6 +28,8 @@
     out source database}
   \item{sourceId}{\code{signature(x = "psimi25Interactor")}: returns
     ID of the source database }
+  \item{xref}{\code{sigature(x = "psimi25Interactor")}: returns
+    cross-references of the given interactor}
 }
 \author{ Jitao David Zhang <j.zhang@dkfz.de> }
 

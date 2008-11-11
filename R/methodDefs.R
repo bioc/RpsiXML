@@ -74,6 +74,7 @@ setMethod("show", "psimi25ComplexEntry", function(object) {
 
           
 setMethod("show", "psimi25Graph", function(object){
+  print(as(object, "graph"))
   print(class(object))
 })
 
@@ -199,14 +200,14 @@ setMethod("confidenceValue", "psimi25Interaction", function(x) {
 })
 
 ### interactors
-xref <- function(x) {
-  if(!inherits(x,"psimi25Interactor")) {
-   stop("'x' must be an object of 'psimi25Interactor'")
-  }
-  get("xref", x@xref)
-}
+setMethod("xref", "psimi25Interactor", function(x) {
+  return(get("xref", x@xref))
+})
 setMethod("availableXrefs", signature(x="psimi25Interactor"),
-          function(x) unique(unlist(get("xref", x@xref)[,"db"])))
+          function(x) {
+            xrefs <- xref(x)
+            unique(unlist(xrefs[,"db"]))
+          })
 setMethod("availableXrefs", signature(x="list"),
           function(x, intersect=FALSE) {
             isClass <- all(sapply(x, inherits, "psimi25Interactor"))

@@ -48,6 +48,8 @@ participant(intactTestInteraction)
 inhibitor(intactTestInteraction)
 neutralComponent(intactTestInteraction)
 pubmedID(intactTestInteraction)
+intactTestInteractor <- interactors(intactSet)[[1]]
+availableXrefs(intactTestInteractor)
 
 ## which cross references does the set provide?
 intactXrefs <- availableXrefs(intactSet)
