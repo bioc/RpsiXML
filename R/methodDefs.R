@@ -151,40 +151,24 @@ setMethod("translateID", signature(r="list"),
                            paste(ALLDB, collapse=",")
                            ))
             }
-            #sapply(r, translateID, to=to)
-            mapply(function(x,y){translateID(x,y,to=to)}, r, names(r))
+            sapply(r, translateID, to=to)
           })
 
 setMethod("translateID",
           signature(r="psimi25Interactor"),
-          function(r, uniID, to) {
-            if (missing(to)) {
-              to <- uniID
-              uniID <- uniprot(r)
-            } ## added by david: in case only two parameters passed in it means the user wants to find
-              ## the identifier of the given annotation source, for example translateID(interactor,"uniprot")
-              ## if the name does not match any annotation, uniprot ID returns. try
-              ## translateID(interactor, "nonsense")
+          function(r, to) {
+            if(missing(to)) {
+              to <- "sourceId"
+            }
             TO <- toupper(to)
-            ## all available dbs
-            ALLDB <- toupper(availableXrefs(r))
             xrefs <- xref(r)
-            if (!any(ALLDB %in% TO)) {
-              warning(sprintf("%s not available! available xrefs are: %s\n",
-                              to,
-                              paste(ALLDB, collapse=",")
-                              ))
-              }
-            isTo <- grep(TO,toupper(xrefs[,"db"]))
-            #return(unlist(xrefs[isTo,"id"]))
-            newID <- sort(unlist(xrefs[isTo,"id"]))
-            ##we can't rename a node by mutiple names...the sort
-            ##insures that we will always get a consistent
-            ##mapping...even if it is arbitrary!!!
-            if(!is.null(newID))return(toupper(newID[1]))
-            ##should return the uniprot Id if newID is NULL
-            else return(uniID)
+            xrefDB <- toupper(xrefs[,"db"])
+            xrefid <- xrefs[,"id"]
+
+            isTo <- grep(TO,xrefDB)
+            newID <- unlist(xrefs[isTo,"id"])
             
+            return(null2na(newID))
           })
 
 setMethod("initialize",
@@ -312,32 +296,36 @@ setMethod("taxId", signature(x="psimi25Complex"),
           function(x) x@taxId)
 
 
-complexMembers <- function(x) {
-  if(!inherits(x,"psimi25Complex")) {
-    stop("'x' must be an object of 'psimi25Complex'")
-  }
-  x@members
-}
+setMethod("complexMembers", "psimi25Complex", function(x) {
+  return(x@members)
+})
+setMethod("complexName", "psimi25Complex", function(x) {
+  return(x@fullName)
+})
+setMethod("complexAttributes", "psimi25Complex", function(x) {
+  return(x@attributes)
+})
 
-complexName <- function(x) {
-  if(!inherits(x,"psimi25Complex")) {
-    stop("'x' must be an object of 'psimi25Complex'")
-  }
-  x@fullName
-}
-complexAttributes <- function(x) {
-  if(!inherits(x,"psimi25Complex")) {
-    stop("'x' must be an object of 'psimi25Complex'")
-  }
-  x@attributes
-}
+
+## interactor accessors
+setMethod("accession", "psimi25Interactor", function(x) {
+  sourcedb <- sourceDb(x)
+  accession <- translateID(x, sourceDb(x))
+  return(accession)
+})
 
 ## interaction accessors
 setMethod("bait", "psimi25Interaction", function(x) {
   return(x@baitUniProt)
 })
+setMethod("baitAccession", "psimi25Interaction", function(x) {
+  return(x@bait)
+})
 setMethod("prey", "psimi25Interaction", function(x)  {
   return(x@preyUniProt)
+})
+setMethod("preyAccession", "psimi25Interaction", function(x) {
+  return(x@prey)
 })
 setMethod("participant", "psimi25Interaction", function(x) {
   return(x@participant)
