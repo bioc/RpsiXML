@@ -568,14 +568,14 @@ interactionEntry2graph <- function(interactionEntry, directed=TRUE) {
   }
   
   baitList <- lapply(interactionEntry, function(x){
-    baits <- sapply(x@interactions, function(y) y@baitUniProt)
+    baits <- sapply(interactions(x), bait)
   })
     
   preyList <- lapply(interactionEntry, function(x){
-    prey <- sapply(x@interactions, function(y) y@preyUniProt)
+    prey <- sapply(interactions(x), prey)
   })
 
-  index <- sapply(baitList, function(x) class(x)) == sapply(preyList, function(x) class(x))
+  index <- sapply(baitList, class) == sapply(preyList, class)
   
   for(i in 1:length(index)){
     if(!index[i]){
