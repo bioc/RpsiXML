@@ -13,16 +13,19 @@ or neutral component information from an object of psimi25Interaction-class }
   \code{psimi25Interaction} object.
 }
 \usage{
-bait(x)
-prey(x)
-participant(x)
-inhibitor(x)
-pubmedID(x)
-confidenceValue(x)
-neutralComponent(x)
+bait(x,...)
+prey(x,...)
+participant(x,...)
+inhibitor(x,...)
+pubmedID(x,...)
+confidenceValue(x,...)
+neutralComponent(x,...)
 }
 \arguments{
-  \item{x}{ An object of \code{\link{psimi25Interaction-class}}, see example }
+  \item{x}{ An object of \code{\link{psimi25Interaction-class}}, see
+    example }
+  \item{...}{ Other parameters to control the identifier returned, not
+    implemented yet}
 }
 \value{
   The source database identifier is returned.

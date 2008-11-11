@@ -6,7 +6,10 @@
 \alias{bait,psimi25Interaction-method}
 \alias{prey,psimi25Interaction-method}
 \alias{confidenceValue,psimi25Interaction-method}
-
+\alias{inhibitor,psimi25Interaction-method}
+\alias{neutralComponent,psimi25Interaction-method}
+\alias{participant,psimi25Interaction-method}
+\alias{pubmedID,psimi25Interaction-method}
 \title{Class "psimi25Interaction"}
 \description{ A class representing interaction data }
 \section{Objects from the Class}{

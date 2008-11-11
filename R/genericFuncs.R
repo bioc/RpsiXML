@@ -15,7 +15,7 @@ setGeneric("complexes", function(x) standardGeneric("complexes"))
 setGeneric("members", function(x) standardGeneric("members"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
 
-setGeneric("confidenceValue", function(x) standardGeneric("confidenceValue"))
+
 setGeneric("interactionType", function(x) standardGeneric("interactionType"))
 setGeneric("organismName", function(x) standardGeneric("organismName"))
 setGeneric("organismName<-", function(x, value) standardGeneric("organismName<-"))
@@ -40,3 +40,12 @@ setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 ## count methods
 setGeneric("numInteractors", function(x) standardGeneric("numInteractors"))
 setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
+
+## accessors
+setGeneric("bait", function(x,...) standardGeneric("bait"))
+setGeneric("prey", function(x,...) standardGeneric("prey"))
+setGeneric("participant", function(x,...) standardGeneric("participant"))
+setGeneric("inhibitor", function(x,...) standardGeneric("inhibitor"))
+setGeneric("neutralComponent", function(x,...) standardGeneric("neutralComponent"))
+setGeneric("pubmedID", function(x,...) standardGeneric("pubmedID"))
+setGeneric("confidenceValue", function(x,...) standardGeneric("confidenceValue"))
