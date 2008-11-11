@@ -131,17 +131,17 @@ statusIndicator <- function(x, length, N=40) {
                                        fun = xmlGetAttr,
                                        name = "id",
                                        namespaces=namespaces)))[1]
-  xrefDb <- xpathApply(doc = subDoc,
-                      path = "/ns:interactor/ns:xref/ns:primaryRef|/ns:interactor/ns:xref/ns:secondaryRef",
-                      fun = xmlGetAttr,
-                      name = "db",
-                      namespaces = namespaces)
-  xrefId <- xpathApply(doc = subDoc,
-                      path = "/ns:interactor/ns:xref/ns:primaryRef|/ns:interactor/ns:xref/ns:secondaryRef",
-                      fun = xmlGetAttr,
-                      name = "id",
-                      namespaces = namespaces)
-
+  xrefDb <- unlist(xpathApply(doc = subDoc,
+                              path = "/ns:interactor/ns:xref/ns:primaryRef|/ns:interactor/ns:xref/ns:secondaryRef",
+                              fun = xmlGetAttr,
+                              name = "db",
+                              namespaces = namespaces))
+  xrefId <- unlist(xpathApply(doc = subDoc,
+                              path = "/ns:interactor/ns:xref/ns:primaryRef|/ns:interactor/ns:xref/ns:secondaryRef",
+                              fun = xmlGetAttr,
+                              name = "id",
+                              namespaces = namespaces))
+  
   sourceIdMat <- cbind("sourceId", sourceIds)
   tempMat <- matrix(c(xrefDb, xrefId), ncol=2, byrow=FALSE)
   xrefMat <- rbind(sourceIdMat, tempMat)
