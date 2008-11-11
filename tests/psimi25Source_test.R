@@ -41,6 +41,13 @@ intactxml <- file.path(xmlDir, "intact_2008_test.xml")
 intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
 intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25)
 intactGraphNew <- translateID(intactGraph,"sourceId")## translate the nodes of the graph to another identifier
+intactTestInteraction <- interactions(intactSet)[[1]]
+bait(intactTestInteraction)
+prey(intactTestInteraction)
+participant(intactTestInteraction)
+inhibitor(intactTestInteraction)
+neutralComponent(intactTestInteraction)
+pubmedID(intactTestInteraction)
 
 ## which cross references does the set provide?
 intactXrefs <- availableXrefs(intactSet)

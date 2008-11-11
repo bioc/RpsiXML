@@ -332,42 +332,26 @@ complexAttributes <- function(x) {
 }
 
 ## interaction accessors
-bait <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@baitUniProt
-}
-prey <- function(x) {
-    if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@preyUniProt
-}
-participant <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@participant
-}
-inhibitor <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@inhibitor
-}
-neutralComponent <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@neutralComponent
-}
-pubmedID <- function(x) {
-  if(!inherits(x,"psimi25Interaction")) {
-    stop("'x' must be an object of 'psimi25Interaction'")
-  }
-  x@expPubMed
-}
+setMethod("bait", "psimi25Interaction", function(x) {
+  return(x@baitUniProt)
+})
+setMethod("prey", "psimi25Interaction", function(x)  {
+  return(x@preyUniProt)
+})
+setMethod("participant", "psimi25Interaction", function(x) {
+  return(x@participant)
+})
+
+setMethod("inhibitor", "psimi25Interaction", function(x) {
+  return(x@inhibitor)
+})
+setMethod("neutralComponent", "psimi25Interaction", function(x) {
+  return(x@neutralComponent)
+})
+setMethod("pubmedID", "psimi25Interaction", function(x) {
+  return(x@expPubMed)
+})
+
 
 
 setMethod("organismName", signature(x="psimi25InteractionEntry"),
