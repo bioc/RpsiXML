@@ -5,7 +5,7 @@ setMethod("show", "psimi25Interactor", function(object) {
       "[ source ID ]: ", object@sourceId, "\n",
       "[ short label ]: ", object@shortLabel, "\n",
       "[ UniProt ID ]: ", object@uniprotId, "\n",
-      "[ organism ]: ", object@organismName, "\n",
+      "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
       "[ NCBI Taxonomy ID ]: ", object@taxId, "\n",
       "[ xref ]: ",nrow(xref(object)),"xrefs found, Use 'xref(x)' to see more annotation\n")
 })
@@ -30,7 +30,7 @@ setMethod("show", "psimi25InteractionEntry", function(object) {
   cat("==================================\n",
       "interaction entry (", object@releaseDate, "):\n",
       "==================================\n",
-      "[ organism ]: ", object@organismName, "\n",
+      "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
       "[ taxonomy ID ]: ", object@taxId, "\n",
       "[ interactors ]: there are ", length(interactors(object)), 
       " interactors in total, here are the first few ones:\n")
@@ -48,7 +48,7 @@ setMethod("show","psimi25Complex", function(object) {
       "[ source database ]: ", object@sourceDb, "\n",
       "[ source ID ]: ", object@sourceId, "\n",
       "[ full name ]: ", object@fullName, "\n",
-      "[ organism ]: ", object@organismName, "\n",
+      "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
       "[ taxonomy ID ]: ", object@taxId, "\n",
       "[ attributes ]: \n")
   attrs = object@attributes
