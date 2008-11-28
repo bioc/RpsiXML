@@ -62,10 +62,10 @@ setMethod("show", "psimi25ComplexEntry", function(object) {
   cat("==================================\n",
       "complex entries (", object@releaseDate, "):\n",
       "==================================\n",
-      "[ interactors ]: there are ", nrow(object@interactors), 
+      "[ interactors ]: there are", length(object@interactors), 
       "interactors in total, here are the first few ones:\n")
   print(utils::head(interactorInfo(object)))
-  cat("...\n", "[ complexes ]: there are ", length(object@complexes), 
+  cat("...\n", "[ complexes ]: there are", length(object@complexes), 
       "complexes in total, here are the first few ones:\n")
   print(utils::head(object@complexes))
   cat("...\n")
@@ -264,7 +264,7 @@ setMethod("interactorInfo", signature(x="list"),
           function(x) {
             stopifnot(all(sapply(x, is, "psimi25Interactor")))
             interactorFeatures <- c("sourceDb","sourceId","shortLabel",
-                                    "uniprotId", "organismName", "taxId")
+                                    "uniprotId",  "organismName", "taxId")
             interactorInfo <- matrix(character(0), length(x), 
                                      length(interactorFeatures))
             colnames(interactorInfo) <- interactorFeatures
