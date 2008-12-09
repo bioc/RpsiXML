@@ -1,4 +1,4 @@
-import(annotate, graph, hypergraph, RBGL)
+import(annotate, graph, hypergraph, RBGL, XML)
 importFrom("Biobase", "abstract")
 
 exportClasses(psimi25InteractionEntry,
