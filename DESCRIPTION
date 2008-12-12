@@ -4,7 +4,7 @@ Date: 2008-11-11
 Title: R interface to PSI-MI 2.5 files
 Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de> with contributions from Tony Chiang <tchiang@ebi.ac.uk>
 Maintainer: Jitao David Zhang<j.zhang@dkfz.de>
-Depends: annotate, graph, Biobase, RBGL, methods
+Depends: annotate, graph, Biobase, RBGL, methods, XML, hypergraph
 Description: Queries, data structure and interface to visualization of interaction datasets. This package does not fully inplement the PSI standards currently but will do so in future updates.
 License: LGPL-3
 URL: http://www.bioconductor.org
