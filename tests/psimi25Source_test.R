@@ -93,7 +93,7 @@ matrixdbSet <- parsePsimi25Interaction(matrixdbxml, MATRIXDB.PSIMI25)
 
 corumxml <- file.path(xmlDir,"corumPsimi")
 if(file.exists(corumxml)) {
-corumSet <- parsePsimi25interaction(corumxml,CORUM.PSIMI25, verbose=FALSE)
+corumSet <- parsePsimi25Interaction(corumxml,CORUM.PSIMI25, verbose=FALSE)
 }
 ##############################
 ## Validating PSI-MI 2.5 Files
