@@ -20,6 +20,6 @@ A dump() method is supplied to deliver the list.
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 fn <- file.path(xmlDir, "hprd_200709_test.xml")
-xmlEventParse(fn, eListHandler())$dump()
+XML::xmlEventParse(fn, eListHandler())$dump()
 }
 \keyword{ models }
