@@ -41,6 +41,10 @@ setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 setGeneric("numInteractors", function(x) standardGeneric("numInteractors"))
 setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
 
+## edge/node methods
+setGeneric("edgeLabel", function(x,...) standardGeneric("edgeLabel"))
+setGeneric("hyperedgeNodes", function(x,...) standardGeneric("hyperedgeNodes"))
+
 ## accessors
 setGeneric("accession", function(x) standardGeneric("accession"))
 setGeneric("bait", function(x,...) standardGeneric("bait"))
