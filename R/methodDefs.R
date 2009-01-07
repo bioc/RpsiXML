@@ -78,9 +78,7 @@ setMethod("show", "psimi25Graph", function(object){
   print(class(object))
 })
 
-setMethod("show", "psimi25Hypergraph", function(object){
-  print(class(object))
-})
+
 
 setMethod("abstract", signature(object="psimi25Graph"),
           function(object) object@abstract)
@@ -123,19 +121,7 @@ setMethod("translateID", signature(r="psimi25Graph"),
             return(r)
           })
 
-setMethod("translateID", signature(r="psimi25Hypergraph"),
-          function(r, to, uniprotId){
-            its <- interactors(r)
-            if(length(uniprotId) == 1 && is.na(uniprotId)) {
-              nits <- is.na(names(its))
-              return(translateID(its[nits], to))
-            } else if (!uniprotId %in% names(its)) {
-              warning("'uniprotId':", uniprotId, " not found in the hypergraph!")
-              return(NULL)
-            } else {
-              translateID(its[[uniprotId]], to)
-            }
-          })
+
 
 setMethod("translateID", signature(r="list"),
           function(r, to) {
@@ -171,13 +157,7 @@ setMethod("translateID",
             return(null2na(newID))
           })
 
-setMethod("initialize",
-          signature=signature(
-            .Object="psimi25Hypergraph"),
-          function(.Object, interactors, ...) {
-            .Object@interactors <- interactors
-            callNextMethod(.Object, ...)
-          })
+
 
 setMethod("confidenceValue", "psimi25Interaction", function(x) {
    return(x@confidenceValue)
@@ -236,8 +216,7 @@ setMethod("interactors", signature(x="psimi25ComplexEntry"),
           function(x) x@interactors)
 setMethod("interactors", signature(x="psimi25Graph"),
           function(x) x@interactors)
-setMethod("interactors", signature(x="psimi25Hypergraph"),
-          function(x) x@interactors)
+
 
 setMethod("interactorInfo", signature(x="psimi25InteractionEntry"),
           function(x) {
@@ -249,11 +228,8 @@ setMethod("interactorInfo", signature(x="psimi25Graph"),
             interactors <- interactors(x)
             interactorInfo(interactors)
             })
-setMethod("interactorInfo", signature(x="psimi25Hypergraph"),
-          function(x) {
-            interactors <- interactors(x)
-            interactorInfo(interactors)
-            })
+
+
 setMethod("interactorInfo", signature(x="psimi25ComplexEntry"),
           function(x) {
             interactors <- interactors(x)
@@ -292,6 +268,8 @@ setReplaceMethod("interactions", signature(x="psimi25InteractionEntry", value="l
 
 setMethod("complexes", signature(x="psimi25ComplexEntry"),
           function(x) x@complexes)
+
+
 setMethod("taxId", signature(x="psimi25Complex"),
           function(x) x@taxId)
 
@@ -350,6 +328,14 @@ setReplaceMethod("organismName", signature(x="psimi25InteractionEntry", value="c
                    x@organismName <- value
                    return(x)
                  })
+setMethod("organismName", "psimi25Complex", function(x) {
+  x@organismName
+})
+
+setMethod("organismName", "psimi25Interactor", function(x) {
+  x@organismName
+})
+
 setMethod("taxId", signature(x="psimi25InteractionEntry"),
           function(x) x@taxId)
 setReplaceMethod("taxId", signature(x="psimi25InteractionEntry", value="character"),
@@ -358,6 +344,10 @@ setReplaceMethod("taxId", signature(x="psimi25InteractionEntry", value="characte
                    return(x)
                    
                  })
+setMethod("taxId", "psimi25Interactor", function(x) {
+  x@taxId
+})
+
 setMethod("releaseDate", signature(x="psimi25InteractionEntry"),
           function(x) x@releaseDate)
 setReplaceMethod("releaseDate", signature(x="psimi25InteractionEntry", value="character"),
@@ -389,3 +379,71 @@ setMethod("numInteractions", signature(x="psimi25InteractionEntry"), function(x)
   xit <- interactions(x)
   return(length(xit))
 })
+
+##--------------------##
+## hypergraph methods
+##--------------------##
+setMethod("initialize",
+          signature=signature(
+            .Object="psimi25Hypergraph"),
+          function(.Object, interactors, ...) {
+            .Object@interactors <- interactors
+            callNextMethod(.Object, ...)
+          })
+
+setMethod("hyperedgeNodes", "Hypergraph", function(x) {
+  hyperEdges <- hyperedges(x)
+  res <- lapply(hyperEdges, nodes)
+  names(res) <- hyperedgeLabels(x)
+  return(res)
+})
+
+setMethod("edgeLabel", "psimi25Hypergraph",function(x) {
+  hyperedgeLabels(x)
+})
+
+setMethod("complexes", "psimi25Hypergraph", function(x) {
+  hyperedgeNodes(x)
+})
+
+setMethod("interactors", "psimi25Hypergraph", function(x) {
+  x@interactors
+})
+
+setMethod("numInteractors", "psimi25Hypergraph", function(x) {
+  xit <- interactors(x)
+  return(length(xit))
+})
+
+setMethod("numEdges", "psimi25Hypergraph", function(object) {
+  return(length(hyperedges(object)))
+})
+
+setMethod("show", "psimi25Hypergraph", function(object){
+  cat(paste("========================\n",
+      "psimi25Hypergraph\n",
+      "========================\n",
+      "[ complexes ]: there are ", numEdges(object), " complexes (hyperedges) with ", numNodes(object) ," proteins (nodes) in the hypergraph, here are the first new ones:\n",sep=""))
+  print(utils::head(complexes(object),3))
+  cat("...\n")
+  cat("Please use 'edgeLabel' to list only complexes names, or use 'complexes' to view all the complexes in list form\n")
+})
+
+setMethod("interactorInfo", signature(x="psimi25Hypergraph"),
+          function(x) {
+            interactors <- interactors(x)
+            interactorInfo(interactors)
+          })
+setMethod("translateID", signature(r="psimi25Hypergraph"),
+          function(r, to, uniprotId){
+            its <- interactors(r)
+            if(length(uniprotId) == 1 && is.na(uniprotId)) {
+              nits <- is.na(names(its))
+              return(translateID(its[nits], to))
+            } else if (!uniprotId %in% names(its)) {
+              warning("'uniprotId':", uniprotId, " not found in the hypergraph!")
+              return(NULL)
+            } else {
+              translateID(its[[uniprotId]], to)
+            }
+          })
