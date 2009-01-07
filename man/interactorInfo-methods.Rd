@@ -25,6 +25,6 @@
 \item{x = "psimi25InteractionEntry"}{ Object of
   \code{\link{psimi25InteractionEntry-class}}, parsed from PSI-MI 2.5
   interaction files }
-}}
+}
 \keyword{methods}
 
