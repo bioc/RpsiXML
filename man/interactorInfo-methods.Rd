@@ -4,7 +4,6 @@
 \alias{interactorInfo,list-method}
 \alias{interactorInfo,psimi25ComplexEntry-method}
 \alias{interactorInfo,psimi25Graph-method}
-\alias{interactorInfo,psimi25Hypergraph-method}
 \alias{interactorInfo,psimi25InteractionEntry-method}
 \title{ Methods for Function interactorInfo in Package `RpsiXML'}
 \description{
@@ -21,7 +20,6 @@
 \item{x = "psimi25Graph"}{Object of \code{\link{psimi25Graph-class}}, parsed
   by \code{\link{psimi25XML2Graph}}}
 
-\item{x = "psimi25Hypergraph"}{ Object of \code{\link{psimi25Hypergraph-class}}, parsed
   by \code{\link{psimi25XML2Graph}}}
 
 \item{x = "psimi25InteractionEntry"}{ Object of

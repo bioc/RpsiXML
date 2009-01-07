@@ -7,8 +7,6 @@
 \alias{releaseDate,psimi25InteractionEntry-method}
 \alias{show,psimi25InteractionEntry-method}
 \alias{taxId,psimi25InteractionEntry-method}
-\alias{numInteractors,psimi25InteractionEntry-method}
-\alias{numInteractions,psimi25InteractionEntry-method}
 \title{Class "psimi25InteractionEntry" }
 \description{ A class representing interaction data parsed from PSI-MI
   2.5 XML files}
