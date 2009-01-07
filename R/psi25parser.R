@@ -639,7 +639,48 @@ complexEntry2graph <- function(complexEntry) {
                  hyperedges = hEdges)
   return(bpGraph)
 }
-                              
+
+buildPCHypergraph <- function(xmlFiles, psimi25source, split.by=c("none","organismName","taxId"), ...) {
+  split.by <- match.arg(split.by)
+  ie <- lapply(xmlFiles, parsePsimi25Complex, psimi25source, ...)
+  hg <- complexEntry2graph(ie)
+
+  if(split.by=="none")
+    return(hg)
+  
+  hyperedges <- hyperedges(hg)
+  interactors <- interactors(hg)
+  hnodes <- nodes(hg)
+
+  inOrgs <- sapply(interactors, organismName)
+  inTax <- sapply(interactors, taxId)
+  if(split.by == "organismName") {
+    sf <- factor(inOrgs)
+  } else if (split.by == "taxId") {
+    sf <- factor(inTax)
+  }
+
+  hyperSf <- sapply(hyperedges, function(x) unique(sf[nodes(x)]))
+  sfLevels <- levels(sf)
+
+  hypers <- list()
+  for(i in seq(along=sfLevels)) {
+    le <- sfLevels[i]
+    heOfLevel <- sapply(hyperSf, function(x) any(x %in% le))
+    itOfLevel <- sf == le
+    nodesOfLevel <- unique(unlist(sapply(hyperedges[heOfLevel],nodes)))
+    
+    hypers[[i]] <- new("psimi25Hypergraph",
+                 interactors = interactors[itOfLevel],
+                 nodes = nodesOfLevel,
+                 hyperedges = hyperedges[heOfLevel])
+                 
+  }
+  names(hypers) <- sfLevels
+
+  return(hypers)
+}
+
 separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", directed=TRUE, abstract=FALSE,...){
   
 
