@@ -1,24 +1,28 @@
 \name{graphSpeciesConverter}
 
 \alias{graphSpeciesConverter}
+\alias{hyperGraphSpeciesConverter}
 
 \title{maps one type of grap onto another}
 
 \description{
-  This function takes a graphNEL object, along with some information
-  about what species that graphNEL is from and what species you wish to
-  convert it into, and then uses the mappings in the inparanoid packages
-  to convert that graph into an equivalent graph from the other species.
+  The graphSpeciesConverter function takes a graphNEL object, along with
+  some information about what species that graphNEL is from and what
+  species you wish to convert it into, and then uses the mappings in the
+  inparanoid packages to convert that graph into an equivalent graph
+  from the other species.  The hyperGraphSpeciesConverter performs the
+  same service for either an incidence matrix or a Hypergraph. 
 }
 
 \usage{
-  graphSpeciesConverter(graphNEL, srcSpecies, destSpecies,
+  graphSpeciesConverter(graph, srcSpecies, destSpecies,
     srcIDType="UNIPROT", destIDType="UNIPROT", keepMultGeneMatches=FALSE,
     keepMultProtMatches=FALSE)
 }
 
 \arguments{
-  \item{graphNEL}{the original graphNEL object}
+  \item{graph}{If calling graphSpeciesConverter. then this is a graphNEL
+  object.  Otherwise, it will be an incidence matrix or a hyperGraph}
   \item{srcSpecies}{The original source species in in paranoid
   format. In other words, the 3 letters of the genus followed by 2
   letters of the species in all caps.  Ie. 'HOMSA' is for Homo sapiens etc.}
@@ -60,6 +64,26 @@
 
   ##convert it
   newGraph = graphSpeciesConverter(mintGraph[[1]], "MUSMU", "HOMSA")
+
+
+
+  ##Get a hypergraph
+  xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
+  intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+  hyperGraph <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25)
+
+
+  ##Convert it
+  newHyper = hyperGraphSpeciesConverter(hyperGraph, "HOMSA", "MUSMU")
+
+
+  ##Get a incidence matrix from ScISI
+  library(ScISI)
+  data(ScISIC)
+
+  ##Convert it
+  newScISIC = hyperGraphSpeciesConverter(ScISIC, "SACCE", "MUSMU",
+  srcIDType="ORF", destIDType = "EG")
 
 }
 
