@@ -1,8 +1,8 @@
 Package: RpsiXML
-Version: 1.1.14
+Version: 1.1.15
 Date: 2009-01-15
 Title: R interface to PSI-MI 2.5 files
-Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de> with contributions from Tony Chiang <tchiang@ebi.ac.uk>
+Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de>, Marc Carlson <mcarlson@fhcrc.org>, with contributions from Tony Chiang <tchiang@ebi.ac.uk>
 Maintainer: Jitao David Zhang<j.zhang@dkfz.de>
 Depends: annotate, graph, Biobase, RBGL, methods, hypergraph
 Imports: XML 
