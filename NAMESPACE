@@ -1,4 +1,5 @@
 import(annotate, graph, RBGL, XML)
+
 importFrom("Biobase", "abstract")
 
 exportClasses(psimi25InteractionEntry,
