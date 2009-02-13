@@ -23,6 +23,7 @@
   }
 }
 \section{Methods}{
+ \describe{
   \item{show}{\code{signature(x = "psimi25Interactor")}: a print method}
   \item{sourceDb}{\code{signature(x = "psimi25Interactor")}: finds
     out source database}
@@ -30,8 +31,9 @@
     ID of the source database }
   \item{xref}{\code{sigature(x = "psimi25Interactor")}: returns
     cross-references of the given interactor}
+ }
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Jitao David Zhang \email{j.zhang@dkfz.de} }
 
 \seealso{
   \code{\link{parseInteractor}}

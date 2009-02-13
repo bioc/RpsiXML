@@ -24,6 +24,7 @@
   notes in \code{\link{psimi25Source-class}} before coding
 }
 \references{
+ \describe{
   \item{PSI-MI XML v2.5 data exchange
     format}{\url{http://www.psidev.info/index.php?q=node/60}}
   \item{BioGRID}{\url{http://www.thebiogrid.com}}
@@ -33,5 +34,6 @@
   \item{MINT}{\url{http://mint.bio.uniroma2.it/mint}}
   \item{MIPS/CORUM}{\url{http://mips.gsf.de/}}
   \item{MPact}{\url{http://mips.gsf.de/genre/proj/mpact}}
+ }
 }
 \keyword{models}

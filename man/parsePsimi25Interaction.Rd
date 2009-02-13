@@ -28,6 +28,7 @@ parsePsimi25Complex(psimi25file, psimi25source, verbose=FALSE)
   representing the complex data from one XML document.
 }
 \references{
+ \describe{
   \item{PSI-MI XML v2.5 data exchange
     format}{\url{http://www.psidev.info/index.php?q=node/60}}
   \item{BioGRID}{\url{http://www.thebiogrid.com}}
@@ -36,6 +37,7 @@ parsePsimi25Complex(psimi25file, psimi25source, verbose=FALSE)
   \item{IntAct}{\url{http://www.ebi.ac.uk/intact}}
   \item{MINT}{\url{http://mint.bio.uniroma2.it/mint}}
   \item{MIPS/CORUM}{\url{http://mips.gsf.de/}}
+ }
 }
 \author{ Jitao David Zhang <j.zhang@dkfz-heidelberg.de>, Tony Chiang
   <tchiang@ebi.ac.uk> }
