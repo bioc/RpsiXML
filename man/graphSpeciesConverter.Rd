@@ -62,29 +62,31 @@
                                      directed=TRUE, 
                                      abstract=FALSE)
 
-  ##convert it
-  newGraph = graphSpeciesConverter(mintGraph[[1]], "MUSMU", "HOMSA")
-
-
+  if(require("hom.Mm.inp.db")) {
+    ##convert it
+    newGraph = graphSpeciesConverter(mintGraph[[1]], "MUSMU", "HOMSA")
+  }
 
   ##Get a hypergraph
   xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
   intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
   hyperGraph <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25)
 
-
+  if(require("hom.Hs.inp.db")) {
   ##Convert it
   newHyper = hyperGraphSpeciesConverter(hyperGraph, "HOMSA", "MUSMU")
-
+  }
 
   ##Get a incidence matrix from ScISI
-  library(ScISI)
-  data(ScISIC)
+  if(require(ScISI)) {
+    data(ScISIC)
 
-  ##Convert it
-  newScISIC = hyperGraphSpeciesConverter(ScISIC, "SACCE", "MUSMU",
-  srcIDType="ORF", destIDType = "EG")
-
+    if(require("org.Sc.eg.db")) {
+    ##Convert it
+    newScISIC = hyperGraphSpeciesConverter(ScISIC, "SACCE", "MUSMU",
+    srcIDType="ORF", destIDType = "EG")
+  }
+  }
 }
 
 \keyword{manip}
