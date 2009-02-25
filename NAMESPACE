@@ -1,4 +1,4 @@
-import(annotate, graph, RBGL, XML)
+import(annotate, graph, RBGL, XML, hypergraph)
 
 importFrom("Biobase", "abstract")
 
