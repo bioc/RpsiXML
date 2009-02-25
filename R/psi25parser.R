@@ -761,24 +761,47 @@ getDesired <- function(interactionEntry, intType){
   #options(error=recover)
   x <- interactions(interactionEntry)
   
-  dataL <- lapply(x, function(y){if(any(y@interactionType %in% intType)) {
-    z <- c(bait(y), prey(y), pubmedID(y), interactionType(y));
-    if(length(z)==4){if(!(is.na(z[1])) && !(is.na(z[2]))) {return(z)}
-                   else return(NULL)}
-    if(length(z)>4){bpm = matrix(nrow=length(prey(y)), ncol=4);
-                    bpm[,1]=rep(bait(y), length(prey(y)));
-                    bpm[,2]=prey(y)
-                    bpm[,3] = rep(pubmedID(y), length(prey(y)));
-                    bpm[,4] = rep(interactionType(y), length(prey(y)));
-                    return(bpm)}}})
-
+  dataL <- lapply(x, function(y){
+    if(any(y@interactionType %in% intType)) {
+      z <- c(bait(y), prey(y), pubmedID(y), interactionType(y));
+      
+      if(length(z)==4){
+        if(!(is.na(z[1])) && !(is.na(z[2]))) {
+          return(z)
+        } else {
+          return(NULL)
+        }
+      }
+      
+      if(length(z)>4){
+        ## remove NA nodes
+        bs <- bait(y); bs <- bs[!is.na(bs)]
+        ps <- prey(y); ps <- ps[!is.na(ps)]
+        ## if baits are all NAs, the item will be discarded, since later BP pairs will be indexed by bait
+        if(all(is.na(bs))) {
+          return(NULL)
+        }
+        
+        nrow <- length(bs)*length(ps)
+        bpm <- matrix(nrow=nrow, ncol=4)
+        
+        bpm[,1] <- rep(bs, each=length(ps));
+        bpm[,2] <- rep(ps, length(bs))
+        bpm[,3] <- rep(pubmedID(y), nrow);
+        bpm[,4] <- rep(interactionType(y), nrow);
+        return(bpm)}
+    }
+  }
+                  )
+  
   dataL <- dataL[!(sapply(dataL, is.null))]
   if(length(dataL)>0){
     dataM <- do.call(rbind, dataL)
     colnames(dataM) <- c("Bait","Prey","PMID", "Interaction Type")
-  
-    return(dataM)}
-  else {return(NULL)}
+    return(dataM)
+  } else {
+    return(NULL)
+  }
   
 }
   
