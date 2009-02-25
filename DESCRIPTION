@@ -1,12 +1,12 @@
 Package: RpsiXML
-Version: 1.1.19
+Version: 1.1.20
 Date: 2009-02-25
 Title: R interface to PSI-MI 2.5 files
 Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de>, Marc Carlson <mcarlson@fhcrc.org>, with contributions from Tony Chiang <tchiang@ebi.ac.uk>
 Maintainer: Jitao David Zhang<j.zhang@dkfz.de>
 Depends: annotate, graph, Biobase, RBGL, methods, hypergraph
 Imports: Biobase, annotate, graph, RBGL, XML 
-Description: Queries, data structure and interface to visualization of interaction datasets. This package does not fully inplement the PSI standards currently but will do so in future updates.
+Description: Queries, data structure and interface to visualization of interaction datasets. This package inplements the PSI-MI 2.5 standard and supports up to now 8 databases. Further databases supporting PSI-MI 2.5 standard will be added continuously.
 Collate: classDefs.R
 	 genericFuncs.R
 	 methodDefs.R
