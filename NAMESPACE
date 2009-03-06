@@ -34,7 +34,8 @@ exportMethods("abstract",
               "sourceId",
               "taxId",
               "uniprot",
-              "releaseDate"
+              "releaseDate",
+              "revInciMat"
               )
 
 export(parsePsimi25Interaction,

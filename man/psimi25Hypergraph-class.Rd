@@ -3,6 +3,7 @@
 \alias{psimi25Hypergraph-class}
 \alias{hyperedgeNodes}
 \alias{edgeLabel}
+\alias{revInciMat}
 \alias{initialize,psimi25Hypergraph-method}
 \alias{show,psimi25Hypergraph-method}
 \alias{complexes,psimi25Hypergraph-method}
@@ -12,6 +13,7 @@
 \alias{numEdges,psimi25Hypergraph-method}
 \alias{interactorInfo,psimi25Hypergraph-method}
 \alias{hyperedgeNodes,Hypergraph-method}
+\alias{revInciMat,matrix-method}
 
 \title{Class "psimi25Hypergraph"}
 \description{ Class to present PSI-MI 2.5 XML data as
@@ -55,6 +57,8 @@ Class \code{Hypergraph}, directly
       returns a data frame containing essential information of the interactors}
     \item{numEdges}{\code{signature(r = "psimi25Hypergraph")}:
       returns the number of complexes}
+    \item{revInciMat}{\code{signature(r = "matrix")}: returns the
+      hypergraph built from the incidence matrix}
     
   }
 }

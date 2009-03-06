@@ -85,12 +85,13 @@ hyperGraphSpeciesConverter = function(graph,
     rownames(mat) = mrnames[rindex]
 
     ##return the correct format
-    if(is(graph, "Hypergraph")==TRUE){
+    if(is(graph, "Hypergraph")){
         ##Reformat as a Hypergraph and return
-        return(inciMat(mat)) 
+        return(revInciMat(mat)) 
     }else{
         ##return incidence matrix
         return(mat)
     }
     
 }
+

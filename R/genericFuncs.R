@@ -62,3 +62,4 @@ setGeneric("complexMembers", function(x,...) standardGeneric("complexMembers"))
 setGeneric("complexName", function(x,...) standardGeneric("complexName"))
 setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttributes"))
 
+setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))

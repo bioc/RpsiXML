@@ -447,3 +447,17 @@ setMethod("translateID", signature(r="psimi25Hypergraph"),
               translateID(its[[uniprotId]], to)
             }
           })
+
+setMethod("revInciMat", signature(x="matrix"), function(x) {
+  hyperNodes <- rownames(x)
+  hyperEdgeNames <- colnames(x)
+  hEdges <- list()
+  for(i in seq(along=hyperEdgeNames)) {
+    hEdges[[i]] <- hyperNodes[x[,i] == 1]
+  }
+  names(hEdges) <- hyperEdgeNames
+  hyperEdges <- lapply(hEdges, "Hyperedge")
+
+  hg <- new("Hypergraph", nodes=hyperNodes, hyperedges=hyperEdges)
+  return(hg)
+})
