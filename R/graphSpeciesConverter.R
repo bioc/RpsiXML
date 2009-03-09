@@ -1,11 +1,10 @@
-
-graphSpeciesConverter = function(graph,
-                                 srcSpecies,
-                                 destSpecies,
-                                 srcIDType="UNIPROT",
-                                 destIDType="UNIPROT",
-                                 keepMultGeneMatches=FALSE,
-                                 keepMultProtMatches=FALSE){
+graphConverter = function(graph,
+                          srcSpecies,
+                          destSpecies,
+                          srcIDType="UNIPROT",
+                          destIDType="UNIPROT",
+                          keepMultGeneMatches=FALSE,
+                          keepMultProtMatches=FALSE){
     ##argument checking.
     if(!is(graph, "graphNEL")){stop("parameter graph needs to be a graphNEL.")}
     
@@ -13,14 +12,14 @@ graphSpeciesConverter = function(graph,
     mat = as(graph, "matrix")
     if( dim(mat)[1]==dim(mat)[2] ){
         ##ReMap the col IDs        
-        mcnames = inpIDMapper(colnames(mat),
-          srcSpecies,
-          destSpecies,
-          srcIDType,
-          destIDType,
-          keepMultGeneMatches,
-          keepMultProtMatches,
-          keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
+        mcnames = idConverter(colnames(mat),
+                              srcSpecies,
+                              destSpecies,
+                              srcIDType,
+                              destIDType,
+                              keepMultGeneMatches,
+                              keepMultProtMatches,
+                              keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
         if( length(mcnames)==0 ){stop("There are no matches in the destination species (matching on the colname).")}
         ##Do some indexing to adjust for the fact that not everything will map over
         cnames = colnames(mat)
@@ -44,13 +43,14 @@ graphSpeciesConverter = function(graph,
 #inciMat() ##gives the matrix of the hypergraph
 #mention that if they pass an incidence matrix
 
-hyperGraphSpeciesConverter = function(graph,
-                                      srcSpecies,
-                                      destSpecies,
-                                      srcIDType="UNIPROT",
-                                      destIDType="UNIPROT",
-                                      keepMultGeneMatches=FALSE,
-                                      keepMultProtMatches=FALSE){
+hyperGraphConverter = function(graph,
+                               srcSpecies,
+                               destSpecies,
+                               srcIDType="UNIPROT",
+                               destIDType="UNIPROT",
+                               mapCols=FALSE,
+                               keepMultGeneMatches=FALSE,
+                               keepMultProtMatches=FALSE){
     ##argument checking:
     if( is(graph,"Hypergraph")==FALSE && is(graph,"matrix")==FALSE ){
         stop("parameter graph needs to be a Hypergraph or an incidence matrix.")}
@@ -64,26 +64,47 @@ hyperGraphSpeciesConverter = function(graph,
 
     ##Its ALWAYS going to be the rows that are the nodes when you call inciMat()    
     ##ReMap the row IDs        
-    mrnames = inpIDMapper(rownames(mat),
-      srcSpecies,
-      destSpecies,
-      srcIDType,
-      destIDType,
-      keepMultGeneMatches,
-      keepMultProtMatches,
-      keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
+    mrnames = idConverter(rownames(mat),
+                          srcSpecies,
+                          destSpecies,
+                          srcIDType,
+                          destIDType,
+                          keepMultGeneMatches,
+                          keepMultProtMatches,
+                          keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
     if( length(mrnames)==0 ){stop("There are no matches in the destination species (matching on the rownames).")}
+
+    if(mapCols==TRUE){
+        mcnames = idConverter(colnames(mat),
+                              srcSpecies,
+                              destSpecies,
+                              srcIDType,
+                              destIDType,
+                              keepMultGeneMatches,
+                              keepMultProtMatches,
+                              keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
+        if( length(mcnames)==0 ){stop("There are no matches in the destination species (matching on the rownames).")}
+    }
     ##Do some indexing to adjust for the fact that not everything will map over
     rnames = rownames(mat)
     names(rnames) = rownames(mat)
     rindex = rnames[names(mrnames)]
     
+    if(mapCols==TRUE){
+        cnames = colnames(mat)
+        names(cnames) = colnames(mat)
+        cindex = cnames[names(mcnames)]
+    }
     ##select out the data from the matrix that we want.
     mat = mat[rindex,]
-    
+    if(mapCols==TRUE){
+        mat = mat[,cindex]
+    }    
     ##then finally reassign to the "dest species" names.
     rownames(mat) = mrnames[rindex]
-
+    if(mapCols==TRUE){
+        colnames(mat) = mcnames[cindex]
+    }
     ##return the correct format
     if(is(graph, "Hypergraph")){
         ##Reformat as a Hypergraph and return
@@ -92,6 +113,5 @@ hyperGraphSpeciesConverter = function(graph,
         ##return incidence matrix
         return(mat)
     }
-    
 }
 
