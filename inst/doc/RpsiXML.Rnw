@@ -2,7 +2,7 @@
 
 %\VignetteIndexEntry{Reading PSI-25 XML files}
 %\VignetteDepends{}
-%\VignettePackage{Rintact}
+%\VignettePackage{RpsiXML}
 
 \documentclass[11pt]{article}
 
