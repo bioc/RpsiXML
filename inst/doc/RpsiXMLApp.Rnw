@@ -1,5 +1,5 @@
 %\VignetteIndexEntry{Application Examples of RpsiXML package}
-%\VignetteDepends{ppiStats, RBGL, Rgraphviz}
+%\VignetteDepends{RBGL, Rgraphviz}
 %\VignettePackage{RpsiXML}
 
 \documentclass[11pt]{article}
@@ -273,6 +273,9 @@ The estimated values of false positive ($p_{FP}$) and false negative
 observation that most edges in the example graph are
 reprocated. 
 
+<<unload, echo=FALSE, results=hide>>=
+unloadNamespace(c("ppiStats", "ScISI","Rintact"))
+@ 
 %\section{Build computational interaction network with orthologues}
 
 \section{Discussion}
