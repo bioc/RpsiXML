@@ -1,5 +1,5 @@
 %\VignetteIndexEntry{Application Examples of RpsiXML package}
-%\VignetteDepends{RBGL, Rgraphviz}
+%\VignetteDepends{RBGL, Rgraphviz, ppiStats}
 %\VignettePackage{RpsiXML}
 
 \documentclass[11pt]{article}
@@ -274,7 +274,6 @@ observation that most edges in the example graph are
 reprocated. 
 
 <<unload, echo=FALSE, results=hide>>=
-detach(package:Rintact)
 unloadNamespace(c("ppiStats", "ScISI","Rintact"))
 library(RpsiXML)
 @ 
