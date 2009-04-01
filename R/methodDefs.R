@@ -117,7 +117,9 @@ setMethod("translateID", signature(r="psimi25Graph"),
             ##since the names of trIds is the uniprot Ids?
             ##  -- is it necessary? trIds are the vector of same length returned by translateID. It should match
             ##     nodes(r) well. Am I right? And try names(trIds) here, you will find a suffix ".id" is added
-            nodes(r) <- trIds
+            trNodes <- names(trIds)[match(nodes(r), names(trIds))]
+            trNodes[is.na(trNodes)] <- "NA"
+            nodes(r) <- trNodes
             return(r)
           })
 
@@ -437,6 +439,9 @@ setMethod("interactorInfo", signature(x="psimi25Hypergraph"),
 setMethod("translateID", signature(r="psimi25Hypergraph"),
           function(r, to, uniprotId){
             its <- interactors(r)
+            if(missing(uniprotId)) {
+              return(translateID(its, to))
+            }
             if(length(uniprotId) == 1 && is.na(uniprotId)) {
               nits <- is.na(names(its))
               return(translateID(its[nits], to))
