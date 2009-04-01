@@ -4,6 +4,7 @@
 \alias{hyperedgeNodes}
 \alias{edgeLabel}
 \alias{revInciMat}
+\alias{initialize,Hypergraph-method}
 \alias{initialize,psimi25Hypergraph-method}
 \alias{show,psimi25Hypergraph-method}
 \alias{complexes,psimi25Hypergraph-method}

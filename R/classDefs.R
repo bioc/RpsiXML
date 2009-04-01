@@ -68,9 +68,17 @@ setClass("psimi25Graph",
          )
 
 ## psimi25 hypergragh
+## Comment by David on 01.04.09: suddenly I have the problem of initializing Hypergraph object
+## so I have re-written the initialize method for Hypergraph here. Hopefully the issue could be solved soon
+setMethod("initialize", "Hypergraph", function(.Object, nodes="", hyperedges=list()) {
+  .Object@nodes <- nodes
+  .Object@hyperedges <- hyperedges
+    .Object
+})
+
 setClass("psimi25Hypergraph",
          representation(interactors = "list"),
-         contains = "Hypergraph"
+         contains = "Hypergraph",
          )
 
 ## psimi25 experiment
