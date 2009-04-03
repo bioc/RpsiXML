@@ -70,6 +70,16 @@
 
 \section{Introduction}
 
+The systematic mapping of protein interactions by bait-prey techniques
+contributes a unique and novel perspective on the global picture of cellular machines. We introduce \R{R} and \R{Bioconductor}
+package \Rpackage{RpsiXML} as an interface between standarized
+protein-protein interaction data and statistical and computational
+environment, and a collection of tools for statistical analysis of
+graph representations of these data. In this vignette we use an small toy
+protein protein interaction network to illustrate some aspects of the
+package usage.
+
+To this end we first load neccessary packages.
 <<lib, echo=TRUE>>=
 library(RpsiXML)
 library(ppiStats)
