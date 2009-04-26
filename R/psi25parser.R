@@ -690,7 +690,8 @@ separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", dire
 
   if(type == "direct"){
     interactionTypeWanted = c("two hybrid","two hybrid array", 
-                               "2h fragment pooling", "2 hybrid")}
+                               "2h fragment pooling", "2 hybrid",
+                               "two hybrid pooling")}
   if(type == "indirect"){
     interactionTypeWanted = c("coip","anti tag coip","pull down","tap",
         "anti bait coip","affinity chrom","chromatography","ion exchange chrom"
