@@ -86,13 +86,24 @@ statusIndicator <- function(x, length, N=40) {
                                  name = "id",
                                  namespaces = namespaces)
                       )
+
+  ## experiment source Id
   expSourceId <- unlist(xpathApply(doc = subDoc,
-                                   path = paste("/ns:experimentDescription/ns:xref/ns:primaryRef[@db='",sourceDb,
-                                     "']|/ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",sourceDb,
-                                     "']|/ns:experimentDescription",sep=""), 
-                                   fun = xmlGetAttr,
-                                   name = "id", namespaces = namespaces)
-                        )
+                                   path = paste("/ns:experimentDescription/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
+                                   fun=xmlGetAttr,
+                                   name="id", namespaces=namespaces))
+
+  ### if expSourceId not found, try alternatives
+  if(is.null(expSourceId)) {
+    expSourceId <- unlist(xpathApply(doc = subDoc,
+                                     path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
+                                       sourceDb,
+                                       "']|/ns:experimentDescription",sep=""), 
+                                     fun = xmlGetAttr,
+                                     name = "id", namespaces = namespaces)
+                          )
+  }
+
   free(subDoc)
   experiment <- new("psimi25Experiment",
                     sourceDb = null2na(sourceDb),
