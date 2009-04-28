@@ -13,15 +13,16 @@ setMethod("show", "psimi25Interactor", function(object) {
 setMethod("show", "psimi25Interaction", function(object) {
   cat("interaction (", object@sourceId, "):\n",
       "---------------------------------\n",
-      "[ source database ]: ", object@sourceDb, "\n",
-      "[ source experiment ID ]: ", object@expSourceId, "\n",
-      "[ interaction type ]: ", object@interactionType, "\n",
-      "[ experiment ]: pubmed ", object@expPubMed, "\n",
-      "[ participant ]: ", object@participant, "\n",
-      "[ bait ]: ", object@bait, "\n",
-      "[ bait UniProt ]: ", object@baitUniProt, "\n",
-      "[ prey ]: ", object@prey, "\n",
-      "[ prey UniProt ]: ", object@preyUniProt, "\n"
+      "[ source database ]:", object@sourceDb, "\n",
+      "[ source experiment ID ]:", object@expSourceId, "\n",
+      "[ interaction type ]:", object@interactionType, "\n",
+      "[ experiment ]: pubmed", object@expPubMed, "\n",
+      "[ participant ]:", object@participant, "\n",
+      "[ bait ]:", object@bait, "\n",
+      "[ bait UniProt ]:", object@baitUniProt, "\n",
+      "[ prey ]:", object@prey, "\n",
+      "[ prey UniProt ]:", object@preyUniProt, "\n",
+      "[ confidence value ]:", confidenceValue(object), "\n"
       )
 }
           )
