@@ -12,7 +12,7 @@ graphConverter = function(graph,
     mat = as(graph, "matrix")
     if( dim(mat)[1]==dim(mat)[2] ){
         ##ReMap the col IDs        
-        mcnames = inpIDMapper(colnames(mat),
+        mcnames = idConverter(colnames(mat),
                               srcSpecies,
                               destSpecies,
                               srcIDType,
@@ -64,7 +64,7 @@ hyperGraphConverter = function(graph,
 
     ##Its ALWAYS going to be the rows that are the nodes when you call inciMat()    
     ##ReMap the row IDs        
-    mrnames = inpIDMapper(rownames(mat),
+    mrnames = idConverter(rownames(mat),
                           srcSpecies,
                           destSpecies,
                           srcIDType,
@@ -75,7 +75,7 @@ hyperGraphConverter = function(graph,
     if( length(mrnames)==0 ){stop("There are no matches in the destination species (matching on the rownames).")}
 
     if(mapCols==TRUE){
-        mcnames = inpIDMapper(colnames(mat),
+        mcnames = idConverter(colnames(mat),
                               srcSpecies,
                               destSpecies,
                               srcIDType,
