@@ -20,19 +20,26 @@ graphConverter = function(graph,
                               keepMultGeneMatches,
                               keepMultProtMatches,
                               keepMultDestIDMatches = FALSE)#you always need to limit what is returned if things are not an EG
-        if( length(mcnames)==0 ){stop("There are no matches in the destination species (matching on the colname).")}
+        ##If the names have dupicates, then we want to remove those too.
+        ##This means that entries with mutiple results will only ever return one hit per.
+        ##This filtering should only really matter when we are mapping intra-species.
+        dupNameIndex = duplicated(names(mcnames))
+        mcnames = mcnames[!dupNameIndex]    
+
+        if( length(mcnames)==0 ){warning("There are no matches in the destination species."); return(NA)}
         ##Do some indexing to adjust for the fact that not everything will map over
         cnames = colnames(mat)
         names(cnames) = colnames(mat)
         cindex = cnames[names(mcnames)]
 
         ##select out the data from the matrix that we want.
-        mat = mat[cindex,cindex]
-
-        ##then finally reassign to the "dest species" names.
+        if(length(cindex)>1){
+            mat = mat[cindex,cindex]
+        }else{warning("There are not enough salvageable nodes remaining to make a network (map-able nodes must be > 1)."); return(NA)}
+        ##then finally reassign to the "dest species" names. #fails for 4,5
         colnames(mat) = rownames(mat) = mcnames[cindex]
         
-    }else{stop("graph matrix is not symmetrical.")}
+    }else{warning("graph matrix is not symmetrical."); return(NA)}
     
     ##Reformat as a graphNEL
     as(mat,"graphNEL")
