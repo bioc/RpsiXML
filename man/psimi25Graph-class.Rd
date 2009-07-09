@@ -17,6 +17,8 @@ Objects can be created by calls of the form \code{\link{psimi25XML2Graph}}
       interactor. Source IDs are used as row names. Each column represents one annotation. 
       Annotations include: UniProt ID, short label, organism name, and NCBI taxonomy ID. Only those interactors which are 
       the nodes of the psimi25Graph is given. }
+    \item{\code{abstract}:}{Object of class \code{pubMedAbst}}
+ 
   }
 }
 \section{Extends}{

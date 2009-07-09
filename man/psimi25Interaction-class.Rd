@@ -40,7 +40,12 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
     ID of the inhibitor, NA when missing}
     \item{\code{neutralComponent}:}{Object of class \code{"character"},
       UniProt ID of the neutral components, NA when missing}
-  }
+    \item{\code{baitUniProt}:}{ An object of class \code{"character"}
+     }
+    \item{\code{preyUniProt}:}{ An object of class \code{"character"}
+     }
+ 
+   }
 }
 \section{Methods}{
   \describe{

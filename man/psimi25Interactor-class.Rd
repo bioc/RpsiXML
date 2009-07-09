@@ -20,6 +20,8 @@
       unique name of the organism name }
     \item{\code{taxId}:}{Object of class \code{"character"}, the NCBI
       taxonomy ID}
+    \item{\code{xref}:}{ Object of class \code{"environment"}
+      }
   }
 }
 \section{Methods}{
