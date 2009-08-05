@@ -366,7 +366,7 @@ setClass("psimi25InferredInteractionAtomParticipant",
          prototype=prototype(new("typedList", type="psimi25InferredInteractionAtomParticipantAtom")))
 setClass("psimi25InferredInteractionAtom",
          representation(participant="psimi25InferredInteractionAtomParticipant",
-                        experimentRefList="experimentRefListType")
+                        experimentRefList="psimi25ExperimentRefListType")
          )
 setClass("psimi25InferredInteraction",
          contains="typedList",

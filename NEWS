@@ -1,7 +1,16 @@
+Release 1.5.9
+API Changes:
+  + 'importClassesFrom' and 'importMethodsFrom' directives replace single 'import' in NAMESPACE for Biobase. Other imports will be fixed soon.
+File Changes:
+  + 'genericFunc.R' are renamed into 'AllGenerics.R' according to the convention
+  + Add 'Makefile' to simplify check/install/distribution
+Bug fix:
+  + 'psimi25InferredInteractionAtomParticipantAtom' fixes wrong-spellt class name
+
 Release 1.5.8
 API Changes:
-    + Classes supporting ALL features of PSI-MI 2.5 have been implemented, making preparation for a major update
+  + Classes supporting ALL features of PSI-MI 2.5 have been implemented, making preparation for a major update
 File Changes:
-    + 'classDefs.R' are renamed into 'AllClasses.R' according to the convention
+  + 'classDefs.R' are renamed into 'AllClasses.R' according to the convention
 Known Issues:
-    + There warnings by checking, will be changed soon.
+  + There warnings by checking, will be changed soon.

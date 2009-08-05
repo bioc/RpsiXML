@@ -1,3 +1,12 @@
+##----------------------------------------------------------------------------##
+## Generic functions for the RpsiXML package
+##
+## Author: Jitao David Zhang <j.zhang@dkfz.de>
+##----------------------------------------------------------------------------##
+
+##----------------------------------------##
+## old interfaces
+##----------------------------------------##
 ## interactors
 setGeneric("interactors", function(x) standardGeneric("interactors"))
 setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
@@ -15,7 +24,6 @@ setGeneric("complexes", function(x) standardGeneric("complexes"))
 setGeneric("members", function(x) standardGeneric("members"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
 
-
 setGeneric("interactionType", function(x) standardGeneric("interactionType"))
 setGeneric("organismName", function(x) standardGeneric("organismName"))
 setGeneric("organismName<-", function(x, value) standardGeneric("organismName<-"))
@@ -29,12 +37,9 @@ setGeneric("releaseDate<-", function(x, value) standardGeneric("releaseDate<-"))
 setGeneric("interactionType", function(x) standardGeneric("interactionType"))
 setGeneric("interactorInfo", function(x) standardGeneric("interactorInfo"))
 
-setGeneric("parseExperiment", function(x,...)
-           standardGeneric("parseExperiment"))
-setGeneric("parseInteractor", function(x,...)
-           standardGeneric("parseInteractor"))
-setGeneric("parseComplex", function(x,...)
-           standardGeneric("parseComplex"))
+setGeneric("parseExperiment", function(x,...) standardGeneric("parseExperiment"))
+setGeneric("parseInteractor", function(x,...) standardGeneric("parseInteractor"))
+setGeneric("parseComplex", function(x,...) standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods
@@ -63,3 +68,4 @@ setGeneric("complexName", function(x,...) standardGeneric("complexName"))
 setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttributes"))
 
 setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
+

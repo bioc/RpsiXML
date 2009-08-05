@@ -1,6 +1,7 @@
 import(annotate, graph, RBGL, XML, hypergraph)
 
-importFrom("Biobase", "abstract")
+importClassesFrom(Biobase, AssayData, ExpressionSet, MIAME, Versions, AnnotatedDataFrame)
+importMethodsFrom(Biobase, abstract)
 
 exportClasses(psimi25InteractionEntry,
               psimi25ComplexEntry,
