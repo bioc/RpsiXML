@@ -1,0 +1,7 @@
+Release 1.5.8
+API Changes:
+    + Classes supporting ALL features of PSI-MI 2.5 have been implemented, making preparation for a major update
+File Changes:
+    + 'classDefs.R' are renamed into 'AllClasses.R' according to the convention
+Known Issues:
+    + There warnings by checking, will be changed soon.
