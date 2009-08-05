@@ -1,3 +1,10 @@
+##----------------------------------------------------------------------------##
+##
+## AllMethods: S4-class methods for RpsiXML package
+##
+## Author: Jitao David Zhang <j.zhang@dkfz.de>
+##----------------------------------------------------------------------------##
+
 setMethod("show", "psimi25Interactor", function(object) {
   cat("interactor (", object@uniprotId, "):\n",
       "---------------------------------\n",

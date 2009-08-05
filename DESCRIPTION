@@ -10,7 +10,7 @@ Suggests: org.Hs.eg.db, org.Mm.eg.db, org.Dm.eg.db, org.Rn.eg.db, org.Sc.sgd.db,
 Description: Queries, data structure and interface to visualization of interaction datasets. This package inplements the PSI-MI 2.5 standard and supports up to now 8 databases. Further databases supporting PSI-MI 2.5 standard will be added continuously.
 Collate: AllClasses.R
 	 AllGenerics.R
-	 methodDefs.R
+	 AllMethods.R
 	 handlers.R
 	 hyperGraphs.R
 	 psi25parser.R
