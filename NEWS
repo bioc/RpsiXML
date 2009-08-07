@@ -1,3 +1,11 @@
+Release 1.5.10
+API Changes:
+  + 'typedList' class and constructor method is exported, with documentation
+File Changes:
+  + 'handlers.R' is renamed as 'SAXhandler.R' to make the group clearer.
+  + 'funcsAnnotation.R' is added to accomodate annotation functions
+  + 'units' directory is added under 'tests' to accomodate RUnit scripts (not implemented yet)
+
 Release 1.5.9
 API Changes:
   + 'importClassesFrom' and 'importMethodsFrom' directives replace single 'import' in NAMESPACE for Biobase. Other imports will be fixed soon.

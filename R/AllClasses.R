@@ -22,9 +22,9 @@ validityTypedList <- function(object) {
   if(length(uClass)==1) {
     val <- TRUE
     expType <- object@type
-    if(!is.na(expType)) {
+    if(length(expType)>1 || !is.na(expType)) {
       if(!all(uClass[[1]] == expType)) {
-        val <- paste(expType, " Type(s) expected, but got ", uClass[[1]], "type (s)\n", sep="")
+        val <- paste(expType, " Type(s) expected, but got ", uClass[[1]], " type (s)\n", sep="")
       }
     }
   } else {
@@ -100,6 +100,9 @@ setClass("psimi25AvailabilityType",
          representation(id="integer"),
          contains="character")
 
+setClass("psimi25AvailabilityTypeList",
+         prototype=prototype(new("typedList", type="psimi25AvailabilityType")),
+         contains="typedList")
 
 ##--------------------##
 ## dbReferenceType
@@ -240,6 +243,9 @@ setClass("psimi25ExperimentType",
                         confidenceList="psimi25ConfidenceListType",
                         attributeList="psimi25AttributeListType")
          )
+setClass("psimi25ExperimentTypeList",
+         prototype=prototype(new("typedList", type="psimi25ExperimentType")),
+         contains="typedList")
 
 ##--------------------##
 ## other simple types
@@ -389,6 +395,39 @@ setClass("psimi25InteractionElementType",
                         attributeList="psimi25AttributeListType"),
          prototype=prototype(negative=FALSE, intraMolecular=FALSE)
          )
+
+setClass("psimi25InteractionElementTypeList",
+         prototype=prototype(new("typedList", type="psimi25InteractionElementType")),
+         contains="typedList")
+
+##----------------------------------------------------------------------------##
+## PSI-MI XML Elements
+##----------------------------------------------------------------------------##
+setClass("psimi25SourceAtom",
+         representation(name="psimi25NamesType",
+                        availabilityList="psimi25AvailabilityTypeList",
+                        experimentList="psimi25ExperimentList",
+                        interactorList="psimi25InteractorElementTypeList",
+                        interactionList="psimi25InteractionElementTypeList", ## required
+                        attributeList="psimi25AttributeListType"
+                        ),
+         )
+setClass("psimi25Source",
+         prototype=prototype(new("typedList", type="psimi25SourceAtom")),
+         contains="typedList")
+
+setClass("psimi25EntryAtom",
+         representation(source="psimi25Source",
+                        availabilityList="psimi25AvailabilityTypeList",
+                        experimentList="psimi25ExperimentTypeList",
+                        interactorList="psimi25InteractorElementTypeList",
+                        interactionList="psimi25InteractionElementTypeList",
+                        attributeList="psimi25AttributeListType")
+         )
+
+setClass("psimi25Entry",
+         prototype=prototype(new("typedList", type="psimi25EntryAtom")),
+         contains="typedList")
 
 ##----------------------------------------##
 ## Old PSI-MI 25 Interfaces

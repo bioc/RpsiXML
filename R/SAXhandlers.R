@@ -1,3 +1,29 @@
+##----------------------------------------------------------------------------##
+##
+## Handler/Callbacks for SAX (Simple API for XML) parse
+##
+## Jitao David Zhang <j.zhang@dkfz.de>, http://www.NextBioMotif.com
+## Copyrighted 2009, released, see '../LICENSE' for the license
+##
+##
+## Description: Handlers to parse PSI-MI XML 2.5 files with SAX
+##
+##----------------------------------------------------------------------------##
+
+#psixmlHandlerPrimaryRef <- function(name, attrs,...) {
+#  testPR[[length(testPR)+1]] <<- new("psimi25DbReferenceType",
+#                                     db=attrs["db"],
+#                                     dbAc=attrs["dbAc"],
+#                                     id=attrs["id"],
+#                                     secondary=attrs["secondary"],
+#                                     version=attrs["version"],
+#                                     refType=attrs["refType"],
+#                                     refTypeAc=attrs["refTypeAc"])
+#}
+#
+##----------------------------------------##
+## Handlers inherited from Rintact
+##----------------------------------------##
 # iListHandler for interactionList in psi25xml data
 # adapted from Rintact
 # interactionList
@@ -154,17 +180,3 @@ eListHandler <- function() {
        dump=dump )
 }
 
-
-getAbstractByPMID <- function(pmID){
-
-pmXML <- pubmed(pmID)
-pmRoot <- xmlRoot(pmXML)
-numAbst <- length(pmRoot)
-abstracts <- vector("list", length=numAbst)
-for(i in 1:numAbst){
-  abstracts[[i]] <- buildPubMedAbst(pmRoot[[i]])
-}
-names(abstracts) <- pmID
-return(abstracts)
-
-}

@@ -69,3 +69,7 @@ setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttribut
 
 setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 
+##----------------------------------------##
+## constructor methods
+##----------------------------------------##
+setGeneric("typedList", function(..., type) standardGeneric("typedList"))

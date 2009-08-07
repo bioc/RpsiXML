@@ -9,7 +9,11 @@
 ## constructor
 ##------------------------------------------------------------##
 setMethod("typedList", "ANY" , function(..., type) {
-  x <- as.list(...)
+  ## compatible with both parameters and a list
+  x <- list(...)
+  if(length(x) == 1)
+    x <- x[[1]]
+  
   if(missing(type))
     type <- class(x[[1]])
   obj <- new("typedList", .Data=x, type=type)

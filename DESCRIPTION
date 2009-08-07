@@ -1,6 +1,6 @@
 Package: RpsiXML
-Version: 1.5.9
-Date: 2009-08-05
+Version: 1.5.10
+Date: 2009-08-07
 Title: R interface to PSI-MI 2.5 files
 Author: Jitao David Zhang <j.zhang@dkfz.de>, Stefan Wiemann <s.wiemann@dkfz.de>, Marc Carlson <mcarlson@fhcrc.org>, with contributions from Tony Chiang <tchiang@ebi.ac.uk>
 Maintainer: Jitao David Zhang <j.zhang@dkfz.de>
@@ -11,7 +11,8 @@ Description: Queries, data structure and interface to visualization of interacti
 Collate: AllClasses.R
 	 AllGenerics.R
 	 AllMethods.R
-	 handlers.R
+	 SAXhandlers.R
+	 funcsAnnotation.R
 	 hyperGraphs.R
 	 psi25parser.R
 	 psimi25Source.R
