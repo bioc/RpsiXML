@@ -5,6 +5,28 @@
 ## Author: Jitao David Zhang <j.zhang@dkfz.de>
 ##----------------------------------------------------------------------------##
 
+##------------------------------------------------------------##
+## constructor
+##------------------------------------------------------------##
+setMethod("typedList", "ANY" , function(..., type) {
+  x <- as.list(...)
+  if(missing(type))
+    type <- class(x[[1]])
+  obj <- new("typedList", .Data=x, type=type)
+  return(obj)
+})
+
+##------------------------------------------------------------##
+## show methods
+##------------------------------------------------------------##
+
+setMethod("show", "typedList", function(object) {
+  cat("Typed List of", object@type, "\n")
+  x <- object@.Data ## using temporary object, otherwise the list name is missing
+  names(x) <- names(object)
+  show(x)
+})
+
 setMethod("show", "psimi25Interactor", function(object) {
   cat("interactor (", object@uniprotId, "):\n",
       "---------------------------------\n",
