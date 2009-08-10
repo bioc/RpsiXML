@@ -70,8 +70,8 @@ setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 ## constructor methods
 ##----------------------------------------##
 
-
 setGeneric("typedList", function(..., type) standardGeneric("typedList"))
+setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
 setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
 setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
 setGeneric("psimi25AttributeListType", function(typedList) standardGeneric("psimi25AttributeListType"))
@@ -86,6 +86,9 @@ setGeneric("psimi25BioSourceType", function(name, cellType, compartment, tissue,
 setGeneric("psimi25ConfidenceType", function(unit, value) standardGeneric("psimi25ConfidenceType"))
 setGeneric("psimi25InteractorElementType", function(name, xref, attributeList, interactorType, organism, sequence, id)
            standardGeneric("psimi25InteractorElementType"))
+setGeneric("psimi25ExperimentType", function(name, bibref, xref, hostOrganismList,
+                                             interactionDetectionMethod, participantIdentificationMethod,
+                                             featureDetectionMethod, confidenceList, attributeList, id) standardGeneric("psimi25ExperimentType"))
 
 ##----------------------------------------##
 ## accessors (internal)
@@ -175,3 +178,5 @@ setGeneric("version", function(object) standardGeneric("version"))
 setGeneric("version<-", function(object,value) standardGeneric("version<-"))
 setGeneric("minorVersion", function(object) standardGeneric("minorVersion"))
 setGeneric("minorVersion<-", function(object,value) standardGeneric("minorVersion<-"))
+
+setGeneric("attrInfo", function(object,...) standardGeneric("attrInfo"))

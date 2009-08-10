@@ -1,5 +1,13 @@
+Release 1.5.13 (Aug. 10, 2009)
+API Changes:
+  + DOM handlers added for several types, but not finished yet
+  + Further modification of classes for easy use (no public API is affected)
+  + Constructor of 'psimi25ExperimentType' added
+File Changes:
+  + 'null2na' function moved to 'SAXhandlers.R' file
+
 Release 1.5.12
-API Changes.
+API Changes:
   + Constructors and accessors are added for most of the XML elements.
 
 Release 1.5.11

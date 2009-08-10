@@ -1,12 +1,4 @@
 ## misc functions
-null2na <- function (x) 
-{
-  if (is.null(x) || length(x) == 0) 
-    x <- as.character(NA)
-  else x <- unique(unlist(x))
-  x
-}
-
 genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
 
   bpMat1 <- bpMat

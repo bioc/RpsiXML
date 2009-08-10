@@ -44,6 +44,8 @@ setMethod("typedList", "ANY" , function(..., type) {
   return(obj)
 })
 
+setAs(from="list", to="typedList",
+      function(from) typedList(from))
 setMethod("show", "typedList", function(object) {
   cat("Typed List of", object@type, "\n")
   x <- object@.Data ## using temporary object, otherwise the list name is missing
@@ -52,17 +54,35 @@ setMethod("show", "typedList", function(object) {
 })
 
 ##------------------------------------------------------------##
-## psimi25NamesType
+## psimi25NamesType (and psimi25NamesAlis)
 ##------------------------------------------------------------##
+setMethod("psimi25NamesAlias",
+          c("character", "ANY","ANY"),
+          function(iValue, type, typeAc) {
+            obj <- new("psimi25NamesAlias",
+                       .Data=iValue,
+                       type=type,
+                       typeAc=typeAc)
+            return(obj)
+          })
+
 setMethod("psimi25NamesType",
-          c("character","character","character"),
+          c("ANY","ANY","ANY"),
           function(shortLabel, fullName, alias) {
+            if(missing(shortLabel))
+              shortLabel <- as.character(NA)
+            if(missing(fullName))
+              fullName <- as.character(NA)
+            if(missing(alias))
+              alias <- new("psimi25NamesAliasList")
+            
             obj <- new("psimi25NamesType",
                        shortLabel=shortLabel,
                        fullName=fullName,
                        alias=alias)
             return(obj)
           })
+
 setMethod("show", "psimi25NamesType", function(object) {
   printManyItems("Short Label", object@shortLabel)
   printManyItems("Full name", object@fullName)
@@ -117,14 +137,14 @@ setMethod("psimi25AttributeListType",
                        .Data=typedList)
             return(obj)
           })
-          
 
 ##------------------------------------------------------------##
 ## psimi25DbReferenceType
 ##------------------------------------------------------------##
 setMethod("psimi25DbReferenceType",
-          c("typedList", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
+          c("ANY", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
           function(typedList, db, dbAc, id, secondary, version, refType, refTypeAc) {
+            if(missing(typedList)) typedList <- new("typedList", type="psimi25AttributeListType")
             if(missing(db)) db <- as.character(NA)
             if(missing(dbAc)) dbAc <- as.character(NA)
             if(missing(id)) id <- as.character(NA)
@@ -133,20 +153,27 @@ setMethod("psimi25DbReferenceType",
             if(missing(refType)) refType <- as.character(NA)
             if(missing(refTypeAc)) refTypeAc <- as.character(NA)
 
-            obj <- new("psimi25DbRereferenceType",
+            obj <- new("psimi25DbReferenceType",
                        .Data=typedList,
                        db=db, dbAc=dbAc, id=id, secondary=secondary,
                        version=version, refType=refType, refTypeAc=refTypeAc)
           })
-          
+
+setMethod("attrInfo", "psimi25DbReferenceType", function(object) {
+   att <- c("db","dbAc","id","secondary",
+                                 "version","refType","refTypeAc")
+   info <- data.frame(Value=c(object@db, object@dbAc, object@id, object@secondary,
+                        object@version, object@refType, object@refTypeAc),
+                      row.names=att)
+   return(info)
+})
+
 setMethod("show", "psimi25DbReferenceType",
           function(object) {
+            cat("Attributes:\n")
+            att <- attrInfo(object)
+            show(format(att, justify="left"))
             show(object@.Data)
-            info <- data.frame(Attribute=c("db","dbAc","id","secondary",
-                                 "version","refType","refTypeAc"),
-                               Value=c(object@db, object@dbAc, object@id, object@secondary,
-                                 object@version, object@refType, object@refTypeAc))
-            show(info)
           })
 
 ##------------------------------------------------------------##
@@ -416,6 +443,54 @@ setReplaceMethod("parameterList", c("psimi25InteractionElementType","psimi25Para
                  function(object,value) { object@parameterList <- value; return(object) })
 setReplaceMethod("imexId", c("psimi25InteractionElementType","character"),
                  function(object,value) { object@imexId <- value; return(object) })
+
+##------------------------------------------------------------##
+## psimi25ExperimentType
+##------------------------------------------------------------##
+setMethod("psimi25ExperimentType",
+          signature=signature("ANY","ANY","ANY",
+            "ANY","ANY","ANY",
+            "ANY","ANY","ANY", "numeric"),
+          function(name, bibref, xref, hostOrganismList,
+                   interactionDetectionMethod, participantIdentificationMethod,
+                   featureDetectionMethod, confidenceList,attributeList,id) {
+            if(missing(id))
+              id <- as.integer(NA)
+            id <- as.integer(id)
+            if(missing(name))
+              name <- new("psimi25NamesType")
+            if(missing(bibref))
+              bibref <- new("psimi25BibrefType")
+            if(missing(xref))
+              xref <- new("psimi25XrefType")
+            if(missing(bibref))
+              bibref <- new("psimi25XrefType")
+            if(missing(hostOrganismList))
+              hostOrganismList <- new("psimi25BioSourceTypeList")
+            if(missing(interactionDetectionMethod))
+              interactionDetectionMethod <- new("psimi25CvType")
+            if(missing(participantIdentificationMethod))
+              participantIdentificationMethod <- new("psimi25CvType")
+            if(missing(featureDetectionMethod))
+              featureDetectionMethod <- new("psimi25CvType")
+            if(missing(confidenceList))
+              confidenceList <- new("psimi25ConfidenceListType")
+            if(missing(attributeList))
+              attributeList <- new("psimi25AttributeListType")
+            
+            obj <- new("psimi25ExperimentType",
+                       name=name,
+                       bibref=bibref,
+                       xref=xref,
+                       hostOrganismList=hostOrganismList,
+                       interactionDetectionMethod=interactionDetectionMethod,
+                       participantIdentificationMethod=participantIdentificationMethod,
+                       featureDetectionMethod=featureDetectionMethod,
+                       confidenceList=confidenceList,
+                       attributeList=attributeList,
+                       id=id)
+            return(obj)
+          })
 
 ##------------------------------------------------------------##
 ## entry

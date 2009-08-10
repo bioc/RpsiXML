@@ -70,14 +70,25 @@ setClass("typedList",
 ##--------------------##
 ## namesType
 ##--------------------##
+setClass("psimi25NamesAlias",
+         representation(typeAc="character",
+                        type="character"),
+         contains="character",
+         prototype=prototype(as.character(NA),
+                    type=as.character(NA),
+                    typeAc=as.character(NA)))
+
+setClass("psimi25NamesAliasList",
+          contains ="typedList",
+          prototype=prototype(new("typedList", type="psimi25NamesAlias")))
+
 setClass("psimi25NamesType",
          representation(shortLabel="character",
                         fullName="character",
-                        alias="character"),
+                        alias="psimi25NamesAliasList"),
          prototype=prototype(shortLabel=as.character(NA),
-           fullName=as.character(NA),
-           alias=as.character(NA))
-         )
+           fullName=as.character(NA)
+         ))
 
 ##--------------------##
 ## attributeListType
@@ -121,7 +132,7 @@ setClass("psimi25DbReferenceType",
          contains="typedList")
 
 setClass("psimi25DbReferenceTypeList",
-         prototype=prototype(new("typedList", type="psimi25DbReferenceTypeList")),
+         prototype=prototype(new("typedList", type="psimi25DbReferenceType")),
          contains="typedList")
 
 ##--------------------##
@@ -239,17 +250,16 @@ setClass("psimi25InteractorElementTypeList",
 ##--------------------##
 ## Attention: since 'names' is keyword in 'representation' function, the slot is renamed as 'name'
 setClass("psimi25ExperimentType",
-         representation(name="psimi25NamesType",
-                        bibref="psimi25BibrefType",
-                        xref="psimi25XrefType",
+         representation(bibref="psimi25BibrefType",
                         hostOrganismList="psimi25BioSourceTypeList",
                         interactionDetectionMethod="psimi25CvType",
                         participantIdentificationMethod="psimi25CvType",
                         featureDetectionMethod="psimi25CvType",
                         confidenceList="psimi25ConfidenceListType",
-                        attributeList="psimi25AttributeListType",
-                        id="integer")
+                        id="integer"),
+         contains="psimi25CommonNameRefAttr"
          )
+
 setClass("psimi25ExperimentTypeList",
          prototype=prototype(new("typedList", type="psimi25ExperimentType")),
          contains="typedList")
