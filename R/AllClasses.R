@@ -70,16 +70,11 @@ setClass("typedList",
 ##--------------------##
 ## namesType
 ##--------------------##
-setClass("psimi25NamesTypeAtom",
+setClass("psimi25NamesType",
          representation(shortLabel="character",
                         fullName="character",
                         alias="character"),
-         validity=function(object) {
-           length(object@shortLabel)==1 & length(object@fullName)==1
-         })
-setClass("psimi25NamesType",
-          prototype=prototype(new("typedList", type="psimi25NamesTypeAtom")),
-         contains="typedList")
+         )
 
 ##--------------------##
 ## attributeListType
@@ -87,6 +82,7 @@ setClass("psimi25NamesType",
 setClass("psimi25Attribute",
          representation(name="character", ## required
                         nameAc="character"),
+         prototype=prototype(name=as.character(NA), nameAc=as.character(NA)),
          contains="character")
 
 setClass("psimi25AttributeListType",
@@ -97,7 +93,7 @@ setClass("psimi25AttributeListType",
 ## availabilityType
 ##--------------------##
 setClass("psimi25AvailabilityType",
-         representation(id="integer"),
+         representation(id="integer"), 
          contains="character")
 
 setClass("psimi25AvailabilityTypeList",
@@ -115,29 +111,35 @@ setClass("psimi25DbReferenceType",
                         version="character",
                         refType="character",
                         refTypeAc="character"),
-         prototype=prototype(new("typedList", type="psimi25AttributeListType")),
+         prototype=prototype(new("typedList", type="psimi25AttributeListType"),
+           db=as.character(NA),dbAc=as.character(NA),id=as.character(NA),
+           secondary=as.character(NA), version=as.character(NA), refType=as.character(NA),
+           refTypeAc=as.character(NA)),
          contains="typedList")
+
 setClass("psimi25DbReferenceTypeList",
          prototype=prototype(new("typedList", type="psimi25DbReferenceTypeList")),
          contains="typedList")
+
 ##--------------------##
 ## xrefType
 ##--------------------##
-setClass("psimi25XrefTypeAtom",
-         representation(primaryRef="psimi25DbReferenceType",
-                        secondaryRef="psimi25DbReferenceTypeList"))
-
 setClass("psimi25XrefType",
-         prototype=prototype(new("typedList", type="psimi25XrefType")),
-         contains="typedList")
-
+         representation(primaryRef="psimi25DbReferenceType",
+                        secondaryRef="psimi25DbReferenceTypeList"),
+         validity=function(object) {
+##           length(object@primaryRef)==1
+         })
 
 ##--------------------##
 ## bibrefType
 ##--------------------##
 setClass("psimi25BibrefType",
          representation(xref="psimi25XrefType",
-                        attributeList="psimi25AttributeListType") ## only ONE of xref/attributeList
+                        attributeList="psimi25AttributeListType"),
+         validity=function(object) {
+           is.na(object@xref)
+         }## only ONE of xref/attributeList
          )
 
 
@@ -192,6 +194,7 @@ setClass("psimi25ExperimentRefListType",
 setClass("psimi25ExperimentRefListTypeList",
          prototype=prototype(new("typedList", type="psimi25ExperimentRefListType")),
          contains="typedList")
+
 ##----------------------------------------##
 ## confidenceType/confidenceListType
 ##----------------------------------------##

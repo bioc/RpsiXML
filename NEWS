@@ -1,3 +1,12 @@
+Release 1.5.11
+API Changes:
+  + 'psimi25Attribute' class is redefined to reflect the originial structure defined in the specification
+  + constructors added for: 'typedList', 'psimi25NamesType', 'psimi25Attribute', 'psimi25AttributeListType',
+    'psimi25DbReferenceType', 'psimi25XrefType' and 'psimi25AvailabilityType'
+  + internal accessors added to organize the access of data slots, like 'name', 'nameAc', 'iValue' and 'id'
+Documentation Changes:
+  + Add 'psimi25Attribute-class.Rd' to accomodate the helps added recently. This is temporary.
+
 Release 1.5.10
 API Changes:
   + 'typedList' class and constructor method is exported, with documentation

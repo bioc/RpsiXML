@@ -72,4 +72,26 @@ setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 ##----------------------------------------##
 ## constructor methods
 ##----------------------------------------##
+
+
 setGeneric("typedList", function(..., type) standardGeneric("typedList"))
+setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
+setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
+setGeneric("psimi25AttributeListType", function(typedList) standardGeneric("psimi25AttributeListType"))
+setGeneric("psimi25DbReferenceType",
+           function(typedList, db, dbAc, id, secondary, version, refType, refTypeAc)
+           standardGeneric("psimi25DbReferenceType"))
+setGeneric("psimi25XrefType", function(primaryRef, secondaryRef) standardGeneric("psimi25XrefType"))
+setGeneric("psimi25AvailabilityType", function(iValue, id) standardGeneric("psimi25AvailabilityType"))
+
+##----------------------------------------##
+## accessors (internal)
+##----------------------------------------##
+setGeneric("name", function(object) standardGeneric("name"))
+setGeneric("name<-", function(object, value) standardGeneric("name<-"))
+setGeneric("nameAc", function(object) standardGeneric("nameAc"))
+setGeneric("nameAc<-", function(object, value) standardGeneric("nameAc<-"))
+setGeneric("iValue", function(object) standardGeneric("iValue")) ## inherited value (.Data)
+setGeneric("iValue<-", function(object, value) standardGeneric("iValue<-")) ## inherited value (.Data)
+setGeneric("id", function(object) standardGeneric("id"))
+setGeneric("id<-", function(object, value) standardGeneric("id<-"))

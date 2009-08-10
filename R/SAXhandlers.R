@@ -10,17 +10,17 @@
 ##
 ##----------------------------------------------------------------------------##
 
-#psixmlHandlerPrimaryRef <- function(name, attrs,...) {
-#  testPR[[length(testPR)+1]] <<- new("psimi25DbReferenceType",
-#                                     db=attrs["db"],
-#                                     dbAc=attrs["dbAc"],
-#                                     id=attrs["id"],
-#                                     secondary=attrs["secondary"],
-#                                     version=attrs["version"],
-#                                     refType=attrs["refType"],
-#                                     refTypeAc=attrs["refTypeAc"])
-#}
-#
+psixmlHandlerPrimaryRef <- function(name, attrs,...) {
+  testPR[[length(testPR)+1]] <<- new("psimi25DbReferenceType",
+                                     db=attrs["db"],
+                                     dbAc=attrs["dbAc"],
+                                     id=attrs["id"],
+                                     secondary=attrs["secondary"],
+                                     version=attrs["version"],
+                                     refType=attrs["refType"],
+                                     refTypeAc=attrs["refTypeAc"])
+}
+
 ##----------------------------------------##
 ## Handlers inherited from Rintact
 ##----------------------------------------##

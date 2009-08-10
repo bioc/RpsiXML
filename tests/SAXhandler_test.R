@@ -1,6 +1,7 @@
-
-#filename <- system.file("extdata/psi25files/biogrid_200804_test.xml",
-#                        package="RpsiXML")
+library(RpsiXML)
+library(XML)
+filename <- system.file("extdata/psi25files/biogrid_200804_test.xml",
+                        package="RpsiXML")
 
 #testPR <- list()
 #test <- xmlEventParse(filename,

@@ -6,7 +6,14 @@
 ##----------------------------------------------------------------------------##
 
 ##------------------------------------------------------------##
-## constructor
+## auxilliary functions
+##------------------------------------------------------------##
+printManyItems <- function(title, x) {
+  cat(title, ":", paste(x, collapse=", "), "\n")
+}
+
+##------------------------------------------------------------##
+## typedList
 ##------------------------------------------------------------##
 setMethod("typedList", "ANY" , function(..., type) {
   ## compatible with both parameters and a list
@@ -20,16 +27,162 @@ setMethod("typedList", "ANY" , function(..., type) {
   return(obj)
 })
 
-##------------------------------------------------------------##
-## show methods
-##------------------------------------------------------------##
-
 setMethod("show", "typedList", function(object) {
   cat("Typed List of", object@type, "\n")
   x <- object@.Data ## using temporary object, otherwise the list name is missing
   names(x) <- names(object)
   show(x)
 })
+
+##------------------------------------------------------------##
+## psimi25NamesType
+##------------------------------------------------------------##
+setMethod("psimi25NamesType",
+          c("character","character","character"),
+          function(shortLabel, fullName, alias) {
+            obj <- new("psimi25NamesType",
+                       shortLabel=shortLabel,
+                       fullName=fullName,
+                       alias=alias)
+            return(obj)
+          })
+setMethod("show", "psimi25NamesType", function(object) {
+  printManyItems("Short Label", object@shortLabel)
+  printManyItems("Full name", object@fullName)
+  printManyItems("Alias", object@alias)
+})
+
+##------------------------------------------------------------##
+## psimi25Attribute
+##------------------------------------------------------------##
+setMethod("psimi25Attribute",
+          c("character","ANY","ANY"),
+          function(iValue, name, nameAc) {
+            if(missing(name))
+              name <- as.character(NA)
+            if(missing(nameAc))
+              nameAc <- as.character(NA)
+            obj <- new("psimi25Attribute",
+                       .Data=iValue,
+                       name=name,
+                       nameAc=nameAc)
+            return(obj)
+          })
+setMethod("show", "psimi25Attribute", function(object) {
+  cat(object@name, "[", object@nameAc, "]", ":", object@.Data, "\n")
+})
+setMethod("name", "psimi25Attribute", function(object) {
+  return(object@name)
+})
+setReplaceMethod("name", c("psimi25Attribute", "character"), function(object,value) {
+  object@name <- value
+  return(object)
+})
+setMethod("nameAc", "psimi25Attribute", function(object) {
+  return(object@nameAc)
+})
+setReplaceMethod("nameAc", "psimi25Attribute", function(object,value) {
+  object@nameAc <- value
+  return(object)
+})
+setMethod("iValue", "psimi25Attribute", function(object) {
+  return(object@.Data)
+})
+setReplaceMethod("iValue", "psimi25Attribute", function(object,value) {
+  object@.Data <- value
+  return(object)
+})
+
+setMethod("psimi25AttributeListType",
+          "typedList",
+          function(typedList) {
+            obj <- new("psimi25AttributeListType",
+                       .Data=typedList)
+            return(obj)
+          })
+          
+
+##------------------------------------------------------------##
+## psimi25DbReferenceType
+##------------------------------------------------------------##
+setMethod("psimi25DbReferenceType",
+          c("typedList", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
+          function(typedList, db, dbAc, id, secondary, version, refType, refTypeAc) {
+            if(missing(db)) db <- as.character(NA)
+            if(missing(dbAc)) dbAc <- as.character(NA)
+            if(missing(id)) id <- as.character(NA)
+            if(missing(secondary)) secondary <- as.character(NA)
+            if(missing(version)) version <- as.character(NA)
+            if(missing(refType)) refType <- as.character(NA)
+            if(missing(refTypeAc)) refTypeAc <- as.character(NA)
+
+            obj <- new("psimi25DbRereferenceType",
+                       .Data=typedList,
+                       db=db, dbAc=dbAc, id=id, secondary=secondary,
+                       version=version, refType=refType, refTypeAc=refTypeAc)
+          })
+          
+setMethod("show", "psimi25DbReferenceType",
+          function(object) {
+            show(object@.Data)
+            info <- data.frame(Attribute=c("db","dbAc","id","secondary",
+                                 "version","refType","refTypeAc"),
+                               Value=c(object@db, object@dbAc, object@id, object@secondary,
+                                 object@version, object@refType, object@refTypeAc))
+            show(info)
+          })
+
+##------------------------------------------------------------##
+## psimi25XrefType
+##------------------------------------------------------------##
+setMethod("psimi25XrefType",
+          c("psimi25DbReferenceType","psimi25DbReferenceTypeList"),
+          function(primaryRef,secondaryRef) {
+            obj <- new("psimi25XrefType",
+                       primaryRef=primaryRef,
+                       secondaryRef=secondaryRef)
+            return(obj)
+          })
+
+##------------------------------------------------------------##
+## psimi25Availability
+##------------------------------------------------------------##
+setMethod("psimi25AvailabilityType",
+          c("character","ANY"),
+          function(iValue, id) {
+            suppressWarnings(id <- as.integer(id)) ## reason: some repositories do not adhere to the specification of id
+            obj <- new("psimi25AvailabilityType",
+                       .Data=iValue, id=id)
+            return(obj)
+          })
+setMethod("show",
+          "psimi25AvailabilityType",
+          function(object) {
+            printManyItems(object@id, object@.Data)
+          })
+setMethod("iValue", "psimi25AvailabilityType",
+          function(object) {
+            return(object@.Data)
+          })
+setReplaceMethod("iValue", "psimi25AvailabilityType",
+                 function(object,value) {
+                   object@.Data <- value
+                   return(object)
+                 })
+setMethod("id", "psimi25AvailabilityType",
+          function(object) {
+            return(object@id)
+          })
+setReplaceMethod("id", c("psimi25AvailabilityType","numeric"),
+                 function(object, value) {
+                   object@id <- as.integer(value)
+                   return(object)
+                 })
+
+##------------------------------------------------------------##
+## show methods
+##------------------------------------------------------------##
+
 
 setMethod("show", "psimi25Interactor", function(object) {
   cat("interactor (", object@uniprotId, "):\n",
