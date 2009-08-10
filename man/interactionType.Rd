@@ -1,15 +1,16 @@
 \name{interactionType}
 \alias{interactionType}
+\alias{interactionType,psimi25InteractionElementType-method}
 \title{ Type of the interaction }
 \description{
   Return the interaction type of the \code{psimi25Interaction}
 }
 \usage{
-interactionType(x)
+interactionType(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{ An object of \code{\link{psimi25Interaction-class}} }
+  \item{object}{ An object of \code{\link{psimi25Interaction-class}} }
 }
 \value{
   A character string representing the interaction type

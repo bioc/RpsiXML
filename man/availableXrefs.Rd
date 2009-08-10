@@ -11,7 +11,7 @@
 }
 \usage{
 availableXrefs(x,...)
-xref(x,...)
+xref(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,8 +21,11 @@ xref(x,...)
     \code{link{psimi25InteractionEntry}} or a list of
     \code{\link{psimi25Interactor-class}} objects.
 
-    for \code{xref}, 'x' should be an object of \code{\link{psimi25Interactor-class}}
+    for \code{xref}, 'object' should be an object of \code{\link{psimi25Interactor-class}}
   }
+  \item{object}{
+    New interface of RpsiXML uses \sQuote{object} uniformly. 
+    }
   \item{...}{intersect, logical option. If set to \code{TRUE} then only
     the cross references available for every interactor are returned
     (intersected), otherwise all the cross references are unioned and

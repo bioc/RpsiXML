@@ -14,6 +14,7 @@
 \alias{show,psimi25DbReferenceType-method}
 \alias{show,psimi25NamesType-method}
 \alias{value<-,psimi25Attribute-method}
+\alias{xref,psimi25CommonNameRef-method}
 
 \title{Class "psimi25Attribute" }
 \description{ Persistence of the data structures specified by the PSI-MI

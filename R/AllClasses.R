@@ -74,6 +74,9 @@ setClass("psimi25NamesType",
          representation(shortLabel="character",
                         fullName="character",
                         alias="character"),
+         prototype=prototype(shortLabel=as.character(NA),
+           fullName=as.character(NA),
+           alias=as.character(NA))
          )
 
 ##--------------------##
@@ -156,16 +159,14 @@ setClass("psimi25CommonNameRefAttr",
          contains="psimi25CommonNameRef"
          )
 setClass("psimi25CvType",
-         prototype=prototype(new("typedList", type="psimi25CommonNameRef")),
-         contains="typedList")
+         contains="psimi25CommonNameRef")
 
 setClass("psimi25CvTypeList",
          prototype=prototype(new("typedList",type="psimi25CvType")),
          contains="typedList")
 
 setClass("psimi25OpenCvType",
-         prototype=prototype(new("typedList", type="psimi25CommonNameRefAttr")),
-         contains="typedList")
+         contains="psimi25CommonNameRefAttr")
 
 setClass("psimi25OpenCvTypeList",
          prototype=prototype(new("typedList",type="psimi25OpenCvType")),
@@ -178,7 +179,10 @@ setClass("psimi25BioSourceType",
          representation(name="psimi25NamesType",
                         cellType="psimi25OpenCvType",
                         compartment="psimi25OpenCvType",
-                        tissue="psimi25OpenCvType"))
+                        tissue="psimi25OpenCvType",
+                        ncbiTaxId="integer")
+         )
+
 setClass("psimi25BioSourceTypeList",
          prototype=prototype(new("typedList",type="psimi25BioSourceType")),
          contains="typedList")
@@ -198,15 +202,14 @@ setClass("psimi25ExperimentRefListTypeList",
 ##----------------------------------------##
 ## confidenceType/confidenceListType
 ##----------------------------------------##
-setClass("psimi25ConfidenceTypeAtom",
+setClass("psimi25ConfidenceType",
          representation(unit="psimi25OpenCvType",
                         value="character"),
+         validity=function(object) {
+           length(object@value) == 1
+         }
          )
 
-setClass("psimi25ConfidenceType",
-         prototype=prototype(new("typedList",type="psimi25ConfidenceTypeAtom")),
-         contains="typedList"
-         )
 setClass("psimi25Confidence",
          representation(experimentRefList="psimi25ExperimentRefListTypeList"),
          contains="psimi25ConfidenceType")
@@ -221,12 +224,12 @@ setClass("psimi25ConfidenceListType",
 ##--------------------##
 ## Attention: since 'names' is keyword in 'representation' function, the slot is renamed as 'name'
 setClass("psimi25InteractorElementType",
-         representation(name="psimi25NamesType",
-                        xref="psimi25XrefType",
-                        interactorType="psimi25CvType",
+         representation(interactorType="psimi25CvType",
                         organism="psimi25BioSourceType",
                         sequence="character", ## will be replaced by BioString! TODO
-                        attributeList="psimi25AttributeListType"))
+                        id="integer"),
+         contains="psimi25CommonNameRefAttr")
+
 setClass("psimi25InteractorElementTypeList",
          prototype=prototype(new("typedList", type="psimi25InteractorElementType")),
          contains="typedList")
@@ -244,7 +247,8 @@ setClass("psimi25ExperimentType",
                         participantIdentificationMethod="psimi25CvType",
                         featureDetectionMethod="psimi25CvType",
                         confidenceList="psimi25ConfidenceListType",
-                        attributeList="psimi25AttributeListType")
+                        attributeList="psimi25AttributeListType",
+                        id="integer")
          )
 setClass("psimi25ExperimentTypeList",
          prototype=prototype(new("typedList", type="psimi25ExperimentType")),
@@ -335,21 +339,28 @@ setClass("psimi25ExperimentInteractor",
          contains="typedList",
          prototype=prototype(new("typedList", type="psimi25ExperimentInteractorAtom")))
 
+setClass("psimi25HostOrganism",
+         representation(experimentRefList="psimi25ExperimentRefListType"),
+         contains="psimi25BioSourceType")
+setClass("psimi25HostOrganismList",
+         contains="typedList",
+         prototype=prototype(new("typedList", type="psimi25HostOrganism")))
+                                                
 setClass("psimi25ParticipantType",
-         representation(name="psimi25NamesType",
-                        xref="psimi25XrefType",
-                        interactorRef="integer",
+         representation(interactorRef="integer",
                         interactor="psimi25InteractorElementType",
                         interactionRef="integer", ## ONLY one of the interactorRef/interactor/interactionRef,
                         participantIdentificationMethodList="psimi25CvExperimentRefsList",
                         biologicalRole="psimi25CvType",
                         experimentalRoleList="psimi25CvExperimentRefsList",
                         experimentalPreparationList="psimi25CvExperimentRefsList",
-                        experimentInteractorList="psimi25ExperimentInteractor",
+                        experimentalInteractorList="psimi25ExperimentInteractor",
                         featureList="psimi25FeatureElementTypeList",
+                        hostOrganismList="psimi25HostOrganismList",
                         confidenceList="psimi25ConfidenceListType",
                         parameterList="psimi25ParameterTypeList",
-                        attributeList="psimi25AttributeListType"))
+                        id="integer"),
+         contains="psimi25CommonNameRefAttr")
 setClass("psimi25ParticipantTypeList",
           prototype=prototype(new("typedList", type="psimi25ParticipantType")),
          contains="typedList")
@@ -382,9 +393,7 @@ setClass("psimi25InferredInteraction",
          prototype=prototype(new("typedList", type="psimi25InferredInteractionAtom")))
          
 setClass("psimi25InteractionElementType",
-         representation(name="psimi25NamesType",
-                        xref="psimi25XrefType",
-                        availabilityRef="integer",
+         representation(availabilityRef="integer",
                         availability="psimi25AvailabilityType", ## ONLY one of the availabilityRef/availability is needed
                         experimentList="psimi25ExperimentList",
                         participantList="psimi25ParticipantTypeList",
@@ -395,8 +404,10 @@ setClass("psimi25InteractionElementType",
                         negative="logical",
                         confidenceList="psimi25ConfidenceListType",
                         parameterList="psimi25ParameterTypeList",
-                        attributeList="psimi25AttributeListType"),
-         prototype=prototype(negative=FALSE, intraMolecular=FALSE)
+                        imexId="character",
+                        id="integer"),
+         prototype=prototype(negative=FALSE, intraMolecular=FALSE),
+         contains="psimi25CommonNameRefAttr"
          )
 
 setClass("psimi25InteractionElementTypeList",
@@ -406,18 +417,10 @@ setClass("psimi25InteractionElementTypeList",
 ##----------------------------------------------------------------------------##
 ## PSI-MI XML Elements
 ##----------------------------------------------------------------------------##
-setClass("psimi25SourceAtom",
-         representation(name="psimi25NamesType",
-                        availabilityList="psimi25AvailabilityTypeList",
-                        experimentList="psimi25ExperimentList",
-                        interactorList="psimi25InteractorElementTypeList",
-                        interactionList="psimi25InteractionElementTypeList", ## required
-                        attributeList="psimi25AttributeListType"
-                        ),
-         )
 setClass("psimi25Source",
-         prototype=prototype(new("typedList", type="psimi25SourceAtom")),
-         contains="typedList")
+         representation(bibref="psimi25BibrefType"),
+         contains="psimi25CommonNameRefAttr"
+         )
 
 setClass("psimi25EntryAtom",
          representation(source="psimi25Source",
@@ -429,6 +432,9 @@ setClass("psimi25EntryAtom",
          )
 
 setClass("psimi25Entry",
+         representation(level="integer",
+                        version="integer",
+                        minorVersion="integer"),
          prototype=prototype(new("typedList", type="psimi25EntryAtom")),
          contains="typedList")
 

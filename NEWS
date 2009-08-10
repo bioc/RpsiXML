@@ -1,3 +1,7 @@
+Release 1.5.12
+API Changes.
+  + Constructors and accessors are added for most of the XML elements.
+
 Release 1.5.11
 API Changes:
   + 'psimi25Attribute' class is redefined to reflect the originial structure defined in the specification
