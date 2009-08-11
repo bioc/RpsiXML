@@ -196,6 +196,7 @@ setClass("psimi25OpenCvTypeList",
          contains="typedList")
 
 GC_mockCvType <- new("psimi25CvType")
+GC_mockOpenCvType <- new("psimi25OpenCvType")
 
 ##--------------------##
 ## bioSourceType
@@ -211,6 +212,7 @@ setClass("psimi25BioSourceType",
 setClass("psimi25BioSourceTypeList",
          prototype=prototype(new("typedList",type="psimi25BioSourceType")),
          contains="typedList")
+
 
 ##--------------------##
 ## experimentRefListType

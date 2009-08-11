@@ -50,6 +50,8 @@ xmlApplyTyped <- function(X, FUN, ...) {
 ## handlers
 ##----------------------------------------##
 psimi25NamesTypeHandler <- function(node, attrs) {
+  if(is.null(node))
+    return(GC_mockNamesType)
   child <- xmlChildren(node)
   shortLabel <- xmlValueNullsafe(child$shortLabel)
   fullName <- xmlValueNullsafe(child$fullName)
@@ -123,6 +125,18 @@ psimi25CvTypeHandler <- function(node) {
   return(cvt)
 }
 
+psimi25OpenCvTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockOpenCvType)
+  child <- xmlChildren(node)
+  names <- psimi25NamesTypeHandler(child$names)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  att <- psimi25AttributeListTypeHandler(child$attributeList)
+  oct <- psimi25OpenCvType(name=name,
+                           xref=xref,
+                           attributeList=att)
+  return(oct)
+}
 
 psimi25ExperimentTypeHandler <- function(node) {
   child <- xmlChildren(node)
@@ -159,6 +173,8 @@ psimi25DbReferenceTypeHandler <- function(node) {
   
 }
 psimi25XrefTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockXrefType)
  child <- xmlChildren(node)
  pr <- psimi25DbReferenceTypeHandler(child$primaryRef)
  isSecondaryRef <- names(child) == "seoncdaryRef"
@@ -188,6 +204,64 @@ psimi25SourceHandler <- function(node) {
   sour <- psimi25Source(name=name, xref=xref, bibref=bibref, attributeList=attL,
                         release=release, releaseDate=releaseDate)
   return(sour)
+}
+
+psimi25ExperimentListHandler <- function(node) {
+  res <- xmlApply(node, psimi25ExperimentTypeHandler)
+  re <- as(res, "psimi25ExperimentTypeList")
+  return(res)
+}
+
+psimi25BioSourceTypeHandler <- function(node) {
+  att <- xmlAttrs(node)
+  child <- xmlChildren(node)
+
+  name <- psimi25NamesTypeHandler(child$name)
+  cellType <- psimi25OpenCvTypeHandler(child$cellType)
+  compartment <- psimi25OpenCvTypeHandler(child$compartment)
+  tissue <- psimi25OpenCvTypeHandler(child$tissue)
+  ncbiTaxId <- suppressWarnings(as.integer(getNamedElement(att, "ncbiTaxId")))
+  
+  bst <- psimi25BioSourceType(name=name,
+                              cellType=cellType,
+                              compartment = compartment,
+                              tissue=tissue,
+                              ncbiTaxId=ncbiTaxId)
+  return(bst)
+}
+
+psimi25InteractorElementTypeHandler <- function(node) {
+  att <- xmlAttrs(node)
+  child <- xmlChildren(node)
+
+  id <- suppressWarnings(as.integer(getNamedElement(att, "id")))
+  name <- psimi25NamesTypeHandler(child$name)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  interactorTypes <- psimi25CvTypeHandler(child$interactorType)
+  organism <- psimi25BioSourceTypeHandler(child$organism) ## NOT COMPLETE: ncbiTaxId DAZU! TODO. NOT SURE, SINCE TAXID IS CONTAINED
+  
+  sequence <- child$sequence
+  if(!is.null(sequence)) {
+    sequence <- xmlValue(sequence)
+  } else {
+    sequence <- as.character(NA)
+  }
+  att <- psimi25AttributeListTypeHandler(child$attributeList)
+
+  iet <- psimi25InteractorElementType(name=name, xref=xref,
+                                      attributeList=att,
+                                      interactorType=interactorTypes,
+                                      organism=organism,
+                                      sequence=sequence,
+                                      id=id)
+  return(iet)
+
+}
+
+psimi25InteractorElementTypeListHandler <- function(node) {
+  res <- xmlApply(node, psimi25InteractorElementTypeHandler)
+  re <- as(res, "psimi25InteractorElementTypeList")
+  return(res)
 }
 ##----------------------------------------##
 ## source for SAX
