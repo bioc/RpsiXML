@@ -1,3 +1,15 @@
+Release 1.5.14 (Aug. 11, 2009)
+API Changes:
+  + 'psimi25ExperimentTypeHandler' almost fully implemented
+  + 'psimi25EntrySet' and 'psimi25Entry' definition revised to reflect the data structure
+  + source, availabilityList and experimentList elements of the entry can already be unmarshalled
+  + global constant variables added to save memory and speed overhead in parsing. They follow the 
+    naming convention of 'GC_mockClassName'. They will probably not be exported.
+File Changes:
+  + SAXhandler_test.R is removed temporarily from the test file sets, since it
+    is mainly used internally.
+
+
 Release 1.5.13 (Aug. 10, 2009)
 API Changes:
   + DOM handlers added for several types, but not finished yet

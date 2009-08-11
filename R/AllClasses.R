@@ -89,6 +89,7 @@ setClass("psimi25NamesType",
          prototype=prototype(shortLabel=as.character(NA),
            fullName=as.character(NA)
          ))
+GC_mockNamesType <- new("psimi25NamesType")
 
 ##--------------------##
 ## attributeListType
@@ -102,6 +103,7 @@ setClass("psimi25Attribute",
 setClass("psimi25AttributeListType",
          prototype=prototype(new("typedList", type="psimi25Attribute")),
          contains="typedList")
+GC_mockAttributeListType <- new("psimi25AttributeListType")
 
 ##--------------------##
 ## availabilityType
@@ -131,6 +133,8 @@ setClass("psimi25DbReferenceType",
            refTypeAc=as.character(NA)),
          contains="typedList")
 
+GC_mockDbReferenceType <- new("psimi25DbReferenceType")
+
 setClass("psimi25DbReferenceTypeList",
          prototype=prototype(new("typedList", type="psimi25DbReferenceType")),
          contains="typedList")
@@ -148,14 +152,19 @@ setClass("psimi25XrefType",
 ##--------------------##
 ## bibrefType
 ##--------------------##
+GC_mockXrefType <- new("psimi25XrefType")
 setClass("psimi25BibrefType",
          representation(xref="psimi25XrefType",
-                        attributeList="psimi25AttributeListType"),
+                        attributeList="psimi25AttributeListType"), ## ONLY one of the xref/attributelist is allowed
          validity=function(object) {
-           is.na(object@xref)
+           attLength <- length(object@attributeList)
+           newXref <- !identical(GC_mockXrefType, length(object@xref@primaryRef) == 1)
+           if (attLength && newXref)
+             return("Choice between xref and attributeList in psimi25XrefType!\n")
+           return(TRUE)
          }## only ONE of xref/attributeList
          )
-
+GC_mockBibrefType <- new("psimi25BibrefType")
 
 ##--------------------##
 ## cv and opencv
@@ -163,7 +172,10 @@ setClass("psimi25BibrefType",
 #### common combinations
 setClass("psimi25CommonNameRef",
          representation(name="psimi25NamesType",
-                        xref="psimi25XrefType"))
+                        xref="psimi25XrefType"),
+         prototype=prototype(name=new("psimi25NamesType"),
+           xref=new("psimi25XrefType"))
+         )
 
 setClass("psimi25CommonNameRefAttr",
          representation(attributeList="psimi25AttributeListType"),
@@ -182,6 +194,8 @@ setClass("psimi25OpenCvType",
 setClass("psimi25OpenCvTypeList",
          prototype=prototype(new("typedList",type="psimi25OpenCvType")),
          contains="typedList")
+
+GC_mockCvType <- new("psimi25CvType")
 
 ##--------------------##
 ## bioSourceType
@@ -427,12 +441,14 @@ setClass("psimi25InteractionElementTypeList",
 ##----------------------------------------------------------------------------##
 ## PSI-MI XML Elements
 ##----------------------------------------------------------------------------##
-setClass("psimi25Source",
-         representation(bibref="psimi25BibrefType"),
+setClass("psimi25Source", ## ATTENTION: old API is affected!
+         representation(bibref="psimi25BibrefType",
+                        release="character",
+                        releaseDate="character"),
          contains="psimi25CommonNameRefAttr"
          )
 
-setClass("psimi25EntryAtom",
+setClass("psimi25Entry",
          representation(source="psimi25Source",
                         availabilityList="psimi25AvailabilityTypeList",
                         experimentList="psimi25ExperimentTypeList",
@@ -441,12 +457,13 @@ setClass("psimi25EntryAtom",
                         attributeList="psimi25AttributeListType")
          )
 
-setClass("psimi25Entry",
+setClass("psimi25EntrySet",
          representation(level="integer",
                         version="integer",
                         minorVersion="integer"),
-         prototype=prototype(new("typedList", type="psimi25EntryAtom")),
+         prototype=prototype(new("typedList", type="psimi25Entry")),
          contains="typedList")
+
 
 ##----------------------------------------##
 ## Old PSI-MI 25 Interfaces

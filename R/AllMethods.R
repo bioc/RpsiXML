@@ -87,7 +87,9 @@ setMethod("show", "psimi25NamesType", function(object) {
   printManyItems("Short Label", object@shortLabel)
   printManyItems("Full name", object@fullName)
   printManyItems("Alias", object@alias)
+
 })
+
 
 ##------------------------------------------------------------##
 ## psimi25Attribute
@@ -189,6 +191,18 @@ setMethod("psimi25XrefType",
           })
 
 ##------------------------------------------------------------##
+## psimi25BibrefType
+##------------------------------------------------------------##
+setMethod("psimi25BibrefType",
+          c("psimi25XrefType","psimi25AttributeListType"),
+          function(xref, attributeList) {
+            obj <- new("psimi25BibrefType",
+                       xref=xref,
+                       attributeList=attributeList)
+            return(obj)
+          })
+
+##------------------------------------------------------------##
 ## psimi25Availability
 ##------------------------------------------------------------##
 setMethod("psimi25AvailabilityType",
@@ -265,7 +279,7 @@ setMethod("psimi25OpenCvType",
           })
 
 ##------------------------------------------------------------##
-## biosourceType
+## psimi25BiosourceType
 ##------------------------------------------------------------##
 setMethod("psimi25BioSourceType",
           c("psimi25NamesType","psimi25OpenCvType","psimi25OpenCvType", "psimi25OpenCvType", "numeric"),
@@ -492,6 +506,23 @@ setMethod("psimi25ExperimentType",
             return(obj)
           })
 
+##------------------------------------------------------------##
+## psimi25Source
+##------------------------------------------------------------##
+setMethod("psimi25Source",
+          c("ANY","ANY","ANY","ANY","character","character"),
+          function(name, xref, bibref, attributeList, release, releaseDate ){
+            if(missing(name)) name <- new("psimi25NamesType")
+            if(missing(xref)) xref <- new("psimi25XrefType")
+            if(missing(bibref)) bibref <- new("psimi25BibrefType")
+            if(missing(attributeList)) attributeList <- new("psimi25AttributeListType")
+            obj <- new("psimi25Source",
+                       name=name, xref=xref,
+                       bibref=bibref, attributeList=attributeList,
+                       release=release, releaseDate=releaseDate)
+            return(obj)
+                       
+          })
 ##------------------------------------------------------------##
 ## entry
 ##------------------------------------------------------------##

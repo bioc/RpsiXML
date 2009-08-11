@@ -82,7 +82,7 @@ psimi25AttributeHandler <- function(node) {
 }
 psimi25AttributeListTypeHandler <- function(node) {
   if(is.null(node))
-    return(new("psimi25AttributeListType"))
+    return(GC_mockAttributeListType)
   alt <- psimi25AttributeListType(xmlApplyTyped(node, psimi25AttributeHandler))
   return(alt)
 }
@@ -99,6 +99,31 @@ psimi25AvailabilityTypeListHandler <- function(node) {
   return(ava)
 }
 
+psimi25BibrefTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockBibrefType)
+  
+  child <- xmlChildren(node)
+  xrefs <- psimi25XrefTypeHandler(child$xref)
+  attl <- psimi25AttributeListTypeHandler(child$attributeList)
+  bib <- psimi25BibrefType(xref=xrefs,
+                           attributeList=attl)
+  return(bib)
+}
+
+
+psimi25CvTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockCvType)
+  child <- xmlChildren(node)
+  names <- psimi25NamesTypeHandler(child$names)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  cvt <- psimi25CvType(name=names,
+                       xref=xref)
+  return(cvt)
+}
+
+
 psimi25ExperimentTypeHandler <- function(node) {
   child <- xmlChildren(node)
   att <- xmlAttrs(node)
@@ -106,14 +131,21 @@ psimi25ExperimentTypeHandler <- function(node) {
   names <- psimi25NamesTypeHandler(child$names)
   id <- as.integer(getNamedElement(att, "id"))
   attList <- psimi25AttributeListTypeHandler(child$attributeList)
+  bibref <- psimi25BibrefTypeHandler(child$bibref)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  idm <- psimi25CvTypeHandler(child$interactionDetectionMethod)
   et <- psimi25ExperimentType(name=names,
                               attributeList=attList,
-                              id=id)
+                              id=id,
+                              bibref=bibref,
+                              interactionDetectionMethod=idm,
+                              xref=xref)
+  return(et)
 }
 
 psimi25DbReferenceTypeHandler <- function(node) {
   if(is.null(node))
-    return(new("psimi25DbReferenceTypeHandler"))
+    return(GC_mockDbReferenceType)
   attrs <- xmlAttrs(node)
   ## Attribute list TODO
   dbr <- psimi25DbReferenceType(db=attrs["db"],
@@ -141,13 +173,21 @@ psimi25XrefTypeHandler <- function(node) {
  return(xr)
 }
 
-psimi25CvTypeHandler <- function(node) {
+psimi25SourceHandler <- function(node) {
   child <- xmlChildren(node)
-  names <- psimi25NamesTypeHandler(child$names)
+  attr <- xmlAttrs(node)
+  
+  name <- psimi25NamesTypeHandler(child$names)
   xref <- psimi25XrefTypeHandler(child$xref)
-  cvt <- psimi25CvType(name=names,
-                       xref=xref)
-  return(cvt)
+  bibref <- psimi25BibrefTypeHandler(child$bibref)
+  attL <- psimi25AttributeListTypeHandler(child$attributeLite)
+
+  release <- getNamedElement(attr, "release")
+  releaseDate <- getNamedElement(attr, "releaseDate")
+
+  sour <- psimi25Source(name=name, xref=xref, bibref=bibref, attributeList=attL,
+                        release=release, releaseDate=releaseDate)
+  return(sour)
 }
 ##----------------------------------------##
 ## source for SAX
