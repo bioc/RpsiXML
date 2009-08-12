@@ -116,6 +116,7 @@ setClass("psimi25AvailabilityTypeList",
          prototype=prototype(new("typedList", type="psimi25AvailabilityType")),
          contains="typedList")
 
+GC_mockAvailabilityType <- new("psimi25AvailabilityType")
 ##--------------------##
 ## dbReferenceType
 ##--------------------##
@@ -220,11 +221,9 @@ setClass("psimi25BioSourceTypeList",
 setClass("psimi25ExperimentRef",
          contains="integer")
 setClass("psimi25ExperimentRefListType",
-         prototype=prototype(new("typedList", type="psimi25ExperimentRef")),
-         contains="typedList")
-setClass("psimi25ExperimentRefListTypeList",
-         prototype=prototype(new("typedList", type="psimi25ExperimentRefListType")),
-         contains="typedList")
+         prototype=prototype(vector(mode="integer", length=0)),
+         contains="integer")
+GC_mockExperimentRefListType <- new("psimi25ExperimentRefListType")
 
 ##----------------------------------------##
 ## confidenceType/confidenceListType
@@ -238,7 +237,7 @@ setClass("psimi25ConfidenceType",
          )
 
 setClass("psimi25Confidence",
-         representation(experimentRefList="psimi25ExperimentRefListTypeList"),
+         representation(experimentRefList="psimi25ExperimentRefListType"),
          contains="psimi25ConfidenceType")
 
 setClass("psimi25ConfidenceListType",
@@ -256,10 +255,12 @@ setClass("psimi25InteractorElementType",
                         sequence="character", ## will be replaced by BioString! TODO
                         id="integer"),
          contains="psimi25CommonNameRefAttr")
+GC_mockInteractorElementType <- new("psimi25InteractorElementType")
 
 setClass("psimi25InteractorElementTypeList",
          prototype=prototype(new("typedList", type="psimi25InteractorElementType")),
          contains="typedList")
+GC_mockInteractorElementTypeList <- new("psimi25InteractorElementTypeList")
 
 ##--------------------##
 ## experimentType
@@ -275,6 +276,7 @@ setClass("psimi25ExperimentType",
                         id="integer"),
          contains="psimi25CommonNameRefAttr"
          )
+GC_mockExperimentType <- new("psimi25ExperimentType")
 
 setClass("psimi25ExperimentTypeList",
          prototype=prototype(new("typedList", type="psimi25ExperimentType")),
@@ -344,19 +346,28 @@ setClass("psimi25FeatureElementType",
                         experimentRefList="psimi25ExperimentRefListType",
                         featureRangeList="psimi25FeatureRangeList",
                         attributesList="psimi25AttributeListType"))
+
+GC_mockFeatureElementType <- new("psimi25FeatureElementType")
+
 setClass("psimi25FeatureElementTypeList",
          prototype=prototype(new("typedList", type="psimi25FeatureElementType")),
          contains="typedList")
+GC_mockFeatureElementTypeList <- new("psimi25FeatureElementTypeList")
 
 ##--------------------##
 ## participantType
 ##--------------------##
 ## Attention: since 'names' is keyword in 'representation' function, the slot is renamed as 'name'
-setClass("psimi25CvExperimentRefsAtom",
+setClass("psimi25CvExperimentRefs",
          representation(experimentRefList="psimi25ExperimentRefListType"),
          contains="psimi25CvType")
+GC_mockCvExperimentRefs <- new("psimi25CvExperimentRefs")
+
 setClass("psimi25CvExperimentRefsList",
-         contains="psimi25CvExperimentRefsAtom")
+         prototype=prototype(new("typedList", type="psimi25CvExperimentRefs")),
+         contains="typedList")
+GC_mockCvExperimentRefsList <- new("psimi25CvExperimentRefsList")
+
 setClass("psimi25ExperimentInteractorAtom",
          representation(interactorRef="integer",
                         interactor="psimi25InteractorElementTypeList", ## only one of interactorRef or interactor
@@ -368,10 +379,13 @@ setClass("psimi25ExperimentInteractor",
 setClass("psimi25HostOrganism",
          representation(experimentRefList="psimi25ExperimentRefListType"),
          contains="psimi25BioSourceType")
+GC_mockHostOrganism <- new("psimi25HostOrganism")
+
 setClass("psimi25HostOrganismList",
          contains="typedList",
          prototype=prototype(new("typedList", type="psimi25HostOrganism")))
-                                                
+GC_mockHostOrganismList <- new("psimi25HostOrganismList")
+
 setClass("psimi25ParticipantType",
          representation(interactorRef="integer",
                         interactor="psimi25InteractorElementType",
@@ -395,28 +409,31 @@ setClass("psimi25ParticipantTypeList",
 ## interactionElementType
 ##--------------------##
 ## Attention: since 'names' is keyword in 'representation' function, the slot is renamed as 'name'
-setClass("psimi25ExperimentListAtom",
+setClass("psimi25ExperimentList",
          representation(experimentRef="integer",
                         experimentDescription="psimi25ExperimentType" ## ONLY one of the experimentRef/experimentDescription is needed
                         ))
-setClass("psimi25ExperimentList",
-         prototype=prototype(new("typedList", type="psimi25ExperimentAtom")),
-         contains="typedList") ## TODO: here we also have to check each atom follows the same way
+GC_mockExperimentList <- new("psimi25ExperimentList")
+## TODO: not to be confused with the element of entry
 
-setClass("psimi25InferredInteractionAtomParticipantAtom",
+setClass("psimi25InferredInteractionParticipantAtom",
          representation(participantRef="integer",
                         participantFeatureRef="integer") ## ONLY one of the participantRef/participantFeatureRef is needed
          )
-setClass("psimi25InferredInteractionAtomParticipant",
+setClass("psimi25InferredInteractionParticipant",
          contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25InferredInteractionAtomParticipantAtom")))
-setClass("psimi25InferredInteractionAtom",
-         representation(participant="psimi25InferredInteractionAtomParticipant",
+         prototype=prototype(new("typedList", type="psimi25InferredInteractionParticipantAtom")),
+         validity=function(object) {
+           length(object)>=2
+         })
+
+setClass("psimi25InferredInteraction",
+         representation(participant="psimi25InferredInteractionParticipant",
                         experimentRefList="psimi25ExperimentRefListType")
          )
-setClass("psimi25InferredInteraction",
+setClass("psimi25InferredInteractionList",
          contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25InferredInteractionAtom")))
+         prototype=prototype(new("typedList", type="psimi25InferredInteraction")))
          
 setClass("psimi25InteractionElementType",
          representation(availabilityRef="integer",

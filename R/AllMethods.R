@@ -12,6 +12,10 @@ printManyItems <- function(title, x) {
   cat(title, ":", paste(x, collapse=", "), "\n")
 }
 
+quiteAsInteger <- function(x) {
+  suppressWarnings(as.integer(x))
+}
+
 setMethod("name", "ANY", function(object) {
   object@name
 })
@@ -45,7 +49,10 @@ setMethod("typedList", "ANY" , function(..., type) {
 })
 
 setAs(from="list", to="typedList",
-      function(from) typedList(from))
+      function(from) {
+        return(typedList(from))
+        })
+
 setMethod("show", "typedList", function(object) {
   cat("Typed List of", object@type, "\n")
   x <- object@.Data ## using temporary object, otherwise the list name is missing
@@ -53,6 +60,22 @@ setMethod("show", "typedList", function(object) {
   show(x)
 })
 
+setMethod("ttapply",
+          signature=c(X="ANY", INDEX="ANY", FUN="ANY", simplify="ANY"),
+          function(X, INDEX, FUN, ..., simplify) {
+            if(missing(simplify))
+              simplify <- TRUE
+            res <- as.list(tapply(X, INDEX, FUN, ..., simplify=simplify))
+            res <- as(res, "typedList")
+            return(res)
+          })
+setMethod("tlapply",
+          signature=c(X="ANY", FUN="ANY"),
+          function(X, FUN, ...) {
+            res <- lapply(X, FUN, ...)
+            res <- as(res, "typedList")
+            return(res)
+          })
 ##------------------------------------------------------------##
 ## psimi25NamesType (and psimi25NamesAlis)
 ##------------------------------------------------------------##
@@ -363,6 +386,14 @@ setReplaceMethod("Sequence", c("psimi25InteractorElementType","character"),
 ##------------------------------------------------------------##
 ## psimi25ParticipantType
 ##------------------------------------------------------------##
+setMethod("psimi25HostOrganism",
+          c("psimi25BioSourceType","psimi25ExperimentRefListType"),
+          function(bioSourceType, experimentRefList) {
+            obj <- new("psimi25HostOrganism",
+                       bioSourceType,
+                       experimentRefList=experimentRefList)
+            return(obj)
+          })
 setMethod("interactorRef", "psimi25ParticipantType", function(object) object@interactorRef)
 setMethod("interactor", "psimi25ParticipantType", function(object) object@interactor)
 setMethod("interactionRef", "psimi25ParticipantType", function(object) object@interactionRef)
@@ -428,6 +459,11 @@ setReplaceMethod("parameterList", c("psimi25ParticipantType","psimi25ParameterTy
 ##------------------------------------------------------------##
 ## psimi25InteractionElementType
 ##------------------------------------------------------------##
+setMethod("psimi25ExperimentRefListType", "numeric", function(object) {
+  object <- as.integer(object)
+  obj <- new("psimi25ExperimentRefListType", .Data=object)
+  return(obj)
+})
 setMethod("participantList", "psimi25InteractionElementType", function(object) object@participantList)
 setMethod("inferredInteractionList", "psimi25InteractionElementType", function(object) object@inferredInteractionList)
 setMethod("interactionType", "psimi25InteractionElementType", function(object) object@interactionType)
@@ -458,9 +494,32 @@ setReplaceMethod("parameterList", c("psimi25InteractionElementType","psimi25Para
 setReplaceMethod("imexId", c("psimi25InteractionElementType","character"),
                  function(object,value) { object@imexId <- value; return(object) })
 
+setMethod("psimi25ExperimentList", c("numeric","psimi25ExperimentType"),
+          function(experimentRef, experimentDescription) {
+            experimentRef <- suppressWarnings(as.integer(experimentRef))
+            obj <- new("psimi25ExperimentList",
+                       experimentRef=experimentRef,
+                       experimentDescription=experimentDescription)
+            return(obj)
+          })
 ##------------------------------------------------------------##
 ## psimi25ExperimentType
 ##------------------------------------------------------------##
+setMethod("psimi25CvExperimentRefs",
+          c("psimi25CvType","psimi25ExperimentRefListType"),
+          function(cv, experimentRefList) {
+            obj <- new("psimi25CvExperimentRefs",
+                       cv,
+                       experimentRefList=experimentRefList)
+            return(obj)
+          })
+setMethod("psimi25CvExperimentRefsList",
+          "typedList",
+          function(object) {
+            obj <-  new("psimi25CvExperimentRefsList", object)
+            return(obj)
+          })
+
 setMethod("psimi25ExperimentType",
           signature=signature("ANY","ANY","ANY",
             "ANY","ANY","ANY",

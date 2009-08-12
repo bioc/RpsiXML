@@ -1,3 +1,7 @@
+Release 1.5.16 (Aug. 12, 2009)
+Internal Changes:
+  + Filling most of the element handlers. Still some are missing. This will be finished in the next release.
+
 Release 1.5.15 (Aug. 11, 2009)
 API Changes:
   + Except for 'interactionList', all the other child elements of 'entry' have their handlers

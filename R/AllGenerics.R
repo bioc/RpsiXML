@@ -71,6 +71,8 @@ setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 ##----------------------------------------##
 
 setGeneric("typedList", function(..., type) standardGeneric("typedList"))
+setGeneric("ttapply", function(X, INDEX, FUN, ..., simplify) standardGeneric("ttapply"))
+setGeneric("tlapply", function(X, FUN, ... ) standardGeneric("tlapply"))
 setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
 setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
 setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
@@ -91,6 +93,22 @@ setGeneric("psimi25InteractorElementType", function(name, xref, attributeList, i
 setGeneric("psimi25ExperimentType", function(name, bibref, xref, hostOrganismList,
                                              interactionDetectionMethod, participantIdentificationMethod,
                                              featureDetectionMethod, confidenceList, attributeList, id) standardGeneric("psimi25ExperimentType"))
+setGeneric("psimi25ExperimentList", function(experimentRef, experimentDescription)
+           standardGeneric("psimi25ExperimentList"))
+setGeneric("psimi25ExperimentRefListType", function(object) standardGeneric("psimi25ExperimentRefListType"))
+setGeneric("psimi25InteractionElementType",
+           function(name, xref,
+                    availabilityRef, availability,
+                    experimentList, participantList,
+                    interredInteractionList, interactionType,
+                    modelled, intraMolecular,
+                    negative, confidenceList,
+                    parameterList, attributeList, imexId, id)
+           standardGeneric("psimi25InteractionElementType"))
+
+setGeneric("psimi25CvExperimentRefs", function(cv, experimentRefList) standardGeneric("psimi25CvExperimentRefs"))
+setGeneric("psimi25CvExperimentRefsList", function(object) standardGeneric("psimi25CvExperimentRefsList"))
+setGeneric("psimi25HostOrganism", function(bioSourceType, experimentRefList) standardGeneric("psimi25HostOrganism"))
 
 ##----------------------------------------##
 ## accessors (internal)

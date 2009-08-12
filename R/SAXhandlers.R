@@ -90,6 +90,8 @@ psimi25AttributeListTypeHandler <- function(node) {
 }
 
 psimi25AvailabilityTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockAvailabilityType)
   att <- xmlAttrs(node)
   ava <- psimi25AvailabilityType(iValue = xmlValueNullsafe(node),
                              id = getNamedElement(att, "id"))
@@ -139,6 +141,9 @@ psimi25OpenCvTypeHandler <- function(node) {
 }
 
 psimi25ExperimentTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockExperimentType)
+  
   child <- xmlChildren(node)
   att <- xmlAttrs(node)
   
@@ -231,6 +236,9 @@ psimi25BioSourceTypeHandler <- function(node) {
 }
 
 psimi25InteractorElementTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockInteractorElementType)
+  
   att <- xmlAttrs(node)
   child <- xmlChildren(node)
 
@@ -259,9 +267,229 @@ psimi25InteractorElementTypeHandler <- function(node) {
 }
 
 psimi25InteractorElementTypeListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockInteractorElementTypeList)
   res <- xmlApply(node, psimi25InteractorElementTypeHandler)
   re <- as(res, "psimi25InteractorElementTypeList")
   return(res)
+}
+
+psimi25ExperimentListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockExperimentList)
+  
+  child <- xmlChildren(node)
+
+  eRef <- suppressWarnings(as.integer(xmlValueNullsafe(child$experimentRef)))
+  eDes <- psimi25ExperimentTypeHandler(child$experimentDescription)
+  ela <- psimi25ExperimentList(experimentRef=eRef,
+                               experimentDescription=eDes)
+  return(ela)
+}
+
+psimi25InferredInteractionParticpantAtomHandler <- function(node) {
+  child <- xmlChildren(node)
+
+  participantRef <- quiteAsInteger(xmlValueNullsafe(node$participantRef))
+  participantFeatureRef <- quiteAsInteger(xmlValueNullsafe(node$participantFeatureRef))
+
+  obj <- new("psimi25InferredInteractionAtomParticipantAtom",
+             participantRef=participantRef,
+             participantFeatureRef=participantFeatureRef)
+  return(obj)
+}
+
+psimi25ExperimentRefListTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockExperimentRefListType)
+  
+  child <- xmlChildren(node)
+  val <- quiteAsInteger(xmlApply(child, xmlValueNullsafe))
+  obj <- psimi25ExperimentRefListType(object=obj)
+  return(obj)
+}
+
+psimi25InferredInteractionHandler <- function(node) {
+  child <- xmlChildren(node)
+
+  isParticipant <- names(child) == "participant"
+  part <- tlapply(child[isParticipant], psimi25InferredInteractionParticpantAtomHandler)
+  expRefList <- psimi25ExperimentRefListTypeHandler(child$experimentRefList)
+
+  obj <- new("psimi25InferredInteraction",
+             participant=part,
+             experimentRefList=expRefList)
+  return(obj)
+  
+}
+psimi25CvExperimentRefsHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockCvExperimentRefs)
+  cv <- psimi25CvTypeHandler(node)
+  expRefList <- psimi25ExperimentRefListTypeHandler(node[["experimentRefList"]])
+  obj <- psimi25CvExperimentRefs(cv = cv,
+                                 experimentRefList = expRefList)
+  return(obj)
+}
+
+psimi25CvExperimentRefsListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockCvExperimentRefsList)
+
+  res <- xmlApplyTyped(node, psimi25CvExperimentRefsHandler)
+  res <- psimi25CvExperimentRefsList(res)
+  return(res)
+}
+
+psimi25CvExperimentInteractorHandler <- function(node) {
+}
+
+psimi25FeatureElementTypeHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockFeatureElementType)
+}
+
+psimi25FeatureElementTypeListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockFeatureElementTypeList)
+  res <- xmlApplyTyped(node, psimi25FeatureElementTypeHandler)
+  return(res)
+}
+
+psimi25InferredInteractionListHandler <- function(node) {
+  
+}
+
+psimi25ConfidenceTypeHandler <- function(node) {
+
+}
+
+psimi25ConfidenceListTypeHandler <- function(node) {
+
+}
+
+psimi25ParameterTypeHandler <- function(node) {
+
+}
+
+psimi25ParameterTypeListHandler <- function(node) {
+
+}
+
+psimi25HostOrganismHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockHostOrganism)
+
+  children <- xmlChildren(node)
+  bst <- psimi25BioSourceTypeHandler(node)
+  erf <- psimi25ExperimentRefListTypeHandler(children$experimentRefList)
+  obj <- psimi25HostOrganism(bioSourceType=bst,
+                             experimentRefList=erf)
+  return(obj)
+}
+
+psimi25HostOrganismListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockHostOrganismList)
+  res <- xmlApplyTyped(node, psimi25HostOrganismHandler)
+  return(res)
+}
+
+psimi25ParticipantTypeHandler <- function(node) {
+  attr <- xmlAttrs(node)
+  child <- xmlChildren(node)
+
+  id <- quiteAsInteger(getNamedElement(attr,"id"))
+  name <- psimi25NamesTypeHandler(child$names)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  interactorRef <- quiteAsInteger(xmlValueNullsafe(child$interactorRef))
+  ## ATTENTION: not child$interactor, otherwise it uses partial matching!
+  intera <- psimi25InteractorElementTypeHandler(child[["interactor"]])
+  interactionRef <- quiteAsInteger(xmlValueNullsafe(child$interactionRef))
+  pim <- psimi25CvExperimentRefsListHandler(child$participantIdentificationMethodList)  ## NOT FINISHED
+  br <- psimi25CvTypeHandler(child$biologicalRole)
+  erl <- psimi25CvExperimentRefsListHandler(child$experimentalRoleList)
+  epl <- psimi25CvExperimentRefsListHandler(child$experimentalPreparationList)
+  eil <- psimi25CvExperimentInteractorHandler(child$experimentalInteractorList)
+  fl <- psimi25FeatureElementTypeListHandler(child$featureList)
+  hol <- psimi25HostOrganismListHandler(child$hostOrganismList)
+  cl <- psimi25ConfidenceListTypeHandler(child$confidenceList)
+  pl <- psimi25ParameterTypeListHandler(child$parameterList)
+
+  pt <- new("psimi25ParticipantType",
+            interactorRef=interactorRef,
+            interactor=intera,
+            interactionRef=interactionRef,
+            participantIdentificationMethodList=pim,
+            biologicalRole=br,
+            experimentalRoleList=erl,
+            experimentalPreparationList=epl,
+            experimentalInteractorList=eil,
+            featureList=fl,
+            hostOrganismList=hol,
+            confidenceList=cl,
+            parameterList=pl,
+            id=id)
+
+  return(pt)
+}
+
+psimi25ParticipantTypeListHandler <- function(node) {
+  res <- xmlApplyTyped(node, psimi25ParticipantTypeHandler)
+  return(res)
+}
+
+
+
+getLogicalXmlValue <- function(node, default=FALSE) {
+  if(is.null(node))
+    return(default)
+  res <- as.logical(xmlValue(res))
+  return(res)
+}
+psimi25InteractionElementTypeHandler <- function(node) {
+  att <- xmlAttrs(node)
+  child <- xmlChildren(node)
+
+  id <- suppressWarnings(as.integer(getNamedElement(att, "id")))
+  imexId <- getNamedElement(att, "id")
+  name <- psimi25NamesTypeHandler(child$names)
+  xref <- psimi25XrefTypeHandler(child$xref)
+  availRef <- child$availabilityRef
+  if(is.null(availRef)) {
+    availRef <- as.integer(NA)
+  } else {
+    availRef <- suppressWarnings(as.integer(availRef))
+  }
+  availability <- psimi25AvailabilityTypeHandler(child$availability)
+  experimentList <- psimi25ExperimentListHandler(child$experimentList)
+  participantList <- psimi25ParticipantTypeListHandler(child$participantList)
+  inferredInteractionList <- psimi25InferredInteractionListHandler(child$inferredInteractionList)
+
+  isInteractionType <- names(child) == "interactionType"
+  if(any(isInteractionType))
+    interactionType <- tlapply(child[isInteractionType], psimi25CvTypeHandler)
+
+  modelled <- getLogicalXmlValue(child$modelled)
+  intraMolecular <- getLogicalXmlValue(child$intraMolecular)
+  negative <- getLogicalXmlValue(child$negative)
+
+  confidenceList <- psimi25ConfidenceListTypeHandler(child$confidenceList)
+  parameterList <- psimi25ParameterTypeListHandler(child$parameterList)
+  att <- psimi25AttributeListTypeHandler(child$attributeList)
+
+  obj <- new("psimi25InteractionElementType",
+             name=name, xref=xref,
+             attributeList=att,
+             availabilityRef=availRef, availability=availability,
+             experimentList=experimentList, participantList=participantList,
+             inferredInteractionList=inferredInteractionList,
+             interactionType=interactionType, modelled=modelled,
+             intraMolecular=intraMolecular, negative=negative,
+             confidenceList=confidenceList, parameterList=parameterList,
+             imexId=imexId, id=id)
+  return(obj)
+  browser()
 }
 ##----------------------------------------##
 ## source for SAX
@@ -281,66 +509,66 @@ psimi25InteractorElementTypeListHandler <- function(node) {
 ##   attributeList
 ##       attribute
 
-psimi25SourceHandler <- function() {
-  sourceList <- list()
-  
-  curEL <- 1
-  curPIR <- NULL
-  ## inN: in names
-  ## inB: in bibref
-  ## inX: in xref
-  ## inA: in attributeList
-  inN <- inB <- inX <- inA <- FALSE
-  ## inSL: in shortLabel
-  ## inFN: in full name
-  ## inAL: in alias
-  ## inPR: in primaryRef
-  ## inSR: in secondaryRef
-  ## inAT : in Attribute
-  inSL <- inFN <- inAL <- inPR <- inSR <- inAT <- FALSE
-
-  startElement = function(x, atts, ...) {
-    if (x == "names") 
-      {
-        sourceList[[ curEL ]] <<- list()
-        inN <<- TRUE
-      }
-    else if (x == "bibref") inB <<- TRUE
-    else if (x == "xref") inX <<- TRUE
-    else if (x == "attributeList") inA <<- TRUE
-    else if (x == "shortLabel") inSL <<- TRUE
-    else if (x == "fullName") inFN <<- TRUE
-    else if (x == "primaryRef") inPR <<- TRUE
-    else if (x == "secondaryRef") inSR <<- TRUE
-    else if (x == "attribute") inAT <<- TRUE
-  }
-  endElement = function(x, ...) {
-    if (x == "names") 
-      {
-        inN <<- FALSE
-        curEL <<- curEL + 1
-      }
-    else if (x == "bibref") inB <<- FALSE
-    else if (x == "xref") inX <<- FALSE
-    else if (x == "attributeList") inA <<- FALSE
-    else if (x == "shortLabel") inSL <<- FALSE
-    else if (x == "fullName") inFN <<- FALSE
-    else if (x == "primaryRef") inPR <<- FALSE
-    else if (x == "secondaryRef") inSR <<- FALSE
-    else if (x == "attribute") inAT <<- FALSE
-  }
-  
-  text = function(x, atts, ...) {
-  }  
-  dump = function() {
-  }
-  list(startElement= startElement, 
-       text=text, 
-       endElement=endElement,
-       dump=dump )
-}
-
-
+##psimi25SourceHandler <- function() {
+##  sourceList <- list()
+##  
+##  curEL <- 1
+##  curPIR <- NULL
+##  ## inN: in names
+##  ## inB: in bibref
+##  ## inX: in xref
+##  ## inA: in attributeList
+##  inN <- inB <- inX <- inA <- FALSE
+##  ## inSL: in shortLabel
+##  ## inFN: in full name
+##  ## inAL: in alias
+##  ## inPR: in primaryRef
+##  ## inSR: in secondaryRef
+##  ## inAT : in Attribute
+##  inSL <- inFN <- inAL <- inPR <- inSR <- inAT <- FALSE
+##
+##  startElement = function(x, atts, ...) {
+##    if (x == "names") 
+##      {
+##        sourceList[[ curEL ]] <<- list()
+##        inN <<- TRUE
+##      }
+##    else if (x == "bibref") inB <<- TRUE
+##    else if (x == "xref") inX <<- TRUE
+##    else if (x == "attributeList") inA <<- TRUE
+##    else if (x == "shortLabel") inSL <<- TRUE
+##    else if (x == "fullName") inFN <<- TRUE
+##    else if (x == "primaryRef") inPR <<- TRUE
+##    else if (x == "secondaryRef") inSR <<- TRUE
+##    else if (x == "attribute") inAT <<- TRUE
+##  }
+##  endElement = function(x, ...) {
+##    if (x == "names") 
+##      {
+##        inN <<- FALSE
+##        curEL <<- curEL + 1
+##      }
+##    else if (x == "bibref") inB <<- FALSE
+##    else if (x == "xref") inX <<- FALSE
+##    else if (x == "attributeList") inA <<- FALSE
+##    else if (x == "shortLabel") inSL <<- FALSE
+##    else if (x == "fullName") inFN <<- FALSE
+##    else if (x == "primaryRef") inPR <<- FALSE
+##    else if (x == "secondaryRef") inSR <<- FALSE
+##    else if (x == "attribute") inAT <<- FALSE
+##  }
+##  
+##  text = function(x, atts, ...) {
+##  }  
+##  dump = function() {
+##  }
+##  list(startElement= startElement, 
+##       text=text, 
+##       endElement=endElement,
+##       dump=dump )
+##}
+##
+##
 
 ##----------------------------------------##
 ## Handlers inherited from Rintact
