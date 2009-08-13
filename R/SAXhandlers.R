@@ -101,6 +101,9 @@ psimi25AvailabilityTypeHandler <- function(node) {
 }
 
 psimi25AvailabilityTypeListHandler <- function(node) {
+  if(is.null(node))
+    return(GC_mockAvailabilityTypeList)
+  
   ava <- xmlApplyTyped(node, psimi25AvailabilityTypeHandler,
                        asType="psimi25AvailabilityTypeList")
   return(ava)
@@ -137,7 +140,7 @@ psimi25OpenCvTypeHandler <- function(node) {
   names <- psimi25NamesTypeHandler(child$names)
   xref <- psimi25XrefTypeHandler(child$xref)
   att <- psimi25AttributeListTypeHandler(child$attributeList)
-  oct <- psimi25OpenCvType(name=name,
+  oct <- psimi25OpenCvType(name=names,
                            xref=xref,
                            attributeList=att)
   return(oct)
@@ -224,13 +227,13 @@ psimi25BioSourceTypeHandler <- function(node) {
   att <- xmlAttrs(node)
   child <- xmlChildren(node)
 
-  name <- psimi25NamesTypeHandler(child$name)
+  names <- psimi25NamesTypeHandler(child$name)
   cellType <- psimi25OpenCvTypeHandler(child$cellType)
   compartment <- psimi25OpenCvTypeHandler(child$compartment)
   tissue <- psimi25OpenCvTypeHandler(child$tissue)
   ncbiTaxId <- suppressWarnings(as.integer(getNamedElement(att, "ncbiTaxId")))
   
-  bst <- psimi25BioSourceType(name=name,
+  bst <- psimi25BioSourceType(name=names,
                               cellType=cellType,
                               compartment = compartment,
                               tissue=tissue,
@@ -329,7 +332,7 @@ psimi25CvExperimentRefsHandler <- function(node) {
   if(is.null(node))
     return(GC_mockCvExperimentRefs)
   cv <- psimi25CvTypeHandler(node)
-  expRefList <- psimi25ExperimentRefListTypeHandler(node[["experimentRefList"]])
+  expRefList <- psimi25ExperimentRefListTypeHandler(xmlChildren(node)$experimentRefList)
   obj <- psimi25CvExperimentRefs(cv = cv,
                                  experimentRefList = expRefList)
   return(obj)
@@ -385,7 +388,14 @@ psimi25InferredInteractionListHandler <- function(node) {
 psimi25ConfidenceHandler <- function(node) {
   if(is.null(node))
     return(GC_mockConfidenceType)
-  stop("not implemented in psimi25ConfidenceHandler")
+
+  children <- xmlChildren(node)
+  uni <- psimi25OpenCvTypeHandler(children$unit)
+  value <- xmlValueNullsafe(children$value)
+  con <- psimi25ConfidenceType(unit=uni,
+                               value=value)
+
+  return(con)
 }
 
 psimi25ConfidenceListTypeHandler <- function(node) {
@@ -438,7 +448,7 @@ psimi25ParticipantTypeHandler <- function(node) {
   xref <- psimi25XrefTypeHandler(child$xref)
   interactorRef <- quiteAsInteger(xmlValueNullsafe(child$interactorRef))
   ## ATTENTION: not child$interactor, otherwise it uses partial matching!
-  intera <- psimi25InteractorElementTypeHandler(child[["interactor"]])
+  intera <- psimi25InteractorElementTypeHandler(child$interactor)
   interactionRef <- quiteAsInteger(xmlValueNullsafe(child$interactionRef))
   pim <- psimi25CvExperimentRefsListHandler(child$participantIdentificationMethodList)  ## NOT FINISHED
   br <- psimi25CvTypeHandler(child$biologicalRole)
@@ -540,12 +550,14 @@ psimi25InteractionElementTypeListHandler <- function(node) {
 }
 
 psimi25EntryHandler <- function(node) {
-  sr <- psimi25SourceHandler(node[["source"]])
-  al <- psimi25AvailabilityTypeListHandler(node[["availabilityList"]])
-  el <- psimi25ExperimentTypeListHandler(node[["experimentList"]])
-  iorl <- psimi25InteractorElementTypeListHandler(node[["interactorList"]])
-  itionl <- psimi25InteractionElementTypeListHandler(node[["interactionList"]])
-  attL <- psimi25AttributeListTypeHandler(node[["attributeList"]])
+  children <- xmlChildren(node)
+  
+  sr <- psimi25SourceHandler(children$source)
+  al <- psimi25AvailabilityTypeListHandler(children$availabilityList]])
+  el <- psimi25ExperimentTypeListHandler(children$experimentList)
+  iorl <- psimi25InteractorElementTypeListHandler(children$interactorList)
+  itionl <- psimi25InteractionElementTypeListHandler(children$interactionList)
+  attL <- psimi25AttributeListTypeHandler(children$attributeList)
 
   entry <- psimi25Entry(source=sr,
                         availabilityList=al,

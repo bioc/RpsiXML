@@ -117,6 +117,8 @@ setClass("psimi25AvailabilityTypeList",
          contains="typedList")
 
 GC_mockAvailabilityType <- new("psimi25AvailabilityType")
+GC_mockAvailabilityTypeList <- new("psimi25AvailabilityTypeList")
+
 ##--------------------##
 ## dbReferenceType
 ##--------------------##
