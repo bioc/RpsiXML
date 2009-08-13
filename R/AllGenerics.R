@@ -109,7 +109,10 @@ setGeneric("psimi25InteractionElementType",
 setGeneric("psimi25CvExperimentRefs", function(cv, experimentRefList) standardGeneric("psimi25CvExperimentRefs"))
 setGeneric("psimi25CvExperimentRefsList", function(object) standardGeneric("psimi25CvExperimentRefsList"))
 setGeneric("psimi25HostOrganism", function(bioSourceType, experimentRefList) standardGeneric("psimi25HostOrganism"))
-
+setGeneric("psimi25ExperimentInteractor", function(interactorRef, interactor, experimentRefList) standardGeneric("psimi25ExperimentInteractor"))
+setGeneric("psimi25Entry", function(source, availabilityList, experimentList,
+                                    interactorList, interactionList, attributeList)
+           standardGeneric("psimi25Entry"))
 ##----------------------------------------##
 ## accessors (internal)
 ##----------------------------------------##

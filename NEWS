@@ -1,3 +1,9 @@
+Release 1.5.17 (Aug. 13, 2009)
+Internal Changes:
+  + All elements of the PSI-MI 2.5 specifications have handlers, although some of them are not tested since
+    no file has implemented them (in this situation these handlers will stop the program)
+
+
 Release 1.5.16 (Aug. 12, 2009)
 Internal Changes:
   + Filling most of the element handlers. Still some are missing. This will be finished in the next release.

@@ -464,6 +464,16 @@ setMethod("psimi25ExperimentRefListType", "numeric", function(object) {
   obj <- new("psimi25ExperimentRefListType", .Data=object)
   return(obj)
 })
+setMethod("psimi25ExperimentInteractor",
+          c("numeric","psimi25InteractorElementType","psimi25ExperimentRefListType"),
+          function(interactorRef, interactor, experimentRefList) {
+            obj <- new("psim25ExperimentInteractor",
+                       interactorRef=interactorRef,
+                       interactor=interactor,
+                       experimentRefList=experimentRefList)
+            return(obj)
+          })
+
 setMethod("participantList", "psimi25InteractionElementType", function(object) object@participantList)
 setMethod("inferredInteractionList", "psimi25InteractionElementType", function(object) object@inferredInteractionList)
 setMethod("interactionType", "psimi25InteractionElementType", function(object) object@interactionType)
@@ -585,22 +595,35 @@ setMethod("psimi25Source",
 ##------------------------------------------------------------##
 ## entry
 ##------------------------------------------------------------##
+setMethod("psimi25Entry",
+          c("psimi25Source","psimi25AvailabilityTypeList","psimi25ExperimentTypeList",
+            "psimi25InteractorElementTypeList","psimi25InteractionElementTypeList",
+            "psimi25AttributeListType"),
+          function(source, availabilityList, experimentList,
+                   interactorList, interactionList, attributeList) {
+            obj <- new("psimi25Entry",
+                       source=source,
+                       availabilityList=availabilityList,
+                       experimentList=experimentList,
+                       interactorList=interactorList,
+                       interactionList=interactionList,
+                       attributeList= attributeList)
+            return(obj)
+          })
+
 setMethod("level", "psimi25Entry", function(object) object@level)
 setMethod("version", "psimi25Entry", function(object) object@version)
 setMethod("minorVersion", "psimi25Entry", function(object) object@minorVersion)
 
-setReplaceMethod("level", c("psimi25Entry", "numeric"), function(object, value) {
-  value <- as.integer(value)
+setReplaceMethod("level", c("psimi25Entry", "integer"), function(object, value) {
   object@level <- value
   return(object)
 })
-setReplaceMethod("version", c("psimi25Entry", "numeric"), function(object, value) {
-  value <- as.integer(value)
+setReplaceMethod("version", c("psimi25Entry", "integer"), function(object, value) {
   object@version <- value
   return(object)
 })
-setReplaceMethod("minorVersion", c("psimi25Entry", "numeric"), function(object, value) {
-  value <- as.integer(value)
+setReplaceMethod("minorVersion", c("psimi25Entry", "integer"), function(object, value) {
   object@minorVersion <- value
   return(object)
 })
