@@ -10,34 +10,36 @@
 ##----------------------------------------##
 ## low-level data structure
 ##----------------------------------------##
-validityTypedList <- function(object) {
-  if(length(object)==0) {
-    ##    warning("Empty object! It is not possible to determine type sanity\n")
-    return(TRUE)
-  }
-  
-  classes <- lapply(object, class)
-  uClass <- unique(classes)
+##validityTypedList <- function(object) {
+##  if(length(object)==0) {
+##    ##    warning("Empty object! It is not possible to determine type sanity\n")
+##    return(TRUE)
+##  }
+##  
+##  classes <- lapply(object, class)
+##  uClass <- unique(classes)
+##
+##  if(length(uClass)==1) {
+##    val <- TRUE
+##    expType <- object@type
+##    if(length(expType)>1 || !is.na(expType)) {
+##      if(!all(uClass[[1]] == expType)) {
+##        val <- paste(expType, " Type(s) expected, but got ", uClass[[1]], " type (s)\n", sep="")
+##      }
+##    }
+##  } else {
+##    val <- "Hetero. types detected\n"
+##  }
+##  return(val)
+##}
+##
+##setClass("typedList",
+##         representation(type="character"),
+##         prototype=prototype(type=as.character(NA)),
+##         contains="list",
+##         validity=validityTypedList)
+##
 
-  if(length(uClass)==1) {
-    val <- TRUE
-    expType <- object@type
-    if(length(expType)>1 || !is.na(expType)) {
-      if(!all(uClass[[1]] == expType)) {
-        val <- paste(expType, " Type(s) expected, but got ", uClass[[1]], " type (s)\n", sep="")
-      }
-    }
-  } else {
-    val <- "Hetero. types detected\n"
-  }
-  return(val)
-}
-
-setClass("typedList",
-         representation(type="character"),
-         prototype=prototype(type=as.character(NA)),
-         contains="list",
-         validity=validityTypedList)
 
 ##------------------------------------------------------------##
 ## PSI-MI 25 Elementary parent classes
@@ -79,8 +81,8 @@ setClass("psimi25NamesAlias",
                     typeAc=as.character(NA)))
 
 setClass("psimi25NamesAliasList",
-          contains ="typedList",
-          prototype=prototype(new("typedList", type="psimi25NamesAlias")))
+          contains ="list",
+          prototype=list())
 
 setClass("psimi25NamesType",
          representation(shortLabel="character",
@@ -101,8 +103,8 @@ setClass("psimi25Attribute",
          contains="character")
 
 setClass("psimi25AttributeListType",
-         prototype=prototype(new("typedList", type="psimi25Attribute")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 GC_mockAttributeListType <- new("psimi25AttributeListType")
 
 ##--------------------##
@@ -113,8 +115,8 @@ setClass("psimi25AvailabilityType",
          contains="character")
 
 setClass("psimi25AvailabilityTypeList",
-         prototype=prototype(new("typedList", type="psimi25AvailabilityType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 GC_mockAvailabilityType <- new("psimi25AvailabilityType")
 GC_mockAvailabilityTypeList <- new("psimi25AvailabilityTypeList")
@@ -130,17 +132,17 @@ setClass("psimi25DbReferenceType",
                         version="character",
                         refType="character",
                         refTypeAc="character"),
-         prototype=prototype(new("typedList", type="psimi25AttributeListType"),
+         prototype=prototype(list(),
            db=as.character(NA),dbAc=as.character(NA),id=as.character(NA),
            secondary=as.character(NA), version=as.character(NA), refType=as.character(NA),
            refTypeAc=as.character(NA)),
-         contains="typedList")
+         contains="list")
 
 GC_mockDbReferenceType <- new("psimi25DbReferenceType")
 
 setClass("psimi25DbReferenceTypeList",
-         prototype=prototype(new("typedList", type="psimi25DbReferenceType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 ##--------------------##
 ## xrefType
@@ -188,15 +190,15 @@ setClass("psimi25CvType",
          contains="psimi25CommonNameRef")
 
 setClass("psimi25CvTypeList",
-         prototype=prototype(new("typedList",type="psimi25CvType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 setClass("psimi25OpenCvType",
          contains="psimi25CommonNameRefAttr")
 
 setClass("psimi25OpenCvTypeList",
-         prototype=prototype(new("typedList",type="psimi25OpenCvType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 GC_mockCvType <- new("psimi25CvType")
 GC_mockOpenCvType <- new("psimi25OpenCvType")
@@ -211,10 +213,10 @@ setClass("psimi25BioSourceType",
                         tissue="psimi25OpenCvType",
                         ncbiTaxId="integer")
          )
-
+GC_mockBioSourceType <- new("psimi25BioSourceType")
 setClass("psimi25BioSourceTypeList",
-         prototype=prototype(new("typedList",type="psimi25BioSourceType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 
 ##--------------------##
@@ -223,8 +225,8 @@ setClass("psimi25BioSourceTypeList",
 setClass("psimi25ExperimentRef",
          contains="integer")
 setClass("psimi25ExperimentRefListType",
-         prototype=prototype(vector(mode="integer", length=0)),
-         contains="integer")
+         prototype=list(),
+         contains="list")
 GC_mockExperimentRefListType <- new("psimi25ExperimentRefListType")
 
 ##----------------------------------------##
@@ -245,8 +247,8 @@ setClass("psimi25Confidence",
 GC_mockConfidence <- new("psimi25Confidence")
 
 setClass("psimi25ConfidenceListType",
-         prototype=prototype(new("typedList", type="psimi25Confidence")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 GC_mockConfidenceListType <- new("psimi25ConfidenceListType")
 
 ##--------------------##
@@ -262,8 +264,8 @@ setClass("psimi25InteractorElementType",
 GC_mockInteractorElementType <- new("psimi25InteractorElementType")
 
 setClass("psimi25InteractorElementTypeList",
-         prototype=prototype(new("typedList", type="psimi25InteractorElementType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 GC_mockInteractorElementTypeList <- new("psimi25InteractorElementTypeList")
 
 ##--------------------##
@@ -283,8 +285,8 @@ setClass("psimi25ExperimentType",
 GC_mockExperimentType <- new("psimi25ExperimentType")
 
 setClass("psimi25ExperimentTypeList",
-         prototype=prototype(new("typedList", type="psimi25ExperimentType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 ##--------------------##
 ## other simple types
@@ -303,8 +305,9 @@ setClass("psimi25ParameterType",
          contains="numeric")
 GC_mockParameterType <- new("psimi25ParameterType")
 setClass("psimi25ParameterTypeList",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25ParameterType")))
+         contains="list",
+         prototype=list())
+         
 GC_mockParameterTypeList <- new("psimi25ParameterTypeList")
 setClass("psimi25IntervalType",
          representation(begin="integer", ## required
@@ -318,15 +321,16 @@ setClass("psimi25BaseLocationTypeStartAtom",
                         begin="integer",
                         beginInterval="psimi25IntervalType")) ## only one of begin/beginInterval is allowed
 setClass("psimi25BaseLocationTypeStart",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25BaseLocationTypeStartAtom")))
+         contains="list",
+         prototype=list())
+         
 setClass("psimi25BaseLocationTypeEndAtom",
          representation(endStatus="psimi25CvType",
                         end="integer",
                         endInterval="psimi25IntervalType")) ## only one of begin/beginInterval is allowed
 setClass("psimi25BaseLocationTypeEnd",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25BaseLocationTypeEndAtom")))
+         contains="list",
+         prototype=list())
 
 
 setClass("psimi25BaseLocationType",
@@ -340,8 +344,8 @@ setClass("psimi25BaseLocationType",
 ##--------------------##
 ## Attention: since 'names' is keyword in 'representation' function, the slot is renamed as 'name'
 setClass("psimi25FeatureRangeList",
-          contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25BaseLocationType")))
+          contains="list",
+         prototype=list())
 
 setClass("psimi25FeatureElementType",
          representation(name="psimi25NamesType",
@@ -355,8 +359,8 @@ setClass("psimi25FeatureElementType",
 GC_mockFeatureElementType <- new("psimi25FeatureElementType")
 
 setClass("psimi25FeatureElementTypeList",
-         prototype=prototype(new("typedList", type="psimi25FeatureElementType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 GC_mockFeatureElementTypeList <- new("psimi25FeatureElementTypeList")
 
 ##--------------------##
@@ -369,8 +373,8 @@ setClass("psimi25CvExperimentRefs",
 GC_mockCvExperimentRefs <- new("psimi25CvExperimentRefs")
 
 setClass("psimi25CvExperimentRefsList",
-         prototype=prototype(new("typedList", type="psimi25CvExperimentRefs")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 GC_mockCvExperimentRefsList <- new("psimi25CvExperimentRefsList")
 
 setClass("psimi25ExperimentInteractor",
@@ -380,8 +384,8 @@ setClass("psimi25ExperimentInteractor",
 GC_mockExperimentInteractor <- new("psimi25ExperimentInteractor")
 
 setClass("psimi25ExperimentInteractorList",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25ExperimentInteractor")))
+         contains="list",
+         prototype=list())
 GC_mockExperimentInteractorList <- new("psimi25ExperimentInteractorList")
 
 setClass("psimi25HostOrganism",
@@ -390,8 +394,8 @@ setClass("psimi25HostOrganism",
 GC_mockHostOrganism <- new("psimi25HostOrganism")
 
 setClass("psimi25HostOrganismList",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25HostOrganism")))
+         contains="list",
+         prototype=list())
 GC_mockHostOrganismList <- new("psimi25HostOrganismList")
 
 setClass("psimi25ParticipantType",
@@ -410,8 +414,8 @@ setClass("psimi25ParticipantType",
                         id="integer"),
          contains="psimi25CommonNameRefAttr")
 setClass("psimi25ParticipantTypeList",
-          prototype=prototype(new("typedList", type="psimi25ParticipantType")),
-         contains="typedList")
+          prototype=list(),
+         contains="list")
 
 ##--------------------##
 ## interactionElementType
@@ -429,8 +433,8 @@ setClass("psimi25InferredInteractionParticipantAtom",
                         participantFeatureRef="integer") ## ONLY one of the participantRef/participantFeatureRef is needed
          )
 setClass("psimi25InferredInteractionParticipant",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25InferredInteractionParticipantAtom")),
+         contains="list",
+         prototype=list(),
          validity=function(object) {
            length(object)>=2
          })
@@ -442,8 +446,8 @@ setClass("psimi25InferredInteraction",
 GC_mockInferredInteraction <- new("psimi25InferredInteraction")
 
 setClass("psimi25InferredInteractionList",
-         contains="typedList",
-         prototype=prototype(new("typedList", type="psimi25InferredInteraction")))
+         contains="list",
+         prototype=list())
 GC_mockInferredInteractionList <- new("psimi25InferredInteractionList")
 
 setClass("psimi25InteractionElementType",
@@ -465,8 +469,8 @@ setClass("psimi25InteractionElementType",
          )
 GC_mockInteractionElementType <- new("psimi25InteractionElementType")
 setClass("psimi25InteractionElementTypeList",
-         prototype=prototype(new("typedList", type="psimi25InteractionElementType")),
-         contains="typedList")
+         prototype=list(),
+         contains="list")
 
 ##----------------------------------------------------------------------------##
 ## PSI-MI XML Elements
@@ -491,8 +495,7 @@ setClass("psimi25EntrySet",
          representation(level="integer",
                         version="integer",
                         minorVersion="integer"),
-         prototype=prototype(new("typedList", type="psimi25Entry")),
-         contains="typedList")
+         contains="list")
 
 
 ##----------------------------------------##

@@ -70,15 +70,17 @@ setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 ## constructor methods
 ##----------------------------------------##
 
-setGeneric("typedList", function(..., type) standardGeneric("typedList"))
-setGeneric("ttapply", function(X, INDEX, FUN, ..., simplify) standardGeneric("ttapply"))
-setGeneric("tlapply", function(X, FUN, ... ) standardGeneric("tlapply"))
+##setGeneric("typedList", function(..., type) standardGeneric("typedList"))
+##setGeneric("ttapply", function(X, INDEX, FUN, ..., simplify) standardGeneric("ttapply"))
+##setGeneric("tlapply", function(X, FUN, ... ) standardGeneric("tlapply"))
+##
+
 setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
 setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
 setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
-setGeneric("psimi25AttributeListType", function(typedList) standardGeneric("psimi25AttributeListType"))
+setGeneric("psimi25AttributeListType", function(list) standardGeneric("psimi25AttributeListType"))
 setGeneric("psimi25DbReferenceType",
-           function(typedList, db, dbAc, id, secondary, version, refType, refTypeAc)
+           function(list, db, dbAc, id, secondary, version, refType, refTypeAc)
            standardGeneric("psimi25DbReferenceType"))
 setGeneric("psimi25XrefType", function(primaryRef, secondaryRef) standardGeneric("psimi25XrefType"))
 setGeneric("psimi25BibrefType", function(xref, attributeList) standardGeneric("psimi25BibrefType"))

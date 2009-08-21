@@ -2,6 +2,6 @@
 ## Test Classes
 ##----------------------------------------------------------------------------##
 
-## test typedList
+
 library(RpsiXML)
-tl <- new("typedList")
+

@@ -36,46 +36,48 @@ setReplaceMethod("name", c("ANY","character"), function(object,value) {
 ##------------------------------------------------------------##
 ## typedList
 ##------------------------------------------------------------##
-setMethod("typedList", "ANY" , function(..., type) {
-  ## compatible with both parameters and a list
-  x <- list(...)
-  if(length(x) == 1)
-    x <- x[[1]]
-  
-  if(missing(type))
-    type <- class(x[[1]])
-  obj <- new("typedList", .Data=x, type=type)
-  return(obj)
-})
+##setMethod("typedList", "ANY" , function(..., type) {
+##  ## compatible with both parameters and a list
+##  x <- list(...)
+##  if(length(x) == 1)
+##    x <- x[[1]]
+##  
+##  if(missing(type))
+##    type <- class(x[[1]])
+##  obj <- new("typedList", .Data=x, type=type)
+##  return(obj)
+##})
+##
+##setAs(from="list", to="typedList",
+##      function(from) {
+##        return(typedList(from))
+##        })
+##
+##setMethod("show", "typedList", function(object) {
+##  cat("Typed List of", object@type, "\n")
+##  x <- object@.Data ## using temporary object, otherwise the list name is missing
+##  names(x) <- names(object)
+##  show(x)
+##})
+##
+##setMethod("ttapply",
+##          signature=c(X="ANY", INDEX="ANY", FUN="ANY", simplify="ANY"),
+##          function(X, INDEX, FUN, ..., simplify) {
+##            if(missing(simplify))
+##              simplify <- TRUE
+##            res <- as.list(tapply(X, INDEX, FUN, ..., simplify=simplify))
+##            res <- as(res, "typedList")
+##            return(res)
+##          })
+##setMethod("tlapply",
+##          signature=c(X="ANY", FUN="ANY"),
+##          function(X, FUN, ...) {
+##            res <- lapply(X, FUN, ...)
+##            res <- as(res, "typedList")
+##            return(res)
+##          })
+##
 
-setAs(from="list", to="typedList",
-      function(from) {
-        return(typedList(from))
-        })
-
-setMethod("show", "typedList", function(object) {
-  cat("Typed List of", object@type, "\n")
-  x <- object@.Data ## using temporary object, otherwise the list name is missing
-  names(x) <- names(object)
-  show(x)
-})
-
-setMethod("ttapply",
-          signature=c(X="ANY", INDEX="ANY", FUN="ANY", simplify="ANY"),
-          function(X, INDEX, FUN, ..., simplify) {
-            if(missing(simplify))
-              simplify <- TRUE
-            res <- as.list(tapply(X, INDEX, FUN, ..., simplify=simplify))
-            res <- as(res, "typedList")
-            return(res)
-          })
-setMethod("tlapply",
-          signature=c(X="ANY", FUN="ANY"),
-          function(X, FUN, ...) {
-            res <- lapply(X, FUN, ...)
-            res <- as(res, "typedList")
-            return(res)
-          })
 ##------------------------------------------------------------##
 ## psimi25NamesType (and psimi25NamesAlis)
 ##------------------------------------------------------------##
@@ -156,10 +158,10 @@ setReplaceMethod("iValue", "psimi25Attribute", function(object,value) {
 })
 
 setMethod("psimi25AttributeListType",
-          "typedList",
-          function(typedList) {
+          "list",
+          function(list) {
             obj <- new("psimi25AttributeListType",
-                       .Data=typedList)
+                       .Data=list)
             return(obj)
           })
 
@@ -168,8 +170,8 @@ setMethod("psimi25AttributeListType",
 ##------------------------------------------------------------##
 setMethod("psimi25DbReferenceType",
           c("ANY", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
-          function(typedList, db, dbAc, id, secondary, version, refType, refTypeAc) {
-            if(missing(typedList)) typedList <- new("typedList", type="psimi25AttributeListType")
+          function(list, db, dbAc, id, secondary, version, refType, refTypeAc) {
+            if(missing(list)) list <- list()
             if(missing(db)) db <- as.character(NA)
             if(missing(dbAc)) dbAc <- as.character(NA)
             if(missing(id)) id <- as.character(NA)
@@ -179,7 +181,7 @@ setMethod("psimi25DbReferenceType",
             if(missing(refTypeAc)) refTypeAc <- as.character(NA)
 
             obj <- new("psimi25DbReferenceType",
-                       .Data=typedList,
+                       .Data=list,
                        db=db, dbAc=dbAc, id=id, secondary=secondary,
                        version=version, refType=refType, refTypeAc=refTypeAc)
           })
@@ -524,7 +526,7 @@ setMethod("psimi25CvExperimentRefs",
             return(obj)
           })
 setMethod("psimi25CvExperimentRefsList",
-          "typedList",
+          "list",
           function(object) {
             obj <-  new("psimi25CvExperimentRefsList", object)
             return(obj)
@@ -995,7 +997,7 @@ setReplaceMethod("releaseDate", signature(x="psimi25InteractionEntry", value="ch
                  })
 
 setMethod("interactionType", signature(object="psimi25Interaction"),
-          function(x) object@interactionType)
+          function(object) object@interactionType)
 
 
 setMethod("parseExperiment", signature(x="psimi25Source"),

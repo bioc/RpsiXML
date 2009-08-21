@@ -1,3 +1,7 @@
+Release 1.5.19 (Aug. 21, 2009)
+API Changes:
+  + 'typedList' is completely substituted by the 'list' data type, which reduces the parsing time by 33%.
+
 Release 1.5.18 (Aug. 13, 2009)
 Internal Changes:
   + ConfidenceType handler added. Profiling in progress

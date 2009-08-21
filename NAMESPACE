@@ -7,11 +7,6 @@ importFrom(methods, "@<-", new, validObject)
 importClassesFrom(Biobase, AssayData, ExpressionSet, MIAME, Versions, AnnotatedDataFrame)
 importMethodsFrom(Biobase, abstract)
 
-## basic types and basic type methods
-exportClasses(typedList)
-exportMethods(typedList)
-
-
 exportClasses(psimi25InteractionEntry,
               psimi25ComplexEntry,
               psimi25Interactor,
