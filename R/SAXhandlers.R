@@ -553,7 +553,7 @@ psimi25EntryHandler <- function(node) {
   children <- xmlChildren(node)
   
   sr <- psimi25SourceHandler(children$source)
-  al <- psimi25AvailabilityTypeListHandler(children$availabilityList]])
+  al <- psimi25AvailabilityTypeListHandler(children$availabilityList)
   el <- psimi25ExperimentTypeListHandler(children$experimentList)
   iorl <- psimi25InteractorElementTypeListHandler(children$interactorList)
   itionl <- psimi25InteractionElementTypeListHandler(children$interactionList)
