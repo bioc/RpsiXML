@@ -88,7 +88,7 @@ psimi25AttributeHandler <- function(node) {
 psimi25AttributeListTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockAttributeListType)
-  alt <- psimi25AttributeListType(xmlApplyTyped(node, psimi25AttributeHandler))
+  alt <- xmlApplyTyped(node, psimi25AttributeHandler)
   return(alt)
 }
 
@@ -169,21 +169,22 @@ psimi25ExperimentTypeHandler <- function(node) {
   return(et)
 }
 
-psimi25DbReferenceTypeHandler <- function(node) {
-  if(is.null(node))
-    return(GC_mockDbReferenceType)
-  attrs <- xmlAttrs(node)
-  ## Attribute list TODO
-  dbr <- psimi25DbReferenceType(db=attrs["db"],
-                         dbAc=attrs["dbAc"],
-                         id=attrs["id"],
-                         secondary=attrs["secondary"],
-                         version=attrs["version"],
-                         refType=attrs["refType"],
-                         refTypeAc=attrs["refTypeAc"])
-  return(dbr)
-  
-}
+##psimi25DbReferenceTypeHandler <- function(node) {
+##  if(is.null(node))
+##    return(GC_mockDbReferenceType)
+##  attrs <- xmlAttrs(node)
+##  ## Attribute list TODO
+##  dbr <- psimi25DbReferenceType(db=attrs["db"],
+##                         dbAc=attrs["dbAc"],
+##                         id=attrs["id"],
+##                         secondary=attrs["secondary"],
+##                         version=attrs["version"],
+##                         refType=attrs["refType"],
+##                         refTypeAc=attrs["refTypeAc"])
+##  return(dbr)
+##  
+##}
+
 psimi25XrefTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockXrefType)
@@ -191,7 +192,7 @@ psimi25XrefTypeHandler <- function(node) {
  pr <- psimi25DbReferenceTypeHandler(child$primaryRef)
  isSecondaryRef <- names(child) == "seoncdaryRef"
  if(sum(isSecondaryRef)==0) {
-   sr <- new("psimi25DbReferenceTypeList")
+   sr <- new("psimi25DbReferenceType")
  } else {
    sr <- xmlApplyTyped(child[isSecondaryRef], psimi25DbReferenceTypeHandler)
  }
@@ -220,7 +221,6 @@ psimi25SourceHandler <- function(node) {
 
 psimi25ExperimentTypeListHandler <- function(node) {
   res <- xmlApply(node, psimi25ExperimentTypeHandler)
-  res <- as(res, "psimi25ExperimentTypeList")
   return(res)
 }
 
@@ -279,7 +279,6 @@ psimi25InteractorElementTypeListHandler <- function(node) {
   if(is.null(node))
     return(GC_mockInteractorElementTypeList)
   res <- xmlApply(node, psimi25InteractorElementTypeHandler)
-  res <- as(res, "psimi25InteractorElementTypeList")
   return(res)
 }
 
@@ -346,7 +345,6 @@ psimi25CvExperimentRefsListHandler <- function(node) {
     return(GC_mockCvExperimentRefsList)
 
   res <- xmlApplyTyped(node, psimi25CvExperimentRefsHandler)
-  res <- psimi25CvExperimentRefsList(res)
   return(res)
 }
 
@@ -405,7 +403,6 @@ psimi25ConfidenceListTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockConfidenceListType)
   res <- xmlApplyTyped(node, psimi25ConfidenceHandler)
-  res <- as(res, "psimi25ConfidenceListType")
   return(res)
 }
 
@@ -419,7 +416,6 @@ psimi25ParameterTypeListHandler <- function(node) {
   if(is.null(node))
     return(GC_mockParameterTypeList)
   res <- xmlApplyTyped(node, psimi25ParameterTypeHandler)
-  res <- as(res, "psimi25ParameterTypeList")
   return(res)
 }
 
@@ -482,7 +478,7 @@ psimi25ParticipantTypeHandler <- function(node) {
 }
 
 psimi25ParticipantTypeListHandler <- function(node) {
-  res <- as(xmlApply(node, psimi25ParticipantTypeHandler), "psimi25ParticipantTypeList")
+  res <- xmlApply(node, psimi25ParticipantTypeHandler)
   return(res)
 }
 
@@ -519,7 +515,6 @@ psimi25InteractionElementTypeHandler <- function(node) {
   isInteractionType <- names(child) == "interactionType"
   if(any(isInteractionType)) {
     interactionType <- lapply(child[isInteractionType], psimi25CvTypeHandler)
-    interactionType <- as(interactionType, "psimi25CvTypeList")
   } else {
     interactionType <- GC_mockCvTypeList
   }
@@ -547,7 +542,6 @@ psimi25InteractionElementTypeHandler <- function(node) {
 
 psimi25InteractionElementTypeListHandler <- function(node) {
   res <- xmlApply(node, psimi25InteractionElementTypeHandler)
-  res <- as(res,"psimi25InteractionElementTypeList")
   return(res)
 }
 
@@ -570,6 +564,7 @@ psimi25EntryHandler <- function(node) {
   return(entry)
 }
 
+resEntrySet <- NULL
 psimi25EntrySetHandler <- function(node) {
   attr <- xmlAttrs(node)
   entryset <- xmlApply(node, psimi25EntryHandler)
@@ -583,6 +578,8 @@ psimi25EntrySetHandler <- function(node) {
   entryset@version <- esVer
   entryset@minorVersion <- esMinorVersion
 
+  resEntrySet <<- entryset
+  
   return(entryset)
   
 }

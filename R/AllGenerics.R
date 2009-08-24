@@ -70,15 +70,11 @@ setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 ## constructor methods
 ##----------------------------------------##
 
-##setGeneric("typedList", function(..., type) standardGeneric("typedList"))
-##setGeneric("ttapply", function(X, INDEX, FUN, ..., simplify) standardGeneric("ttapply"))
-##setGeneric("tlapply", function(X, FUN, ... ) standardGeneric("tlapply"))
-##
+
 
 setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
 setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
 setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
-setGeneric("psimi25AttributeListType", function(list) standardGeneric("psimi25AttributeListType"))
 setGeneric("psimi25DbReferenceType",
            function(list, db, dbAc, id, secondary, version, refType, refTypeAc)
            standardGeneric("psimi25DbReferenceType"))
@@ -205,3 +201,14 @@ setGeneric("minorVersion", function(object) standardGeneric("minorVersion"))
 setGeneric("minorVersion<-", function(object,value) standardGeneric("minorVersion<-"))
 
 setGeneric("attrInfo", function(object,...) standardGeneric("attrInfo"))
+
+
+##------------------------------------------------------------##
+## deprecated
+##------------------------------------------------------------##
+##setGeneric("typedList", function(..., type) standardGeneric("typedList"))
+##setGeneric("ttapply", function(X, INDEX, FUN, ..., simplify) standardGeneric("ttapply"))
+##setGeneric("tlapply", function(X, FUN, ... ) standardGeneric("tlapply"))
+##
+
+##setGeneric("psimi25AttributeListType", function(list) standardGeneric("psimi25AttributeListType"))

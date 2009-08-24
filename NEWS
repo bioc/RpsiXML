@@ -1,3 +1,7 @@
+Release 1.5.20 (Aug. 24, 2009)
+Internal Changes:
+  + All superfluos list-objects are removed to accelerate the parsing, which reduces the time by 25%.
+
 Release 1.5.19 (Aug. 21, 2009)
 API Changes:
   + 'typedList' is completely substituted by the 'list' data type, which reduces the parsing time by 33%.
