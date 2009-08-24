@@ -22,30 +22,27 @@ null2na <- function (x)
   x
 }
 
+GC_mockNA <- as.character(NA)
 xmlValueNullsafe <- function(x) {
   if (is.null(x) || length(x) == 0)
-    return(as.character(NA))
+    return(GC_mockNA)
 
   v <- xmlValue(x)
   if (is.null(v) || length(v) == 0)
-    v <- as.character(NA)
+    return(GC_mockNA)
   else
-    v <- unique(unlist(v))
-  return(v)
+    return(unique(v))
+
 }
+
 
 getNamedElement <- function (vector, name) {
-    if (name %in% names(vector)) 
-        return(vector[[name]])
-    else return(as.character(NA))
-}
-
-xmlApplyTyped <- function(X, FUN,..., asType=NULL) {
-  res <- xmlApply(X, FUN, ...)
-#  res <- as(res, "typedList")
-#  if(!is.null(asType))
-#    res <- as(res, asType)
-  return(res)
+  i <- match(name, names(vector))
+  if (is.na(i)) {
+    return(GC_mockNA)
+  } else {
+    return(el(vector, i))
+  }
 }
 
 ##----------------------------------------##
@@ -88,7 +85,7 @@ psimi25AttributeHandler <- function(node) {
 psimi25AttributeListTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockAttributeListType)
-  alt <- xmlApplyTyped(node, psimi25AttributeHandler)
+  alt <- xmlApply(node, psimi25AttributeHandler)
   return(alt)
 }
 
@@ -98,15 +95,6 @@ psimi25AvailabilityTypeHandler <- function(node) {
   att <- xmlAttrs(node)
   ava <- psimi25AvailabilityType(iValue = xmlValueNullsafe(node),
                              id = getNamedElement(att, "id"))
-  return(ava)
-}
-
-psimi25AvailabilityTypeListHandler <- function(node) {
-  if(is.null(node))
-    return(GC_mockAvailabilityTypeList)
-  
-  ava <- xmlApplyTyped(node, psimi25AvailabilityTypeHandler,
-                       asType="psimi25AvailabilityTypeList")
   return(ava)
 }
 
@@ -169,22 +157,6 @@ psimi25ExperimentTypeHandler <- function(node) {
   return(et)
 }
 
-##psimi25DbReferenceTypeHandler <- function(node) {
-##  if(is.null(node))
-##    return(GC_mockDbReferenceType)
-##  attrs <- xmlAttrs(node)
-##  ## Attribute list TODO
-##  dbr <- psimi25DbReferenceType(db=attrs["db"],
-##                         dbAc=attrs["dbAc"],
-##                         id=attrs["id"],
-##                         secondary=attrs["secondary"],
-##                         version=attrs["version"],
-##                         refType=attrs["refType"],
-##                         refTypeAc=attrs["refTypeAc"])
-##  return(dbr)
-##  
-##}
-
 psimi25XrefTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockXrefType)
@@ -194,7 +166,7 @@ psimi25XrefTypeHandler <- function(node) {
  if(sum(isSecondaryRef)==0) {
    sr <- new("psimi25DbReferenceType")
  } else {
-   sr <- xmlApplyTyped(child[isSecondaryRef], psimi25DbReferenceTypeHandler)
+   sr <- xmlApply(child[isSecondaryRef], psimi25DbReferenceTypeHandler)
  }
  
  xr <- psimi25XrefType(primaryRef=pr,
@@ -217,11 +189,6 @@ psimi25SourceHandler <- function(node) {
   sour <- psimi25Source(name=name, xref=xref, bibref=bibref, attributeList=attL,
                         release=release, releaseDate=releaseDate)
   return(sour)
-}
-
-psimi25ExperimentTypeListHandler <- function(node) {
-  res <- xmlApply(node, psimi25ExperimentTypeHandler)
-  return(res)
 }
 
 psimi25BioSourceTypeHandler <- function(node) {
@@ -275,12 +242,13 @@ psimi25InteractorElementTypeHandler <- function(node) {
 
 }
 
-psimi25InteractorElementTypeListHandler <- function(node) {
-  if(is.null(node))
-    return(GC_mockInteractorElementTypeList)
-  res <- xmlApply(node, psimi25InteractorElementTypeHandler)
-  return(res)
-}
+##psimi25InteractorElementTypeListHandler <- function(node) {
+##  if(is.null(node))
+##    return(GC_mockInteractorElementTypeList)
+##  res <- xmlApply(node, psimi25InteractorElementTypeHandler)
+##  return(res)
+##}
+
 
 psimi25ExperimentListHandler <- function(node) {
   if(is.null(node))
@@ -344,7 +312,7 @@ psimi25CvExperimentRefsListHandler <- function(node) {
   if(is.null(node))
     return(GC_mockCvExperimentRefsList)
 
-  res <- xmlApplyTyped(node, psimi25CvExperimentRefsHandler)
+  res <- xmlApply(node, psimi25CvExperimentRefsHandler)
   return(res)
 }
 
@@ -363,13 +331,7 @@ psimi25ExperimentInteractorListHandler <- function(node) {
 psimi25FeatureElementTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockFeatureElementType)
-}
-
-psimi25FeatureElementTypeListHandler <- function(node) {
-  if(is.null(node))
-    return(GC_mockFeatureElementTypeList)
-  res <- xmlApplyTyped(node, psimi25FeatureElementTypeHandler)
-  return(res)
+  stop("not implemented in psimi25FeatureElementTypeHandler\n")
 }
 
 psimi25InferredInteractionHandler <- function(node) {
@@ -381,8 +343,7 @@ psimi25InferredInteractionHandler <- function(node) {
 psimi25InferredInteractionListHandler <- function(node) {
   if(is.null(node))
     return(GC_mockInferredInteractionList)
-  res <- xmlApplyTyped(node, psimi25InferredInteractionHandler,
-                       asType="psimi25InferredInteractionListHandler")
+  res <- xmlApply(node, psimi25InferredInteractionHandler)
   return(res)
 }
 
@@ -402,7 +363,7 @@ psimi25ConfidenceHandler <- function(node) {
 psimi25ConfidenceListTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockConfidenceListType)
-  res <- xmlApplyTyped(node, psimi25ConfidenceHandler)
+  res <- xmlApply(node, psimi25ConfidenceHandler)
   return(res)
 }
 
@@ -415,7 +376,7 @@ psimi25ParameterTypeHandler <- function(node) {
 psimi25ParameterTypeListHandler <- function(node) {
   if(is.null(node))
     return(GC_mockParameterTypeList)
-  res <- xmlApplyTyped(node, psimi25ParameterTypeHandler)
+  res <- xmlApply(node, psimi25ParameterTypeHandler)
   return(res)
 }
 
@@ -431,12 +392,7 @@ psimi25HostOrganismHandler <- function(node) {
   return(obj)
 }
 
-psimi25HostOrganismListHandler <- function(node) {
-  if(is.null(node))
-    return(GC_mockHostOrganismList)
-  res <- xmlApplyTyped(node, psimi25HostOrganismHandler)
-  return(res)
-}
+
 
 psimi25ParticipantTypeHandler <- function(node) {
   attr <- xmlAttrs(node)
@@ -454,8 +410,23 @@ psimi25ParticipantTypeHandler <- function(node) {
   erl <- psimi25CvExperimentRefsListHandler(child$experimentalRoleList)
   epl <- psimi25CvExperimentRefsListHandler(child$experimentalPreparationList)
   eil <- psimi25ExperimentInteractorListHandler(child$experimentalInteractorList)
-  fl <- psimi25FeatureElementTypeListHandler(child$featureList)
-  hol <- psimi25HostOrganismListHandler(child$hostOrganismList)
+
+  ## featureElementTypeList
+  fetl <- child$featureList
+  if(is.null(fetl)) {
+    return(GC_mockFeatureElementTypeList)
+  } else {
+    fl <- xmlApply(fetl, psimi25FeatureElementTypeHandler)
+  }
+
+  ## hostOrganismListHandler
+  holNode <- child$hostOrganismList
+  if(is.null(holNode)) {
+    return(GC_mockHostOrganismList)
+  } else {
+    hol <- xmlApply(holNode, psimi25HostOrganismHandler)
+  }
+
   cl <- psimi25ConfidenceListTypeHandler(child$confidenceList)
   pl <- psimi25ParameterTypeListHandler(child$parameterList)
 
@@ -477,12 +448,6 @@ psimi25ParticipantTypeHandler <- function(node) {
   return(pt)
 }
 
-psimi25ParticipantTypeListHandler <- function(node) {
-  res <- xmlApply(node, psimi25ParticipantTypeHandler)
-  return(res)
-}
-
-
 
 getLogicalXmlValue <- function(node, default=FALSE) {
   if(is.null(node))
@@ -490,6 +455,7 @@ getLogicalXmlValue <- function(node, default=FALSE) {
   res <- as.logical(xmlValue(res))
   return(res)
 }
+
 psimi25InteractionElementTypeHandler <- function(node) {
   if(is.null(node))
     return(GC_mockInteractionElementType)
@@ -509,8 +475,15 @@ psimi25InteractionElementTypeHandler <- function(node) {
   }
   availability <- psimi25AvailabilityTypeHandler(child$availability)
   experimentList <- psimi25ExperimentListHandler(child$experimentList)
-  participantList <- psimi25ParticipantTypeListHandler(child$participantList)
-  inferredInteractionList <- psimi25InferredInteractionListHandler(child$inferredInteractionList)
+  participantList <- xmlApply(child$participantList, psimi25ParticipantTypeHandler)
+
+  ## inferredInteractionListHandler
+  iil <- child$inferredInteractionList
+  if(is.null(iil)) {
+    return(GC_mockInferredInteractionList)
+  } else {
+    inferredInteractionList <- xmlApply(iil, psimi25InferredInteractionHandler)
+  }
 
   isInteractionType <- names(child) == "interactionType"
   if(any(isInteractionType)) {
@@ -540,19 +513,30 @@ psimi25InteractionElementTypeHandler <- function(node) {
   return(obj)
 }
 
-psimi25InteractionElementTypeListHandler <- function(node) {
-  res <- xmlApply(node, psimi25InteractionElementTypeHandler)
-  return(res)
-}
-
 psimi25EntryHandler <- function(node) {
   children <- xmlChildren(node)
   
   sr <- psimi25SourceHandler(children$source)
-  al <- psimi25AvailabilityTypeListHandler(children$availabilityList)
-  el <- psimi25ExperimentTypeListHandler(children$experimentList)
-  iorl <- psimi25InteractorElementTypeListHandler(children$interactorList)
-  itionl <- psimi25InteractionElementTypeListHandler(children$interactionList)
+  
+  ## availabilityList
+  avl <- children$availabilityList
+  if(is.null(avl)) {
+    al <- GC_mockAvailabilityTypeList
+  } else {
+    al <- xmlApply(avl, psimi25AvailabilityTypeHandler)
+  }
+
+  el <-  xmlApply(children$experimentList, psimi25ExperimentTypeHandler)
+
+  ## psimi25InteractorElementTypeList
+  ior <- children$interactorList
+  if(is.null(ior)) {
+    iorl <- GC_mockInteractorElementTypeList
+  } else {
+    iorl <- xmlApply(ior, psimi25InteractorElementTypeHandler)
+  }
+
+  itionl <- xmlApply(children$interactionList, psimi25InteractionElementTypeHandler)
   attL <- psimi25AttributeListTypeHandler(children$attributeList)
 
   entry <- psimi25Entry(source=sr,
