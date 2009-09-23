@@ -22,8 +22,8 @@ Objects can be created by calls of the form \code{\link{psimi25XML2Graph}}
   }
 }
 \section{Extends}{
-Class \code{\link[graph]{graphNEL}}, directly.
-Class \code{\link[graph]{graphNEL}}, by class "graphNEL", distance 2.
+Class \code{\link[graph:graphNEL-class]{graphNEL}}, directly.
+Class \code{\link[graph:graphNEL-class]{graphNEL}}, by class "graphNEL", distance 2.
 }
 \section{Methods}{
   \describe{

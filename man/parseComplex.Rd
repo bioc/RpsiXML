@@ -21,11 +21,11 @@ parseExperiment(x, ...)
   \item{\dots}{ Parameters passed to internal functions}
 }
 \value{
-  Object of \code{\link{psimi25Complex-class},
+  Object of \code{\link{psimi25Complex-class}},
     \code{\link{psimi25Interactor-class}} or
     \code{\link{psimi25Experiment-class}}
   }
-}
+
 \author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
 \note{
   An newly initialized instance of \code{\link{psimi25Source-class}} contains the default
