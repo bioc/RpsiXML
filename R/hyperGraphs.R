@@ -72,3 +72,33 @@ genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
   bpGraph
   
 }
+
+
+psimi25Hypergraph2GraphNEL <- function(x) {
+  x <- removeHypergraphNAnode(x)
+  nel <- toGraphNEL(x)
+  complexNames <- edgeLabel(x)
+  
+  isComplex <- (numNodes(nel)-length(complexNames)+1):numNodes(nel)
+  
+  toReplace <- as.character(complexNames); names(toReplace) <- complexNames
+  mat <- as(nel, "matrix")
+  colnames(mat)[isComplex] <- toReplace
+  rownames(mat)[isComplex] <- toReplace
+  nnel <- as(mat, "graphNEL")
+
+  return(nnel)
+}
+
+removeHypergraphNAnode <- function(x) {
+  ns <- nodes(x)
+  ns <- ns[!is.na(ns)]
+  y <- x
+  y@nodes <- ns
+  for(i in seq(along=hyperedges(y))) {
+    tmpHead <- y@hyperedges[[i]]@head
+    tmpHead <- tmpHead[!is.na(tmpHead)]
+    y@hyperedges[[i]]@head <- tmpHead
+  }
+  return(y)
+}

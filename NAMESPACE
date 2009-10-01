@@ -1,4 +1,4 @@
-import(annotate, graph, RBGL, XML, hypergraph)
+import(annotate, graph, RBGL, XML, hypergraph, AnnotationDbi)
 
 ## import methods
 importMethodsFrom(methods, show)
@@ -6,6 +6,7 @@ importFrom(methods, "@<-", new, validObject)
 
 importClassesFrom(Biobase, AssayData, ExpressionSet, MIAME, Versions, AnnotatedDataFrame)
 importMethodsFrom(Biobase, abstract)
+
 
 exportClasses(psimi25InteractionEntry,
               psimi25ComplexEntry,
@@ -63,6 +64,7 @@ export(parsePsimi25Interaction,
        eListHandler,
        graphConverter,
        hyperGraphConverter,
+       psimi25Hypergraph2GraphNEL,
        ## interaction accessors,
        bait,
        prey,
@@ -77,7 +79,8 @@ export(parsePsimi25Interaction,
        complexAttributes,
        null2na, 
        getAbstractByPMID,
-       xref,
-       ## validate
-       validatePSIMI25
+       xref
        )
+
+## validate
+export(validatePSIMI25)

@@ -47,16 +47,14 @@
 }
 
 \value{
-  a graphNEL containing as many nodes as it was possible to find matches
+  A graphNEL containing as many nodes as it was possible to find matches
   for.
 }
 
 \author{Marc Carlson}
 
 \examples{
-
-  ##Set up a graphNEL object to convert
-  library(RpsiXML)  
+  library(AnnotationDbi)
   directory <- system.file("/extdata/psi25files",
                            package="RpsiXML")
   mintXML <- file.path(directory, 
@@ -67,8 +65,7 @@
                                      directed=TRUE, 
                                      abstract=FALSE)
 
-  if(require("hom.Mm.inp.db")) {
-    ##convert it
+  if(require("hom.Mm.inp.db") & require("org.Mm.eg.db")) {
     newGraph = graphConverter(mintGraph[[1]], "MUSMU", "HOMSA")
   }
 
