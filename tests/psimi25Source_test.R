@@ -1,11 +1,6 @@
 library(RpsiXML)
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-#debug(parsePsimi25Interaction)
-#undebug(parsePsimi25Interaction)
-#debug(getEntryList)
-#debug(getInteraction)
-
 ## HPRD: schema check passed
 hprdxml <- file.path(xmlDir, "hprd_200709_test.xml")
 hprdSet <- parsePsimi25Interaction(hprdxml, HPRD.PSIMI25)
@@ -21,20 +16,19 @@ gridLargexml <- file.path(xmlDir, "biogrid_2008_test_large.xml")
 gridHumanxml <- file.path(xmlDir, "biogrid_2008_test_human.xml")
 
 if(file.exists(gridLargexml)) {
-Rprof("gridLarge.prof")
-gridLargeSet <- parsePsimi25Interaction(gridLargexml, BIOGRID.PSIMI25, verbose=TRUE)
-Rprof(NULL)
+  Rprof("gridLarge.prof")
+  gridLargeSet <- parsePsimi25Interaction(gridLargexml, BIOGRID.PSIMI25, verbose=TRUE)
+  Rprof(NULL)
 }
 if(file.exists(gridHumanxml)){
-Rprof("gridHuman.prof")
-gridHumanSet <- parsePsimi25Interaction(gridHumanxml, BIOGRID.PSIMI25)
-Rprof(NULL)
+  Rprof("gridHuman.prof")
+  gridHumanSet <- parsePsimi25Interaction(gridHumanxml, BIOGRID.PSIMI25)
+  Rprof(NULL)
 }
 
 ## MINT: schema check passed
 mintxml <- file.path(xmlDir, "mint_200711_test.xml")
 mintSet <- parsePsimi25Interaction(mintxml, MINT.PSIMI25)
-
 
 ## IntAct: schema check passed
 intactxml <- file.path(xmlDir, "intact_2008_test.xml")
@@ -78,23 +72,21 @@ dipSet <- parsePsimi25Interaction(dipxml, DIP.PSIMI25)
 dipInteractions <- interactions(dipSet)
 dipInteractionTypes <- sapply(dipInteractions, interactionType)
 stopifnot(!any(is.na(dipInteractionTypes)))
-       
-## MatrixDB
 
+## MatrixDB
 matrixdbxml <- file.path(xmlDir, "matrixdb_20080609.xml")
 matrixdbSet <- parsePsimi25Interaction(matrixdbxml, MATRIXDB.PSIMI25)
 
 ## MIPS: schema check failed
-#mipsxml <- file.path(xmlDir, "mips_2007_test.xml")
-
-#mipsSet <- parsePsimi25Interaction(mipsxml, MIPS.PSIMI25) ## needs implementation
+##mipsxml <- file.path(xmlDir, "mips_2007_test.xml")
+##mipsSet <- parsePsimi25Interaction(mipsxml, MIPS.PSIMI25) ## needs implementation
 
 ## CORUM:
-
 corumxml <- file.path(xmlDir,"corumPsimi")
 if(file.exists(corumxml)) {
 corumSet <- parsePsimi25Interaction(corumxml,CORUM.PSIMI25, verbose=FALSE)
 }
+
 ##############################
 ## Validating PSI-MI 2.5 Files
 ##############################

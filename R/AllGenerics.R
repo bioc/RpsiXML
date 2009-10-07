@@ -43,7 +43,6 @@ setGeneric("parseComplex", function(x,...) standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods
-
 setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
 
 ## edge/node methods
