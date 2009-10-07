@@ -5,7 +5,7 @@
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------##
-## old interfaces
+## RpsiXML object methods
 ##----------------------------------------##
 ## interactors
 setGeneric("interactors", function(x) standardGeneric("interactors"))
@@ -13,8 +13,7 @@ setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
 
 setGeneric("availableXrefs", function(x,...) standardGeneric("availableXrefs"))
 
-setGeneric("translateID",
-           function(r, ...) standardGeneric("translateID"))
+setGeneric("translateID", function(r, ...) standardGeneric("translateID"))
 setGeneric("sourceDb",function(x) standardGeneric("sourceDb"))
 setGeneric("sourceId",function(x) standardGeneric("sourceId"))
 
@@ -67,50 +66,48 @@ setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttribut
 setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 
 ##----------------------------------------##
-## constructor methods
+## XML interfacing methods
 ##----------------------------------------##
+##setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
+##setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
+##setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
+##setGeneric("psimi25DbReferenceType",
+##           function(list, db, dbAc, id, secondary, version, refType, refTypeAc)
+##           standardGeneric("psimi25DbReferenceType"))
+##setGeneric("psimi25XrefType", function(primaryRef, secondaryRef) standardGeneric("psimi25XrefType"))
+##setGeneric("psimi25BibrefType", function(xref, attributeList) standardGeneric("psimi25BibrefType"))
+##setGeneric("psimi25AvailabilityType", function(iValue, id) standardGeneric("psimi25AvailabilityType"))
+##setGeneric("psimi25CvType", function(name, xref) standardGeneric("psimi25CvType"))
+##setGeneric("psimi25Source", function(name, xref, bibref, attributeList, release, releaseDate) standardGeneric("psimi25Source"))
+##setGeneric("psimi25OpenCvType", function(name, xref, attributeList) standardGeneric("psimi25OpenCvType"))
+##setGeneric("psimi25BioSourceType", function(name, cellType, compartment, tissue, ncbiTaxId) standardGeneric("psimi25BioSourceType"))
+##setGeneric("psimi25ConfidenceType", function(unit, value) standardGeneric("psimi25ConfidenceType"))
+##setGeneric("psimi25InteractorElementType", function(name, xref, attributeList, interactorType, organism, sequence, id)
+##           standardGeneric("psimi25InteractorElementType"))
+##setGeneric("psimi25ExperimentType", function(name, bibref, xref, hostOrganismList,
+##                                             interactionDetectionMethod, participantIdentificationMethod,
+##                                             featureDetectionMethod, confidenceList, attributeList, id) standardGeneric("psimi25ExperimentType"))
+##setGeneric("psimi25ExperimentList", function(experimentRef, experimentDescription)
+##           standardGeneric("psimi25ExperimentList"))
+##setGeneric("psimi25ExperimentRefListType", function(object) standardGeneric("psimi25ExperimentRefListType"))
+##setGeneric("psimi25InteractionElementType",
+##           function(name, xref,
+##                    availabilityRef, availability,
+##                    experimentList, participantList,
+##                    interredInteractionList, interactionType,
+##                    modelled, intraMolecular,
+##                    negative, confidenceList,
+##                    parameterList, attributeList, imexId, id)
+##           standardGeneric("psimi25InteractionElementType"))
+##
+##setGeneric("psimi25CvExperimentRefs", function(cv, experimentRefList) standardGeneric("psimi25CvExperimentRefs"))
+##setGeneric("psimi25CvExperimentRefsList", function(object) standardGeneric("psimi25CvExperimentRefsList"))
+##setGeneric("psimi25HostOrganism", function(bioSourceType, experimentRefList) standardGeneric("psimi25HostOrganism"))
+##setGeneric("psimi25ExperimentInteractor", function(interactorRef, interactor, experimentRefList) standardGeneric("psimi25ExperimentInteractor"))
+##setGeneric("psimi25Entry", function(source, availabilityList, experimentList,
+##                                    interactorList, interactionList, attributeList)
+##           standardGeneric("psimi25Entry"))
 
-
-
-setGeneric("psimi25NamesAlias", function(iValue, type, typeAc) standardGeneric("psimi25NamesAlias"))
-setGeneric("psimi25NamesType", function(shortLabel, fullName, alias) standardGeneric("psimi25NamesType"))
-setGeneric("psimi25Attribute", function(iValue, name, nameAc) standardGeneric("psimi25Attribute"))
-setGeneric("psimi25DbReferenceType",
-           function(list, db, dbAc, id, secondary, version, refType, refTypeAc)
-           standardGeneric("psimi25DbReferenceType"))
-setGeneric("psimi25XrefType", function(primaryRef, secondaryRef) standardGeneric("psimi25XrefType"))
-setGeneric("psimi25BibrefType", function(xref, attributeList) standardGeneric("psimi25BibrefType"))
-setGeneric("psimi25AvailabilityType", function(iValue, id) standardGeneric("psimi25AvailabilityType"))
-setGeneric("psimi25CvType", function(name, xref) standardGeneric("psimi25CvType"))
-setGeneric("psimi25Source", function(name, xref, bibref, attributeList, release, releaseDate) standardGeneric("psimi25Source"))
-setGeneric("psimi25OpenCvType", function(name, xref, attributeList) standardGeneric("psimi25OpenCvType"))
-setGeneric("psimi25BioSourceType", function(name, cellType, compartment, tissue, ncbiTaxId) standardGeneric("psimi25BioSourceType"))
-setGeneric("psimi25ConfidenceType", function(unit, value) standardGeneric("psimi25ConfidenceType"))
-setGeneric("psimi25InteractorElementType", function(name, xref, attributeList, interactorType, organism, sequence, id)
-           standardGeneric("psimi25InteractorElementType"))
-setGeneric("psimi25ExperimentType", function(name, bibref, xref, hostOrganismList,
-                                             interactionDetectionMethod, participantIdentificationMethod,
-                                             featureDetectionMethod, confidenceList, attributeList, id) standardGeneric("psimi25ExperimentType"))
-setGeneric("psimi25ExperimentList", function(experimentRef, experimentDescription)
-           standardGeneric("psimi25ExperimentList"))
-setGeneric("psimi25ExperimentRefListType", function(object) standardGeneric("psimi25ExperimentRefListType"))
-setGeneric("psimi25InteractionElementType",
-           function(name, xref,
-                    availabilityRef, availability,
-                    experimentList, participantList,
-                    interredInteractionList, interactionType,
-                    modelled, intraMolecular,
-                    negative, confidenceList,
-                    parameterList, attributeList, imexId, id)
-           standardGeneric("psimi25InteractionElementType"))
-
-setGeneric("psimi25CvExperimentRefs", function(cv, experimentRefList) standardGeneric("psimi25CvExperimentRefs"))
-setGeneric("psimi25CvExperimentRefsList", function(object) standardGeneric("psimi25CvExperimentRefsList"))
-setGeneric("psimi25HostOrganism", function(bioSourceType, experimentRefList) standardGeneric("psimi25HostOrganism"))
-setGeneric("psimi25ExperimentInteractor", function(interactorRef, interactor, experimentRefList) standardGeneric("psimi25ExperimentInteractor"))
-setGeneric("psimi25Entry", function(source, availabilityList, experimentList,
-                                    interactorList, interactionList, attributeList)
-           standardGeneric("psimi25Entry"))
 ##----------------------------------------##
 ## accessors (internal)
 ##----------------------------------------##

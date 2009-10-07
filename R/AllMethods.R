@@ -37,8 +37,6 @@ setReplaceMethod("name", c("ANY","character"), function(object,value) {
 ##------------------------------------------------------------##
 ## show methods
 ##------------------------------------------------------------##
-
-
 setMethod("show", "psimi25Interactor", function(object) {
   cat("interactor (", object@uniprotId, "):\n",
       "---------------------------------\n",

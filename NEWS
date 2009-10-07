@@ -1,3 +1,7 @@
+Release 1.5.24 (Oct. 07, 2009)
+API Changes:
+  + The 'import' field is cleaned, only necessary classes and methods are imported.
+
 Release 1.5.23 (Oct. 07, 2009)
 Internal Changes:
   + Add 'organismIdAndName', 'psimi25Entry' (abstract) and 'psimi25GraphBase' (abstact) classes to reduce redundancy in class definitions

@@ -1,13 +1,9 @@
-import(annotate, graph, RBGL, XML, hypergraph, AnnotationDbi)
-
 ## import methods
-importMethodsFrom(methods, show)
-importFrom(methods, "@<-", new, validObject)
+importMethodsFrom("methods", "show")
+importMethodsFrom("Biobase", "abstract")
+importFrom("graph", "numNodes", "numEdges","nodes","edges")
 
-importClassesFrom(Biobase, AssayData, ExpressionSet, MIAME, Versions, AnnotatedDataFrame)
-importMethodsFrom(Biobase, abstract)
-
-
+## export classes
 exportClasses(psimi25InteractionEntry,
               psimi25ComplexEntry,
               psimi25Interactor,
