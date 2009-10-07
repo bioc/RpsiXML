@@ -5,8 +5,14 @@
 ##----------------------------------------------------------------------------##
 
 ##----------------------------------------##
-## RpsiXML object methods
+## RpsiXML object generics
 ##----------------------------------------##
+
+setGeneric("sourceDb",function(x) standardGeneric("sourceDb"))
+setGeneric("sourceDb<-",function(x, value) standardGeneric("sourceDb<-"))
+setGeneric("sourceId",function(x) standardGeneric("sourceId"))
+setGeneric("sourceId<-",function(x, value) standardGeneric("sourceId<-"))
+
 ## interactors
 setGeneric("interactors", function(x) standardGeneric("interactors"))
 setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
@@ -14,8 +20,6 @@ setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
 setGeneric("availableXrefs", function(x,...) standardGeneric("availableXrefs"))
 
 setGeneric("translateID", function(r, ...) standardGeneric("translateID"))
-setGeneric("sourceDb",function(x) standardGeneric("sourceDb"))
-setGeneric("sourceId",function(x) standardGeneric("sourceId"))
 
 setGeneric("interactions", function(x) standardGeneric("interactions"))
 setGeneric("interactions<-", function(x, value) standardGeneric("interactions<-"))

@@ -1,6 +1,7 @@
 Release 1.5.24 (Oct. 07, 2009)
 API Changes:
-  + The 'import' field is cleaned, only necessary classes and methods are imported.
+  + The 'import' field is cleaned, only necessary methods are imported.
+  + (r 42122): 'sourceId' and 'sourceDb' are added to support any subclass inheriting 'sourceDbAndId'
 
 Release 1.5.23 (Oct. 07, 2009)
 Internal Changes:

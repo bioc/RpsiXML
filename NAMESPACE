@@ -1,4 +1,6 @@
 ## import methods
+importClassesFrom("graph", "graphNEL")
+importClassesFrom("hypergraph", "Hypergraph")
 importMethodsFrom("methods", "show")
 importMethodsFrom("Biobase", "abstract")
 importFrom("graph", "numNodes", "numEdges","nodes","edges")
@@ -13,6 +15,11 @@ exportClasses(psimi25InteractionEntry,
               psimi25Graph,
               psimi25Hypergraph,
               psimi25Source)
+
+exportMethods("sourceDb",
+              "sourceDb<-",
+              "sourceId",
+              "sourceId<-")
 
 exportMethods("abstract",
               "availableXrefs",
@@ -32,8 +39,6 @@ exportMethods("abstract",
               "organismName",
               "numInteractions",
               "numInteractors",
-              "sourceDb",
-              "sourceId",
               "taxId",
               "uniprot",
               "releaseDate",

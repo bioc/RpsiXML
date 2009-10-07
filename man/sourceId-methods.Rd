@@ -1,21 +1,27 @@
 \name{sourceId-methods}
 \docType{methods}
+\alias{sourceDb}
+\alias{sourceDb<-}
+\alias{sourceId}
+\alias{sourceId<-}
 \alias{sourceId-methods}
-\alias{sourceId,psimi25Complex-method}
-\alias{sourceId,psimi25Interaction-method}
-\alias{sourceId,psimi25Interactor-method}
-\title{ Extracting ID in the source database}
+\alias{sourceDb-methods}
+\alias{sourceId,sourceDbAndId-method}
+\alias{sourceDb,sourceDbAndId-method}
+\alias{sourceDb,psimi25Source-method}
+\alias{"sourceId<-"-methods}
+\alias{"sourceDb<-"-methods}
+\alias{sourceId<-,sourceDbAndId,character-method}
+\alias{sourceDb<-,sourceDbAndId,character-method}
+\title{ Extract or set source database name or ID in the source database}
 \description{
-  The method extracts source database IDs of the given parameter
+  The methods extracts or sets the source database where the object comes from,
+  or its identifier there.
 }
 \section{Methods}{
 \describe{
-
-\item{x = "psimi25Complex"}{ An object of \code{\link{psimi25Complex-class}} }
-
-\item{x = "psimi25Interaction"}{ An object of \code{\link{psimi25Interaction-class}} }
-
-\item{x = "psimi25Interactor"}{ An object of \code{\link{psimi25Interactor-class}} }
+\item{x = "sourceDbAndId"}{ An object of \code{sourceDbAndId} (internal), or
+one of its subclasses}
 }}
 \keyword{methods}
 \keyword{models}

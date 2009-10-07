@@ -35,6 +35,26 @@ setReplaceMethod("name", c("ANY","character"), function(object,value) {
 
 
 ##------------------------------------------------------------##
+## sourceDbAndId methods
+##------------------------------------------------------------##
+setMethod("sourceDb", "sourceDbAndId", function(x) {
+  x@sourceDb
+})
+setMethod("sourceId", "sourceDbAndId", function(x) {
+  x@sourceId
+})
+setReplaceMethod("sourceDb", c("sourceDbAndId", "character"),
+                 function(x, value) {
+                   x@sourceDb <- value
+                   return(x)
+                 })
+setReplaceMethod("sourceId", c("sourceDbAndId", "character"),
+                 function(x, value) {
+                   x@sourceId <- value
+                   return(x)
+                 })
+
+##------------------------------------------------------------##
 ## show methods
 ##------------------------------------------------------------##
 setMethod("show", "psimi25Interactor", function(object) {
@@ -123,26 +143,8 @@ setMethod("show", "psimi25Graph", function(object){
 setMethod("abstract", signature(object="psimi25Graph"),
           function(object) object@abstract)
 
-setMethod("sourceDb", signature(x="psimi25Interactor"),
-          function(x) x@sourceDb)
-setMethod("sourceDb", signature(x="psimi25Complex"),
-          function(x) x@sourceDb)
-
-
-setMethod("sourceId", signature(x="psimi25Complex"),
-          function(x) x@sourceId)
-
-setMethod("sourceDb", signature(x="psimi25Interaction"),
-          function(x) x@sourceDb)
 setMethod("sourceDb", signature(x="psimi25Source"),
           function(x) x@sourceDb)
-
-setMethod("sourceId", signature(x="psimi25Interactor"),
-          function(x) x@sourceId)
-setMethod("sourceId", signature(x="psimi25Complex"),
-          function(x) x@sourceId)
-setMethod("sourceId", signature(x="psimi25Interaction"),
-          function(x) x@sourceId)
 
 setMethod("uniprot", signature("psimi25Source"),
           function(x) x@uniprotSymbol)
