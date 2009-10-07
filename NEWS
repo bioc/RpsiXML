@@ -1,3 +1,10 @@
+Release 1.5.22 (Oct. 07, 2009)
+Internal Changes:
+  + Add 'sourceDbAndId' private class recoding pairs source database and ID
+  + All new XML interfacing classes and methods have been temporally commented out. Their neccessity needs to be discussed
+Package Structure Changes:
+  + Remove the 'ChangeLog', subversion control log and NEWS take the reporting task.
+
 Release 1.5.21 (Oct. 01, 2009)
 API Changes:
   + Add 'psimi25Hypergraph2GraphNEL' function to convert a hypergraph to graphNEL object

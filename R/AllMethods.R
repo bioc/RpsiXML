@@ -33,602 +33,6 @@ setReplaceMethod("name", c("ANY","character"), function(object,value) {
   return(object)
 })
 
-##------------------------------------------------------------##
-## typedList
-##------------------------------------------------------------##
-##setMethod("typedList", "ANY" , function(..., type) {
-##  ## compatible with both parameters and a list
-##  x <- list(...)
-##  if(length(x) == 1)
-##    x <- x[[1]]
-##  
-##  if(missing(type))
-##    type <- class(x[[1]])
-##  obj <- new("typedList", .Data=x, type=type)
-##  return(obj)
-##})
-##
-##setAs(from="list", to="typedList",
-##      function(from) {
-##        return(typedList(from))
-##        })
-##
-##setMethod("show", "typedList", function(object) {
-##  cat("Typed List of", object@type, "\n")
-##  x <- object@.Data ## using temporary object, otherwise the list name is missing
-##  names(x) <- names(object)
-##  show(x)
-##})
-##
-##setMethod("ttapply",
-##          signature=c(X="ANY", INDEX="ANY", FUN="ANY", simplify="ANY"),
-##          function(X, INDEX, FUN, ..., simplify) {
-##            if(missing(simplify))
-##              simplify <- TRUE
-##            res <- as.list(tapply(X, INDEX, FUN, ..., simplify=simplify))
-##            res <- as(res, "typedList")
-##            return(res)
-##          })
-##setMethod("tlapply",
-##          signature=c(X="ANY", FUN="ANY"),
-##          function(X, FUN, ...) {
-##            res <- lapply(X, FUN, ...)
-##            res <- as(res, "typedList")
-##            return(res)
-##          })
-##
-
-##------------------------------------------------------------##
-## psimi25NamesType (and psimi25NamesAlis)
-##------------------------------------------------------------##
-setMethod("psimi25NamesAlias",
-          c("character", "ANY","ANY"),
-          function(iValue, type, typeAc) {
-            obj <- new("psimi25NamesAlias",
-                       .Data=iValue,
-                       type=type,
-                       typeAc=typeAc)
-            return(obj)
-          })
-
-setMethod("psimi25NamesType",
-          c("ANY","ANY","ANY"),
-          function(shortLabel, fullName, alias) {
-            if(missing(shortLabel))
-              shortLabel <- as.character(NA)
-            if(missing(fullName))
-              fullName <- as.character(NA)
-            if(missing(alias))
-              alias <- list()
-            
-            obj <- new("psimi25NamesType",
-                       shortLabel=shortLabel,
-                       fullName=fullName,
-                       alias=alias)
-            return(obj)
-          })
-
-setMethod("show", "psimi25NamesType", function(object) {
-  printManyItems("Short Label", object@shortLabel)
-  printManyItems("Full name", object@fullName)
-  printManyItems("Alias", object@alias)
-
-})
-
-
-##------------------------------------------------------------##
-## psimi25Attribute
-##------------------------------------------------------------##
-setMethod("psimi25Attribute",
-          c("character","ANY","ANY"),
-          function(iValue, name, nameAc) {
-            if(missing(name))
-              name <- as.character(NA)
-            if(missing(nameAc))
-              nameAc <- as.character(NA)
-            obj <- new("psimi25Attribute",
-                       .Data=iValue,
-                       name=name,
-                       nameAc=nameAc)
-            return(obj)
-          })
-setMethod("show", "psimi25Attribute", function(object) {
-  cat(object@name, "[", object@nameAc, "]", ":", object@.Data, "\n")
-})
-setMethod("name", "psimi25Attribute", function(object) {
-  return(object@name)
-})
-setReplaceMethod("name", c("psimi25Attribute", "character"), function(object,value) {
-  object@name <- value
-  return(object)
-})
-setMethod("nameAc", "psimi25Attribute", function(object) {
-  return(object@nameAc)
-})
-setReplaceMethod("nameAc", "psimi25Attribute", function(object,value) {
-  object@nameAc <- value
-  return(object)
-})
-setMethod("iValue", "psimi25Attribute", function(object) {
-  return(object@.Data)
-})
-setReplaceMethod("iValue", "psimi25Attribute", function(object,value) {
-  object@.Data <- value
-  return(object)
-})
-
-##setMethod("psimi25AttributeListType",
-##          "list",
-##          function(list) {
-##            obj <- new("psimi25AttributeListType",
-##                       .Data=list)
-##            return(obj)
-##          })
-
-##------------------------------------------------------------##
-## psimi25DbReferenceType
-##------------------------------------------------------------##
-setMethod("psimi25DbReferenceType",
-          c("ANY", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
-          function(list, db, dbAc, id, secondary, version, refType, refTypeAc) {
-            if(missing(list)) list <- list()
-            if(missing(db)) db <- as.character(NA)
-            if(missing(dbAc)) dbAc <- as.character(NA)
-            if(missing(id)) id <- as.character(NA)
-            if(missing(secondary)) secondary <- as.character(NA)
-            if(missing(version)) version <- as.character(NA)
-            if(missing(refType)) refType <- as.character(NA)
-            if(missing(refTypeAc)) refTypeAc <- as.character(NA)
-
-            obj <- new("psimi25DbReferenceType",
-                       .Data=list,
-                       db=db, dbAc=dbAc, id=id, secondary=secondary,
-                       version=version, refType=refType, refTypeAc=refTypeAc)
-          })
-
-setMethod("attrInfo", "psimi25DbReferenceType", function(object) {
-   att <- c("db","dbAc","id","secondary",
-                                 "version","refType","refTypeAc")
-   info <- data.frame(Value=c(object@db, object@dbAc, object@id, object@secondary,
-                        object@version, object@refType, object@refTypeAc),
-                      row.names=att)
-   return(info)
-})
-
-setMethod("show", "psimi25DbReferenceType",
-          function(object) {
-            cat("Attributes:\n")
-            att <- attrInfo(object)
-            show(format(att, justify="left"))
-            show(object@.Data)
-          })
-
-##------------------------------------------------------------##
-## psimi25XrefType
-##------------------------------------------------------------##
-setMethod("psimi25XrefType",
-          c("psimi25DbReferenceType","list"),
-          function(primaryRef,secondaryRef) {
-            obj <- new("psimi25XrefType",
-                       primaryRef=primaryRef,
-                       secondaryRef=secondaryRef)
-            return(obj)
-          })
-
-##------------------------------------------------------------##
-## psimi25BibrefType
-##------------------------------------------------------------##
-setMethod("psimi25BibrefType",
-          c("psimi25XrefType","list"),
-          function(xref, attributeList) {
-            obj <- new("psimi25BibrefType",
-                       xref=xref,
-                       attributeList=attributeList)
-            return(obj)
-          })
-
-##------------------------------------------------------------##
-## psimi25Availability
-##------------------------------------------------------------##
-setMethod("psimi25AvailabilityType",
-          c("character","ANY"),
-          function(iValue, id) {
-            suppressWarnings(id <- as.integer(id)) ## reason: some repositories do not adhere to the specification of id
-            obj <- new("psimi25AvailabilityType",
-                       .Data=iValue, id=id)
-            return(obj)
-          })
-setMethod("show",
-          "psimi25AvailabilityType",
-          function(object) {
-            printManyItems(object@id, object@.Data)
-          })
-setMethod("iValue", "psimi25AvailabilityType",
-          function(object) {
-            return(object@.Data)
-          })
-setReplaceMethod("iValue", "psimi25AvailabilityType",
-                 function(object,value) {
-                   object@.Data <- value
-                   return(object)
-                 })
-
-##------------------------------------------------------------##
-## psimi25CvType and psimi25OpenCvType
-##------------------------------------------------------------##
-setMethod("name", "psimi25CommonNameRef", function(object) {
-  object@name
-})
-
-setReplaceMethod("name", c("psimi25CommonNameRef","psimi25NamesType"), function(object,value) {
-  object@name <- value
-  return(object)
-})
-
-setMethod("xref", "psimi25CommonNameRef", function(object) {
-  object@xref
-})
-
-setReplaceMethod("xref", c("psimi25CommonNameRef","psimi25XrefType"), function(object,value) {
-  object@xref <- value
-  return(object)
-})
-
-setMethod("attributeList", "psimi25CommonNameRefAttr", function(object) {
-  object@attributeList
-})
-
-
-setReplaceMethod("attributeList", c("psimi25CommonNameRefAttr","list"), function(object,value) {
-  object@attributeList <- value
-  return(object)
-})
-
-
-setMethod("psimi25CvType",
-          c("psimi25NamesType","psimi25XrefType"),
-          function(name, xref) {
-            obj <- new("psimi25CvType",
-                       name=name,
-                       xref=xref)
-            return(obj)
-          })
-setMethod("psimi25OpenCvType",
-          c("psimi25NamesType", "psimi25XrefType","list"),
-          function(name, xref, attributeList) {
-            obj <- new("psimi25OpenCvType",
-                       name=name,
-                       xref=xref,
-                       attributeList=attributeList)
-            return(obj)
-          })
-
-##------------------------------------------------------------##
-## psimi25BiosourceType
-##------------------------------------------------------------##
-setMethod("psimi25BioSourceType",
-          c("psimi25NamesType","psimi25OpenCvType","psimi25OpenCvType", "psimi25OpenCvType", "numeric"),
-          function(name, cellType, compartment, tissue, ncbiTaxId) {
-            ncbiTaxId <- as.integer(ncbiTaxId) ## in case of numeric
-            obj <- new("psimi25BioSourceType",
-                       name=name,
-                       cellType=cellType,
-                       compartment=compartment,
-                       tissue=tissue,
-                       ncbiTaxId=ncbiTaxId)
-            return(obj)
-          })
-setMethod("cellType", "psimi25BioSourceType", function(object) object@cellType)
-setMethod("compartment", "psimi25BioSourceType", function(object) object@compartment)
-setMethod("tissue", "psimi25BioSourceType", function(object) object@tissue)
-setMethod("ncbiTaxId", "psimi25BioSourceType", function(object) object@ncbiTaxId)
-
-setReplaceMethod("cellType", c("psimi25BioSourceType","psimi25OpenCvType"),
-                 function(object,value) { object@cellType <- value; return(object) })
-setReplaceMethod("compartment", c("psimi25BioSourceType","psimi25OpenCvType"),
-                 function(object,value) { object@compartment <- value; return(object) })
-setReplaceMethod("tissue", c("psimi25BioSourceType","psimi25OpenCvType"),
-                 function(object,value) { object@tissue <- value; return(object) })
-setReplaceMethod("ncbiTaxId", c("psimi25BioSourceType","numeric"),
-                 function(object,value) {
-                   value <- as.integer(value)
-                   object@ncbiTaxId <- value;
-                   return(object)
-                 })
-
-##------------------------------------------------------------##
-## psimi25ConfidenceType
-##------------------------------------------------------------##
-setMethod("psimi25ConfidenceType",
-          c("psimi25OpenCvType","character"),
-          function(unit, value) {
-            obj <- new("psimi25ConfidenceType",
-                       unit=unit,
-                       value=value)
-            return(obj)
-          })
-setMethod("unit", "psimi25ConfidenceType", function(object) object@unit)
-setMethod("value", "psimi25ConfidenceType", function(object) object@value)
-
-setReplaceMethod("unit", c("psimi25ConfidenceType","psimi25OpenCvType"),
-                 function(object,value) { object@unit <- value; return(object) })
-setReplaceMethod("value", c("psimi25ConfidenceType","character"),
-                 function(object,value) { object@value <- value; return(object) })
-
-##------------------------------------------------------------##
-## psimi25InteractorElementType
-##------------------------------------------------------------##
-setMethod("psimi25InteractorElementType",
-          c("psimi25NamesType","psimi25XrefType","list",
-            "psimi25CvType","psimi25BioSourceType","character", "numeric"),
-          function(name, xref, attributeList,
-                   interactorType, organism, sequence, id) {
-            obj <- new("psimi25InteractorElementType",
-                       name=name,
-                       xref=xref,
-                       attributeList=attributeList,
-                       interactorType=interactorType,
-                       organism=organism,
-                       sequence=sequence,
-                       id=id)
-            return(obj)
-          })
-
-setMethod("interactorType", "psimi25InteractorElementType", function(object) object@interactorType)
-setMethod("organism", "psimi25InteractorElementType", function(object) object@organism)
-setMethod("Sequence", "psimi25InteractorElementType", function(object) object@sequence)
-
-setReplaceMethod("interactorType", c("psimi25InteractorElementType","psimi25CvType"),
-                 function(object,value) { object@interactorType <- value; return(object) })
-setReplaceMethod("organism", c("psimi25InteractorElementType","psimi25BioSourceType"),
-                 function(object,value) { object@organism <- value; return(object) })
-setReplaceMethod("Sequence", c("psimi25InteractorElementType","character"),
-                 function(object,value) { object@sequence <- value; return(object) })
-
-##------------------------------------------------------------##
-## psimi25ParticipantType
-##------------------------------------------------------------##
-setMethod("psimi25HostOrganism",
-          c("psimi25BioSourceType","list"),
-          function(bioSourceType, experimentRefList) {
-            obj <- new("psimi25HostOrganism",
-                       bioSourceType,
-                       experimentRefList=experimentRefList)
-            return(obj)
-          })
-setMethod("interactorRef", "psimi25ParticipantType", function(object) object@interactorRef)
-setMethod("interactor", "psimi25ParticipantType", function(object) object@interactor)
-setMethod("interactionRef", "psimi25ParticipantType", function(object) object@interactionRef)
-setMethod("participantIdentificationMethodList", "psimi25ParticipantType", function(object) object@participantIdentificationMethodList)
-setMethod("biologicalRole", "psimi25ParticipantType", function(object) object@biologicalRole)
-setMethod("experimentalRoleList", "psimi25ParticipantType", function(object) object@experimentalRoleList)
-setMethod("experimentalPreparationList", "psimi25ParticipantType", function(object) object@experimentalPreparationList)
-setMethod("experimentalInteractorList", "psimi25ParticipantType", function(object) object@experimentalInteractorList)
-setMethod("featureList", "psimi25ParticipantType", function(object) object@featureList)
-setMethod("hostOrganismList", "psimi25ParticipantType", function(object) object@hostOrganismList)
-setMethod("confidenceList", "psimi25ParticipantType", function(object) object@confidenceList)
-setMethod("parameterList", "psimi25ParticipantType", function(object) object@parameterList)
-
-setReplaceMethod("interactorRef", c("psimi25ParticipantType","numeric"),
-                 function(object,value) {
-                   value <- as.integer(value)
-                   object@interactorRef <- value; return(object)
-                 })
-setReplaceMethod("interactor", c("psimi25ParticipantType","psimi25InteractorElementType"),
-                 function(object,value) {
-                   object@interactor <- value; return(object)
-                 })
-setReplaceMethod("interactionRef", c("psimi25ParticipantType","integer"),
-                 function(object,value) {
-                   value <- as.integer(value)
-                   object@interactionRef <- value; return(object)
-                 })
-setReplaceMethod("participantIdentificationMethodList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@participantIdentificationMethodList <- value; return(object)
-                 })
-setReplaceMethod("biologicalRole", c("psimi25ParticipantType","psimi25CvType"),
-                 function(object,value) {
-                   object@biologicalRole <- value; return(object)
-                 })
-setReplaceMethod("experimentalRoleList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@experimentalRoleList <- value; return(object)
-                 })
-setReplaceMethod("experimentalPreparationList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@experimentalPreparationList <- value; return(object)
-                 })
-setReplaceMethod("experimentalInteractorList", c("psimi25ParticipantType","psimi25ExperimentInteractor"),
-                 function(object,value) {
-                   object@experimentalInteractorList <- value; return(object)
-                 })
-setReplaceMethod("featureList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@featureList <- value; return(object)
-                 })
-setReplaceMethod("hostOrganismList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@hostOrganismList <- value; return(object)
-                 })
-setReplaceMethod("confidenceList", c("psimi25ParticipantType","list"),
-                 function(object,value) {
-                   object@confidenceList <- value; return(object)
-                 })
-setReplaceMethod("parameterList", c("psimi25ParticipantType","list"),
-                 function(object,value) { object@parameterList <- value; return(object) })
-
-##------------------------------------------------------------##
-## psimi25InteractionElementType
-##------------------------------------------------------------##
-setMethod("psimi25ExperimentRefListType", "numeric", function(object) {
-  object <- as.integer(object)
-  obj <- new("psimi25ExperimentRefListType", .Data=object)
-  return(obj)
-})
-setMethod("psimi25ExperimentInteractor",
-          c("numeric","psimi25InteractorElementType","list"),
-          function(interactorRef, interactor, experimentRefList) {
-            obj <- new("psim25ExperimentInteractor",
-                       interactorRef=interactorRef,
-                       interactor=interactor,
-                       experimentRefList=experimentRefList)
-            return(obj)
-          })
-
-setMethod("participantList", "psimi25InteractionElementType", function(object) object@participantList)
-setMethod("inferredInteractionList", "psimi25InteractionElementType", function(object) object@inferredInteractionList)
-setMethod("interactionType", "psimi25InteractionElementType", function(object) object@interactionType)
-setMethod("modelled", "psimi25InteractionElementType", function(object) object@modelled)
-setMethod("experimentList", "psimi25InteractionElementType", function(object) object@experimentList)
-setMethod("intraMolecular", "psimi25InteractionElementType", function(object) object@intraMolecular)
-setMethod("negative", "psimi25InteractionElementType", function(object) object@negative)
-setMethod("confidenceList", "psimi25InteractionElementType", function(object) object@confidenceList)
-setMethod("parameterList", "psimi25InteractionElementType", function(object) object@parameterList)
-setMethod("imexId", "psimi25InteractionElementType", function(object) object@imexId)
-
-setReplaceMethod("participantList", c("psimi25InteractionElementType","list"),
-                 function(object,value) { object@participantList <- value; return(object) })
-setReplaceMethod("inferredInteractionList", c("psimi25InteractionElementType","psimi25InferredInteraction"),
-                 function(object,value) { object@inferredInteractionList <- value; return(object) })
-setReplaceMethod("interactionType", c("psimi25InteractionElementType","psimi25CvType"),
-                 function(object,value) { object@interactionType <- value; return(object) })
-setReplaceMethod("modelled", c("psimi25InteractionElementType","logical"),
-                 function(object,value) { object@modelled <- value; return(object) })
-setReplaceMethod("intraMolecular", c("psimi25InteractionElementType","logical"),
-                 function(object,value) { object@intraMolecular <- value; return(object) })
-setReplaceMethod("negative", c("psimi25InteractionElementType","logical"),
-                 function(object,value) { object@negative <- value; return(object) })
-setReplaceMethod("confidenceList", c("psimi25InteractionElementType","list"),
-                 function(object,value) { object@confidenceList <- value; return(object) })
-setReplaceMethod("parameterList", c("psimi25InteractionElementType","list"),
-                 function(object,value) { object@parameterList <- value; return(object) })
-setReplaceMethod("imexId", c("psimi25InteractionElementType","character"),
-                 function(object,value) { object@imexId <- value; return(object) })
-
-setMethod("psimi25ExperimentList", c("numeric","psimi25ExperimentType"),
-          function(experimentRef, experimentDescription) {
-            experimentRef <- suppressWarnings(as.integer(experimentRef))
-            obj <- new("psimi25ExperimentList",
-                       experimentRef=experimentRef,
-                       experimentDescription=experimentDescription)
-            return(obj)
-          })
-##------------------------------------------------------------##
-## psimi25ExperimentType
-##------------------------------------------------------------##
-setMethod("psimi25CvExperimentRefs",
-          c("psimi25CvType","list"),
-          function(cv, experimentRefList) {
-            obj <- new("psimi25CvExperimentRefs",
-                       cv,
-                       experimentRefList=experimentRefList)
-            return(obj)
-          })
-setMethod("psimi25CvExperimentRefsList",
-          "list",
-          function(object) {
-            obj <-  new("psimi25CvExperimentRefsList", object)
-            return(obj)
-          })
-
-setMethod("psimi25ExperimentType",
-          signature=signature("ANY","ANY","ANY",
-            "ANY","ANY","ANY",
-            "ANY","ANY","ANY", "numeric"),
-          function(name, bibref, xref, hostOrganismList,
-                   interactionDetectionMethod, participantIdentificationMethod,
-                   featureDetectionMethod, confidenceList,attributeList,id) {
-            if(missing(id))
-              id <- as.integer(NA)
-            id <- as.integer(id)
-            if(missing(name))
-              name <- new("psimi25NamesType")
-            if(missing(bibref))
-              bibref <- new("psimi25BibrefType")
-            if(missing(xref))
-              xref <- new("psimi25XrefType")
-            if(missing(bibref))
-              bibref <- new("psimi25XrefType")
-            if(missing(hostOrganismList))
-              hostOrganismList <- new("list")
-            if(missing(interactionDetectionMethod))
-              interactionDetectionMethod <- new("psimi25CvType")
-            if(missing(participantIdentificationMethod))
-              participantIdentificationMethod <- new("psimi25CvType")
-            if(missing(featureDetectionMethod))
-              featureDetectionMethod <- new("psimi25CvType")
-            if(missing(confidenceList))
-              confidenceList <- new("list")
-            if(missing(attributeList))
-              attributeList <- new("list")
-            
-            obj <- new("psimi25ExperimentType",
-                       name=name,
-                       bibref=bibref,
-                       xref=xref,
-                       hostOrganismList=hostOrganismList,
-                       interactionDetectionMethod=interactionDetectionMethod,
-                       participantIdentificationMethod=participantIdentificationMethod,
-                       featureDetectionMethod=featureDetectionMethod,
-                       confidenceList=confidenceList,
-                       attributeList=attributeList,
-                       id=id)
-            return(obj)
-          })
-
-##------------------------------------------------------------##
-## psimi25Source
-##------------------------------------------------------------##
-setMethod("psimi25Source",
-          c("ANY","ANY","ANY","ANY","character","character"),
-          function(name, xref, bibref, attributeList, release, releaseDate ){
-            if(missing(name)) name <- new("psimi25NamesType")
-            if(missing(xref)) xref <- new("psimi25XrefType")
-            if(missing(bibref)) bibref <- new("psimi25BibrefType")
-            if(missing(attributeList)) attributeList <- new("list")
-            obj <- new("psimi25Source",
-                       name=name, xref=xref,
-                       bibref=bibref, attributeList=attributeList,
-                       release=release, releaseDate=releaseDate)
-            return(obj)
-                       
-          })
-##------------------------------------------------------------##
-## entry
-##------------------------------------------------------------##
-setMethod("psimi25Entry",
-          c("psimi25Source","list","list",
-            "list","list",
-            "list"),
-          function(source, availabilityList, experimentList,
-                   interactorList, interactionList, attributeList) {
-            obj <- new("psimi25Entry",
-                       source=source,
-                       availabilityList=availabilityList,
-                       experimentList=experimentList,
-                       interactorList=interactorList,
-                       interactionList=interactionList,
-                       attributeList= attributeList)
-            return(obj)
-          })
-
-setMethod("level", "psimi25Entry", function(object) object@level)
-setMethod("version", "psimi25Entry", function(object) object@version)
-setMethod("minorVersion", "psimi25Entry", function(object) object@minorVersion)
-
-setReplaceMethod("level", c("psimi25Entry", "integer"), function(object, value) {
-  object@level <- value
-  return(object)
-})
-setReplaceMethod("version", c("psimi25Entry", "integer"), function(object, value) {
-  object@version <- value
-  return(object)
-})
-setReplaceMethod("minorVersion", c("psimi25Entry", "integer"), function(object, value) {
-  object@minorVersion <- value
-  return(object)
-})
 
 ##------------------------------------------------------------##
 ## show methods
@@ -1104,3 +508,562 @@ setMethod("revInciMat", signature(x="matrix"), function(x) {
   hg <- new("Hypergraph", nodes=hyperNodes, hyperedges=hyperEdges)
   return(hg)
 })
+
+
+##------------------------------------------------------------##
+## Methods for new XML interfaces
+##------------------------------------------------------------##
+
+####------------------------------------------------------------##
+#### psimi25NamesType (and psimi25NamesAlis)
+####------------------------------------------------------------##
+##setMethod("psimi25NamesAlias",
+##          c("character", "ANY","ANY"),
+##          function(iValue, type, typeAc) {
+##            obj <- new("psimi25NamesAlias",
+##                       .Data=iValue,
+##                       type=type,
+##                       typeAc=typeAc)
+##            return(obj)
+##          })
+##
+##setMethod("psimi25NamesType",
+##          c("ANY","ANY","ANY"),
+##          function(shortLabel, fullName, alias) {
+##            if(missing(shortLabel))
+##              shortLabel <- as.character(NA)
+##            if(missing(fullName))
+##              fullName <- as.character(NA)
+##            if(missing(alias))
+##              alias <- list()
+##            
+##            obj <- new("psimi25NamesType",
+##                       shortLabel=shortLabel,
+##                       fullName=fullName,
+##                       alias=alias)
+##            return(obj)
+##          })
+##
+##setMethod("show", "psimi25NamesType", function(object) {
+##  printManyItems("Short Label", object@shortLabel)
+##  printManyItems("Full name", object@fullName)
+##  printManyItems("Alias", object@alias)
+##
+##})
+##
+##
+####------------------------------------------------------------##
+#### psimi25Attribute
+####------------------------------------------------------------##
+##setMethod("psimi25Attribute",
+##          c("character","ANY","ANY"),
+##          function(iValue, name, nameAc) {
+##            if(missing(name))
+##              name <- as.character(NA)
+##            if(missing(nameAc))
+##              nameAc <- as.character(NA)
+##            obj <- new("psimi25Attribute",
+##                       .Data=iValue,
+##                       name=name,
+##                       nameAc=nameAc)
+##            return(obj)
+##          })
+##setMethod("show", "psimi25Attribute", function(object) {
+##  cat(object@name, "[", object@nameAc, "]", ":", object@.Data, "\n")
+##})
+##setMethod("name", "psimi25Attribute", function(object) {
+##  return(object@name)
+##})
+##setReplaceMethod("name", c("psimi25Attribute", "character"), function(object,value) {
+##  object@name <- value
+##  return(object)
+##})
+##setMethod("nameAc", "psimi25Attribute", function(object) {
+##  return(object@nameAc)
+##})
+##setReplaceMethod("nameAc", "psimi25Attribute", function(object,value) {
+##  object@nameAc <- value
+##  return(object)
+##})
+##setMethod("iValue", "psimi25Attribute", function(object) {
+##  return(object@.Data)
+##})
+##setReplaceMethod("iValue", "psimi25Attribute", function(object,value) {
+##  object@.Data <- value
+##  return(object)
+##})
+##
+####setMethod("psimi25AttributeListType",
+####          "list",
+####          function(list) {
+####            obj <- new("psimi25AttributeListType",
+####                       .Data=list)
+####            return(obj)
+####          })
+##
+####------------------------------------------------------------##
+#### psimi25DbReferenceType
+####------------------------------------------------------------##
+##setMethod("psimi25DbReferenceType",
+##          c("ANY", "ANY", "ANY","ANY","ANY","ANY","ANY","ANY"),
+##          function(list, db, dbAc, id, secondary, version, refType, refTypeAc) {
+##            if(missing(list)) list <- list()
+##            if(missing(db)) db <- as.character(NA)
+##            if(missing(dbAc)) dbAc <- as.character(NA)
+##            if(missing(id)) id <- as.character(NA)
+##            if(missing(secondary)) secondary <- as.character(NA)
+##            if(missing(version)) version <- as.character(NA)
+##            if(missing(refType)) refType <- as.character(NA)
+##            if(missing(refTypeAc)) refTypeAc <- as.character(NA)
+##
+##            obj <- new("psimi25DbReferenceType",
+##                       .Data=list,
+##                       db=db, dbAc=dbAc, id=id, secondary=secondary,
+##                       version=version, refType=refType, refTypeAc=refTypeAc)
+##          })
+##
+##setMethod("attrInfo", "psimi25DbReferenceType", function(object) {
+##   att <- c("db","dbAc","id","secondary",
+##                                 "version","refType","refTypeAc")
+##   info <- data.frame(Value=c(object@db, object@dbAc, object@id, object@secondary,
+##                        object@version, object@refType, object@refTypeAc),
+##                      row.names=att)
+##   return(info)
+##})
+##
+##setMethod("show", "psimi25DbReferenceType",
+##          function(object) {
+##            cat("Attributes:\n")
+##            att <- attrInfo(object)
+##            show(format(att, justify="left"))
+##            show(object@.Data)
+##          })
+##
+####------------------------------------------------------------##
+#### psimi25XrefType
+####------------------------------------------------------------##
+##setMethod("psimi25XrefType",
+##          c("psimi25DbReferenceType","list"),
+##          function(primaryRef,secondaryRef) {
+##            obj <- new("psimi25XrefType",
+##                       primaryRef=primaryRef,
+##                       secondaryRef=secondaryRef)
+##            return(obj)
+##          })
+##
+####------------------------------------------------------------##
+#### psimi25BibrefType
+####------------------------------------------------------------##
+##setMethod("psimi25BibrefType",
+##          c("psimi25XrefType","list"),
+##          function(xref, attributeList) {
+##            obj <- new("psimi25BibrefType",
+##                       xref=xref,
+##                       attributeList=attributeList)
+##            return(obj)
+##          })
+##
+####------------------------------------------------------------##
+#### psimi25Availability
+####------------------------------------------------------------##
+##setMethod("psimi25AvailabilityType",
+##          c("character","ANY"),
+##          function(iValue, id) {
+##            suppressWarnings(id <- as.integer(id)) ## reason: some repositories do not adhere to the specification of id
+##            obj <- new("psimi25AvailabilityType",
+##                       .Data=iValue, id=id)
+##            return(obj)
+##          })
+##setMethod("show",
+##          "psimi25AvailabilityType",
+##          function(object) {
+##            printManyItems(object@id, object@.Data)
+##          })
+##setMethod("iValue", "psimi25AvailabilityType",
+##          function(object) {
+##            return(object@.Data)
+##          })
+##setReplaceMethod("iValue", "psimi25AvailabilityType",
+##                 function(object,value) {
+##                   object@.Data <- value
+##                   return(object)
+##                 })
+##
+####------------------------------------------------------------##
+#### psimi25CvType and psimi25OpenCvType
+####------------------------------------------------------------##
+##setMethod("name", "psimi25CommonNameRef", function(object) {
+##  object@name
+##})
+##
+##setReplaceMethod("name", c("psimi25CommonNameRef","psimi25NamesType"), function(object,value) {
+##  object@name <- value
+##  return(object)
+##})
+##
+##setMethod("xref", "psimi25CommonNameRef", function(object) {
+##  object@xref
+##})
+##
+##setReplaceMethod("xref", c("psimi25CommonNameRef","psimi25XrefType"), function(object,value) {
+##  object@xref <- value
+##  return(object)
+##})
+##
+##setMethod("attributeList", "psimi25CommonNameRefAttr", function(object) {
+##  object@attributeList
+##})
+##
+##
+##setReplaceMethod("attributeList", c("psimi25CommonNameRefAttr","list"), function(object,value) {
+##  object@attributeList <- value
+##  return(object)
+##})
+##
+##
+##setMethod("psimi25CvType",
+##          c("psimi25NamesType","psimi25XrefType"),
+##          function(name, xref) {
+##            obj <- new("psimi25CvType",
+##                       name=name,
+##                       xref=xref)
+##            return(obj)
+##          })
+##setMethod("psimi25OpenCvType",
+##          c("psimi25NamesType", "psimi25XrefType","list"),
+##          function(name, xref, attributeList) {
+##            obj <- new("psimi25OpenCvType",
+##                       name=name,
+##                       xref=xref,
+##                       attributeList=attributeList)
+##            return(obj)
+##          })
+##
+####------------------------------------------------------------##
+#### psimi25BiosourceType
+####------------------------------------------------------------##
+##setMethod("psimi25BioSourceType",
+##          c("psimi25NamesType","psimi25OpenCvType","psimi25OpenCvType", "psimi25OpenCvType", "numeric"),
+##          function(name, cellType, compartment, tissue, ncbiTaxId) {
+##            ncbiTaxId <- as.integer(ncbiTaxId) ## in case of numeric
+##            obj <- new("psimi25BioSourceType",
+##                       name=name,
+##                       cellType=cellType,
+##                       compartment=compartment,
+##                       tissue=tissue,
+##                       ncbiTaxId=ncbiTaxId)
+##            return(obj)
+##          })
+##setMethod("cellType", "psimi25BioSourceType", function(object) object@cellType)
+##setMethod("compartment", "psimi25BioSourceType", function(object) object@compartment)
+##setMethod("tissue", "psimi25BioSourceType", function(object) object@tissue)
+##setMethod("ncbiTaxId", "psimi25BioSourceType", function(object) object@ncbiTaxId)
+##
+##setReplaceMethod("cellType", c("psimi25BioSourceType","psimi25OpenCvType"),
+##                 function(object,value) { object@cellType <- value; return(object) })
+##setReplaceMethod("compartment", c("psimi25BioSourceType","psimi25OpenCvType"),
+##                 function(object,value) { object@compartment <- value; return(object) })
+##setReplaceMethod("tissue", c("psimi25BioSourceType","psimi25OpenCvType"),
+##                 function(object,value) { object@tissue <- value; return(object) })
+##setReplaceMethod("ncbiTaxId", c("psimi25BioSourceType","numeric"),
+##                 function(object,value) {
+##                   value <- as.integer(value)
+##                   object@ncbiTaxId <- value;
+##                   return(object)
+##                 })
+##
+####------------------------------------------------------------##
+#### psimi25ConfidenceType
+####------------------------------------------------------------##
+##setMethod("psimi25ConfidenceType",
+##          c("psimi25OpenCvType","character"),
+##          function(unit, value) {
+##            obj <- new("psimi25ConfidenceType",
+##                       unit=unit,
+##                       value=value)
+##            return(obj)
+##          })
+##setMethod("unit", "psimi25ConfidenceType", function(object) object@unit)
+##setMethod("value", "psimi25ConfidenceType", function(object) object@value)
+##
+##setReplaceMethod("unit", c("psimi25ConfidenceType","psimi25OpenCvType"),
+##                 function(object,value) { object@unit <- value; return(object) })
+##setReplaceMethod("value", c("psimi25ConfidenceType","character"),
+##                 function(object,value) { object@value <- value; return(object) })
+##
+####------------------------------------------------------------##
+#### psimi25InteractorElementType
+####------------------------------------------------------------##
+##setMethod("psimi25InteractorElementType",
+##          c("psimi25NamesType","psimi25XrefType","list",
+##            "psimi25CvType","psimi25BioSourceType","character", "numeric"),
+##          function(name, xref, attributeList,
+##                   interactorType, organism, sequence, id) {
+##            obj <- new("psimi25InteractorElementType",
+##                       name=name,
+##                       xref=xref,
+##                       attributeList=attributeList,
+##                       interactorType=interactorType,
+##                       organism=organism,
+##                       sequence=sequence,
+##                       id=id)
+##            return(obj)
+##          })
+##
+##setMethod("interactorType", "psimi25InteractorElementType", function(object) object@interactorType)
+##setMethod("organism", "psimi25InteractorElementType", function(object) object@organism)
+##setMethod("Sequence", "psimi25InteractorElementType", function(object) object@sequence)
+##
+##setReplaceMethod("interactorType", c("psimi25InteractorElementType","psimi25CvType"),
+##                 function(object,value) { object@interactorType <- value; return(object) })
+##setReplaceMethod("organism", c("psimi25InteractorElementType","psimi25BioSourceType"),
+##                 function(object,value) { object@organism <- value; return(object) })
+##setReplaceMethod("Sequence", c("psimi25InteractorElementType","character"),
+##                 function(object,value) { object@sequence <- value; return(object) })
+##
+####------------------------------------------------------------##
+#### psimi25ParticipantType
+####------------------------------------------------------------##
+##setMethod("psimi25HostOrganism",
+##          c("psimi25BioSourceType","list"),
+##          function(bioSourceType, experimentRefList) {
+##            obj <- new("psimi25HostOrganism",
+##                       bioSourceType,
+##                       experimentRefList=experimentRefList)
+##            return(obj)
+##          })
+##setMethod("interactorRef", "psimi25ParticipantType", function(object) object@interactorRef)
+##setMethod("interactor", "psimi25ParticipantType", function(object) object@interactor)
+##setMethod("interactionRef", "psimi25ParticipantType", function(object) object@interactionRef)
+##setMethod("participantIdentificationMethodList", "psimi25ParticipantType", function(object) object@participantIdentificationMethodList)
+##setMethod("biologicalRole", "psimi25ParticipantType", function(object) object@biologicalRole)
+##setMethod("experimentalRoleList", "psimi25ParticipantType", function(object) object@experimentalRoleList)
+##setMethod("experimentalPreparationList", "psimi25ParticipantType", function(object) object@experimentalPreparationList)
+##setMethod("experimentalInteractorList", "psimi25ParticipantType", function(object) object@experimentalInteractorList)
+##setMethod("featureList", "psimi25ParticipantType", function(object) object@featureList)
+##setMethod("hostOrganismList", "psimi25ParticipantType", function(object) object@hostOrganismList)
+##setMethod("confidenceList", "psimi25ParticipantType", function(object) object@confidenceList)
+##setMethod("parameterList", "psimi25ParticipantType", function(object) object@parameterList)
+##
+##setReplaceMethod("interactorRef", c("psimi25ParticipantType","numeric"),
+##                 function(object,value) {
+##                   value <- as.integer(value)
+##                   object@interactorRef <- value; return(object)
+##                 })
+##setReplaceMethod("interactor", c("psimi25ParticipantType","psimi25InteractorElementType"),
+##                 function(object,value) {
+##                   object@interactor <- value; return(object)
+##                 })
+##setReplaceMethod("interactionRef", c("psimi25ParticipantType","integer"),
+##                 function(object,value) {
+##                   value <- as.integer(value)
+##                   object@interactionRef <- value; return(object)
+##                 })
+##setReplaceMethod("participantIdentificationMethodList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@participantIdentificationMethodList <- value; return(object)
+##                 })
+##setReplaceMethod("biologicalRole", c("psimi25ParticipantType","psimi25CvType"),
+##                 function(object,value) {
+##                   object@biologicalRole <- value; return(object)
+##                 })
+##setReplaceMethod("experimentalRoleList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@experimentalRoleList <- value; return(object)
+##                 })
+##setReplaceMethod("experimentalPreparationList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@experimentalPreparationList <- value; return(object)
+##                 })
+##setReplaceMethod("experimentalInteractorList", c("psimi25ParticipantType","psimi25ExperimentInteractor"),
+##                 function(object,value) {
+##                   object@experimentalInteractorList <- value; return(object)
+##                 })
+##setReplaceMethod("featureList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@featureList <- value; return(object)
+##                 })
+##setReplaceMethod("hostOrganismList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@hostOrganismList <- value; return(object)
+##                 })
+##setReplaceMethod("confidenceList", c("psimi25ParticipantType","list"),
+##                 function(object,value) {
+##                   object@confidenceList <- value; return(object)
+##                 })
+##setReplaceMethod("parameterList", c("psimi25ParticipantType","list"),
+##                 function(object,value) { object@parameterList <- value; return(object) })
+##
+####------------------------------------------------------------##
+#### psimi25InteractionElementType
+####------------------------------------------------------------##
+##setMethod("psimi25ExperimentRefListType", "numeric", function(object) {
+##  object <- as.integer(object)
+##  obj <- new("psimi25ExperimentRefListType", .Data=object)
+##  return(obj)
+##})
+##setMethod("psimi25ExperimentInteractor",
+##          c("numeric","psimi25InteractorElementType","list"),
+##          function(interactorRef, interactor, experimentRefList) {
+##            obj <- new("psim25ExperimentInteractor",
+##                       interactorRef=interactorRef,
+##                       interactor=interactor,
+##                       experimentRefList=experimentRefList)
+##            return(obj)
+##          })
+##
+##setMethod("participantList", "psimi25InteractionElementType", function(object) object@participantList)
+##setMethod("inferredInteractionList", "psimi25InteractionElementType", function(object) object@inferredInteractionList)
+##setMethod("interactionType", "psimi25InteractionElementType", function(object) object@interactionType)
+##setMethod("modelled", "psimi25InteractionElementType", function(object) object@modelled)
+##setMethod("experimentList", "psimi25InteractionElementType", function(object) object@experimentList)
+##setMethod("intraMolecular", "psimi25InteractionElementType", function(object) object@intraMolecular)
+##setMethod("negative", "psimi25InteractionElementType", function(object) object@negative)
+##setMethod("confidenceList", "psimi25InteractionElementType", function(object) object@confidenceList)
+##setMethod("parameterList", "psimi25InteractionElementType", function(object) object@parameterList)
+##setMethod("imexId", "psimi25InteractionElementType", function(object) object@imexId)
+##
+##setReplaceMethod("participantList", c("psimi25InteractionElementType","list"),
+##                 function(object,value) { object@participantList <- value; return(object) })
+##setReplaceMethod("inferredInteractionList", c("psimi25InteractionElementType","psimi25InferredInteraction"),
+##                 function(object,value) { object@inferredInteractionList <- value; return(object) })
+##setReplaceMethod("interactionType", c("psimi25InteractionElementType","psimi25CvType"),
+##                 function(object,value) { object@interactionType <- value; return(object) })
+##setReplaceMethod("modelled", c("psimi25InteractionElementType","logical"),
+##                 function(object,value) { object@modelled <- value; return(object) })
+##setReplaceMethod("intraMolecular", c("psimi25InteractionElementType","logical"),
+##                 function(object,value) { object@intraMolecular <- value; return(object) })
+##setReplaceMethod("negative", c("psimi25InteractionElementType","logical"),
+##                 function(object,value) { object@negative <- value; return(object) })
+##setReplaceMethod("confidenceList", c("psimi25InteractionElementType","list"),
+##                 function(object,value) { object@confidenceList <- value; return(object) })
+##setReplaceMethod("parameterList", c("psimi25InteractionElementType","list"),
+##                 function(object,value) { object@parameterList <- value; return(object) })
+##setReplaceMethod("imexId", c("psimi25InteractionElementType","character"),
+##                 function(object,value) { object@imexId <- value; return(object) })
+##
+##setMethod("psimi25ExperimentList", c("numeric","psimi25ExperimentType"),
+##          function(experimentRef, experimentDescription) {
+##            experimentRef <- suppressWarnings(as.integer(experimentRef))
+##            obj <- new("psimi25ExperimentList",
+##                       experimentRef=experimentRef,
+##                       experimentDescription=experimentDescription)
+##            return(obj)
+##          })
+####------------------------------------------------------------##
+#### psimi25ExperimentType
+####------------------------------------------------------------##
+##setMethod("psimi25CvExperimentRefs",
+##          c("psimi25CvType","list"),
+##          function(cv, experimentRefList) {
+##            obj <- new("psimi25CvExperimentRefs",
+##                       cv,
+##                       experimentRefList=experimentRefList)
+##            return(obj)
+##          })
+##setMethod("psimi25CvExperimentRefsList",
+##          "list",
+##          function(object) {
+##            obj <-  new("psimi25CvExperimentRefsList", object)
+##            return(obj)
+##          })
+##
+##setMethod("psimi25ExperimentType",
+##          signature=signature("ANY","ANY","ANY",
+##            "ANY","ANY","ANY",
+##            "ANY","ANY","ANY", "numeric"),
+##          function(name, bibref, xref, hostOrganismList,
+##                   interactionDetectionMethod, participantIdentificationMethod,
+##                   featureDetectionMethod, confidenceList,attributeList,id) {
+##            if(missing(id))
+##              id <- as.integer(NA)
+##            id <- as.integer(id)
+##            if(missing(name))
+##              name <- new("psimi25NamesType")
+##            if(missing(bibref))
+##              bibref <- new("psimi25BibrefType")
+##            if(missing(xref))
+##              xref <- new("psimi25XrefType")
+##            if(missing(bibref))
+##              bibref <- new("psimi25XrefType")
+##            if(missing(hostOrganismList))
+##              hostOrganismList <- new("list")
+##            if(missing(interactionDetectionMethod))
+##              interactionDetectionMethod <- new("psimi25CvType")
+##            if(missing(participantIdentificationMethod))
+##              participantIdentificationMethod <- new("psimi25CvType")
+##            if(missing(featureDetectionMethod))
+##              featureDetectionMethod <- new("psimi25CvType")
+##            if(missing(confidenceList))
+##              confidenceList <- new("list")
+##            if(missing(attributeList))
+##              attributeList <- new("list")
+##            
+##            obj <- new("psimi25ExperimentType",
+##                       name=name,
+##                       bibref=bibref,
+##                       xref=xref,
+##                       hostOrganismList=hostOrganismList,
+##                       interactionDetectionMethod=interactionDetectionMethod,
+##                       participantIdentificationMethod=participantIdentificationMethod,
+##                       featureDetectionMethod=featureDetectionMethod,
+##                       confidenceList=confidenceList,
+##                       attributeList=attributeList,
+##                       id=id)
+##            return(obj)
+##          })
+##
+####------------------------------------------------------------##
+#### psimi25Source
+####------------------------------------------------------------##
+##setMethod("psimi25Source",
+##          c("ANY","ANY","ANY","ANY","character","character"),
+##          function(name, xref, bibref, attributeList, release, releaseDate ){
+##            if(missing(name)) name <- new("psimi25NamesType")
+##            if(missing(xref)) xref <- new("psimi25XrefType")
+##            if(missing(bibref)) bibref <- new("psimi25BibrefType")
+##            if(missing(attributeList)) attributeList <- new("list")
+##            obj <- new("psimi25Source",
+##                       name=name, xref=xref,
+##                       bibref=bibref, attributeList=attributeList,
+##                       release=release, releaseDate=releaseDate)
+##            return(obj)
+##                       
+##          })
+####------------------------------------------------------------##
+#### entry
+####------------------------------------------------------------##
+##setMethod("psimi25Entry",
+##          c("psimi25Source","list","list",
+##            "list","list",
+##            "list"),
+##          function(source, availabilityList, experimentList,
+##                   interactorList, interactionList, attributeList) {
+##            obj <- new("psimi25Entry",
+##                       source=source,
+##                       availabilityList=availabilityList,
+##                       experimentList=experimentList,
+##                       interactorList=interactorList,
+##                       interactionList=interactionList,
+##                       attributeList= attributeList)
+##            return(obj)
+##          })
+##
+##setMethod("level", "psimi25Entry", function(object) object@level)
+##setMethod("version", "psimi25Entry", function(object) object@version)
+##setMethod("minorVersion", "psimi25Entry", function(object) object@minorVersion)
+##
+##setReplaceMethod("level", c("psimi25Entry", "integer"), function(object, value) {
+##  object@level <- value
+##  return(object)
+##})
+##setReplaceMethod("version", c("psimi25Entry", "integer"), function(object, value) {
+##  object@version <- value
+##  return(object)
+##})
+##setReplaceMethod("minorVersion", c("psimi25Entry", "integer"), function(object, value) {
+##  object@minorVersion <- value
+##  return(object)
+##})
+##
+
