@@ -55,7 +55,7 @@ statusIndicator <- function(x, length, N=40) {
 ####################################################
 
 ## experiment parser
-.parsePsimi25Experiment <- function(root, namespaces, sourceDb) {
+parseXmlExperiment <- function(root, namespaces, sourceDb) {
   subDoc <- xmlDoc(root)
   
   interactionType <- unlist(xpathApply(doc = subDoc,
@@ -108,7 +108,7 @@ statusIndicator <- function(x, length, N=40) {
 
 
 ## interactor parse
-.parsePsimi25Interactor <- function(root, namespaces, sourceDb, uniprotsymbol) {
+parseXmlInteractor <- function(root, namespaces, sourceDb, uniprotsymbol) {
   subDoc <- xmlDoc(root)
   sourceIds <- unlist(xpathApply(doc = subDoc, path = "/ns:interactor", 
                                  fun = xmlGetAttr, name = "id", namespaces = namespaces))
@@ -167,7 +167,7 @@ statusIndicator <- function(x, length, N=40) {
 
 
 ## complex parser
-.parsePsimi25Complex <- function(root, namespaces, sourceDb) {
+parseXmlComplex <- function(root, namespaces, sourceDb) {
 	subDoc <- xmlDoc(root)
 	# source ID
 	sourceId <- as.character(xpathApply(doc=subDoc,

@@ -5,6 +5,8 @@ API Changes:
   + (r42215): 'taxId' and 'organismName' are refactored to support any subclass inheriting 'organismTaxIdAndName'
   + (r42220): 'interactorListBase' abstract class is added as superclass for both psimi25Entry and psimi25GraphBase
   + (r42222): 'psimi25Experiment' now also inherits the 'sourceDbAndId' class. 'expSourceId' is treated as 'sourceId'
+  + (r42223): Functions starting with '.' in their names were meant to be internal for XML parsing. Since they are confusing, these functions have been renamed as 'parseXML...'
+
 Release 1.5.23 (Oct. 07, 2009)
 Internal Changes:
   + Add 'organismIdAndName', 'psimi25Entry' (abstract) and 'psimi25GraphBase' (abstact) classes to reduce redundancy in class definitions
