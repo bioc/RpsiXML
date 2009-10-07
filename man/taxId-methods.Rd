@@ -1,22 +1,23 @@
 \name{taxId-methods}
 \docType{methods}
+\alias{taxId}
 \alias{taxId-methods}
-\alias{taxId,psimi25Complex-method}
-\alias{taxId,psimi25Interactor-method}
-\title{ Methods for function taxId}
+\alias{taxId,organismTaxIdAndName-method}
+\alias{taxId<-}
+\alias{taxId<-,organismTaxIdAndName,character-method}
+\alias{organismName}
+\alias{organismName-methods}
+\alias{organismName,organismTaxIdAndName-method}
+\alias{organismName<-}
+\alias{organismName<-,organismTaxIdAndName,character-method}
+\title{Get or Set the NCBI Taxonomy ID or Organism Name}
 \description{
-  Returns the NCBI Taxonomy ID of the given object
+  Get or set the NCBI taxonomy ID or organism name
 }
 \section{Methods}{
 \describe{
-
-  \item{x = "psimi25Complex"}{ An \code{\link{psimi25Complex-class}}
-    object }
-  \item{x = "psimi25Interactor"}{ An \code{\link{psimi25Interactor-class}}
-    object }
-  
-\item{x = "psimi25InteractionEntry"}{ An object of
-  \code{\link{psimi25InteractionEntry-class}} }
+  \item{x = "organismTaxIdAndName"}{ An \code{organismTaxIdAndName}
+    object}
 }}
 \keyword{methods}
 

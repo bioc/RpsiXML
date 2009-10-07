@@ -55,6 +55,24 @@ setReplaceMethod("sourceId", c("sourceDbAndId", "character"),
                  })
 
 ##------------------------------------------------------------##
+## organismIdAndName methods
+##------------------------------------------------------------##
+setMethod("taxId", "organismTaxIdAndName", function(x) {
+  x@taxId
+})
+setMethod("organismName", "organismTaxIdAndName", function(x) {
+  x@organismName
+})
+setReplaceMethod("taxId", c("organismTaxIdAndName", "character"), function(x, value) {
+  x@taxId <- value
+  return(x)
+})
+setReplaceMethod("organismName", c("organismTaxIdAndName", "character"), function(x, value) {
+  x@organismName <- value
+  return(x)
+})
+
+##------------------------------------------------------------##
 ## show methods
 ##------------------------------------------------------------##
 setMethod("show", "psimi25Interactor", function(object) {
@@ -314,9 +332,6 @@ setMethod("complexes", signature(x="psimi25ComplexEntry"),
           function(x) x@complexes)
 
 
-setMethod("taxId", signature(x="psimi25Complex"),
-          function(x) x@taxId)
-
 
 setMethod("complexMembers", "psimi25Complex", function(x) {
   return(x@members)
@@ -364,33 +379,6 @@ setMethod("pubmedID", "psimi25Interaction", function(x) {
 })
 
 
-
-setMethod("organismName", signature(x="psimi25InteractionEntry"),
-          function(x) x@organismName)
-setReplaceMethod("organismName", signature(x="psimi25InteractionEntry", value="character"),
-                 function(x, value) {
-                   x@organismName <- value
-                   return(x)
-                 })
-setMethod("organismName", "psimi25Complex", function(x) {
-  x@organismName
-})
-
-setMethod("organismName", "psimi25Interactor", function(x) {
-  x@organismName
-})
-
-setMethod("taxId", signature(x="psimi25InteractionEntry"),
-          function(x) x@taxId)
-setReplaceMethod("taxId", signature(x="psimi25InteractionEntry", value="character"),
-                 function(x, value) {
-                   x@taxId <- value
-                   return(x)
-                   
-                 })
-setMethod("taxId", "psimi25Interactor", function(x) {
-  x@taxId
-})
 
 setMethod("releaseDate", signature(x="psimi25InteractionEntry"),
           function(x) x@releaseDate)

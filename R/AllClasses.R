@@ -18,13 +18,13 @@
 setClass("sourceDbAndId",
          representation(sourceDb="character",
                         sourceId="character"))
-setClass("organismIdAndName",
+setClass("organismTaxIdAndName",
          representation(taxId="character",
                         organismName="character"))
 setClass("psimi25Entry",
          representation(releaseDate="character",
                         interactors="list"),
-         contains=c("organismIdAndName","VIRTUAL"))
+         contains=c("organismTaxIdAndName","VIRTUAL"))
 setClass("psimi25GraphBase",
          representation(interactors="list",
                         abstract = "pubMedAbst"),
@@ -65,7 +65,7 @@ setClass("psimi25Interactor",
                         uniprotId = "character",
                         xref = "environment"
                         ),
-         contains=c("sourceDbAndId", "organismIdAndName")
+         contains=c("sourceDbAndId", "organismTaxIdAndName")
          )
 
 ##------------------------------##
@@ -82,7 +82,7 @@ setClass("psimi25Complex",
                         members = "data.frame",
                         attributes = "character"
                         ),
-         contains=c("sourceDbAndId", "organismIdAndName")
+         contains=c("sourceDbAndId", "organismTaxIdAndName")
          )
 
 ##------------------------------##

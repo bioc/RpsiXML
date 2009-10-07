@@ -13,6 +13,13 @@ setGeneric("sourceDb<-",function(x, value) standardGeneric("sourceDb<-"))
 setGeneric("sourceId",function(x) standardGeneric("sourceId"))
 setGeneric("sourceId<-",function(x, value) standardGeneric("sourceId<-"))
 
+setGeneric("taxId", function(x) standardGeneric("taxId"))
+setGeneric("taxId<-", function(x, value) standardGeneric("taxId<-"))
+setGeneric("organismName", function(x) standardGeneric("organismName"))
+setGeneric("organismName<-", function(x, value) standardGeneric("organismName<-"))
+
+
+
 ## interactors
 setGeneric("interactors", function(x) standardGeneric("interactors"))
 setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
@@ -26,12 +33,6 @@ setGeneric("interactions<-", function(x, value) standardGeneric("interactions<-"
 setGeneric("complexes", function(x) standardGeneric("complexes"))
 setGeneric("members", function(x) standardGeneric("members"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
-
-setGeneric("organismName", function(x) standardGeneric("organismName"))
-setGeneric("organismName<-", function(x, value) standardGeneric("organismName<-"))
-
-setGeneric("taxId", function(x) standardGeneric("taxId"))
-setGeneric("taxId<-", function(x, value) standardGeneric("taxId<-"))
 
 setGeneric("releaseDate", function(x) standardGeneric("releaseDate"))
 setGeneric("releaseDate<-", function(x, value) standardGeneric("releaseDate<-"))
