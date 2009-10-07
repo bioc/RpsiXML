@@ -52,7 +52,7 @@ setClass("psimi25InteractionEntry",
 setClass("psimi25Interaction",
          representation(interactionType = "character",
                         expPubMed = "character",
-                        expSourceId = "character",
+                        sourceId = "character",
                         confidenceValue = "character",
                         participant = "character",
                         bait = "character",
@@ -101,13 +101,10 @@ setClass("psimi25Hypergraph",
          contains = c("psimi25GraphBase", "Hypergraph"))
 
 ## psimi25 experiment
-## TODO: needs to implement sourceDbAndId as superclass
 setClass("psimi25Experiment",
-         representation(sourceDb = "character",
-                        expSourceId = "character",
-                        interactionType = "character",
-                        expPubMed = "character"
-                        )
+         representation(interactionType = "character",
+                        expPubMed = "character"),
+         contains=c("sourceDbAndId")
          )
 
 setClass("psimi25Source",

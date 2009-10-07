@@ -25,7 +25,7 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
       "pull down"}
     \item{\code{expPubMed}:}{Object of class \code{"character"}, PubMed
       ID of the publication that describes the experiment}
-    \item{\code{expSourceId}:}{Object of class \code{"character"},
+    \item{\code{sourceId}:}{Object of class \code{"character"},
       source database ID of the experiment}
     \item{\code{confidenceValue}:}{Object of class \code{"character"},
       confidence value of the experimental interaction}

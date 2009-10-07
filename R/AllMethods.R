@@ -128,7 +128,7 @@ setMethod("show", "psimi25Interaction", function(object) {
   cat("interaction (", object@sourceId, "):\n",
       "---------------------------------\n",
       "[ source database ]:", object@sourceDb, "\n",
-      "[ source experiment ID ]:", object@expSourceId, "\n",
+      "[ source experiment ID ]:", object@sourceId, "\n",
       "[ interaction type ]:", object@interactionType, "\n",
       "[ experiment ]: pubmed", object@expPubMed, "\n",
       "[ participant ]:", object@participant, "\n",

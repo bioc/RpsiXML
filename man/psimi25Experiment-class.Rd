@@ -11,7 +11,7 @@ Objects can be created by calls of the form \code{\link{parseExperiment}}
 	 \describe{
     \item{\code{sourceDb}:}{Object of class \code{"character"}, source
       database short label}
-    \item{\code{expSourceId}:}{Object of class \code{"character"},
+    \item{\code{sourceId}:}{Object of class \code{"character"},
       experiment ID of the source database}
     \item{\code{interactionType}:}{Object of class \code{"character"},
       interaction type, "Y2H","vv", etc}

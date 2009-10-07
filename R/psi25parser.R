@@ -80,14 +80,14 @@ statusIndicator <- function(x, length, N=40) {
                       )
 
   ## experiment source Id
-  expSourceId <- unlist(xpathApply(doc = subDoc,
+  sourceId <- unlist(xpathApply(doc = subDoc,
                                    path = paste("/ns:experimentDescription/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
                                    fun=xmlGetAttr,
                                    name="id", namespaces=namespaces))
 
-  ### if expSourceId not found, try alternatives
-  if(is.null(expSourceId)) {
-    expSourceId <- unlist(xpathApply(doc = subDoc,
+  ### if sourceId not found, try alternatives
+  if(is.null(sourceId)) {
+    sourceId <- unlist(xpathApply(doc = subDoc,
                                      path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
                                        sourceDb,
                                        "']|/ns:experimentDescription",sep=""), 
@@ -100,7 +100,7 @@ statusIndicator <- function(x, length, N=40) {
   experiment <- new("psimi25Experiment",
                     sourceDb = null2na(sourceDb),
                     interactionType = null2na(interactionType),
-                    expSourceId = null2na(expSourceId),
+                    sourceId = null2na(sourceId),
                     expPubMed = null2na(expPubMed)
                     )
   return(experiment)
@@ -266,7 +266,7 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
       if ((!is.null(expRef)) && exists(expRef, envir = expEnv)) {
         expData <- get(expRef, envir = expEnv)
         interactionType <- expData@interactionType
-        expPsimi25 <- expData@expSourceId
+        expPsimi25 <- expData@sourceId
         expPubMed <- expData@expPubMed
       }
       else {
@@ -347,12 +347,13 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
       inhibitorUniprot <- getMapping(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
       neutralComponentUniprot <- getMapping(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
 
+      ## TODO: expSourceId is obsolete!
       interactions[[i]] <- new("psimi25Interaction",
                                sourceDb = sourcedb,
                                sourceId = as.character(psimi25Id), ## FIXME: can we do it nullable?
                                interactionType = interactionType, 
                                expPubMed = expPubMed,
-                               expSourceId = expPsimi25, 
+##                               expSourceId = expPsimi25, 
                                confidenceValue = confidenceValue,
                                participant = participantUniprot,
                                bait = baitRefs,
