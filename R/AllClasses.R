@@ -9,22 +9,38 @@
 
 
 ##------------------------------------------------------------##
-## Simple Objects: essential data structures for interactions and
+## RpsiXML Objects: essential data structures for interactions and
 ## graphs
 ##------------------------------------------------------------##
-
+##----------------------------------------##
+## Private and Virtual Classes
+##----------------------------------------##
 setClass("sourceDbAndId",
          representation(sourceDb="character",
                         sourceId="character"))
+setClass("organismIdAndName",
+         representation(taxId="character",
+                        organismName="character"))
+setClass("psimi25Entry",
+         representation(releaseDate="character",
+                        interactors="list"),
+         contains=c("organismIdAndName","VIRTUAL"))
+setClass("psimi25GraphBase",
+         representation(interactors="list",
+                        abstract = "pubMedAbst"),
+         contains="VIRTUAL")
 
+##----------------------------------------##
+## Public Classes
+##----------------------------------------##
+
+##------------------------------##
+## Interaction entry
+##------------------------------##
 ## PSI-MI 25 Interaction Entry, roughly corresponding to to the 'entry' definition in MIF25.xsd
 setClass("psimi25InteractionEntry",
-          representation(organismName = "character",
-                        taxId = "character",
-                        releaseDate = "character",
-                        interactors = "list",
-                        interactions = "list" # Liste aus mehrere Interactions
-                        )
+         representation(interactions = "list"),
+         contains=c("psimi25Entry")
          )
 
 ## psimi25 interaction, roughly matching the 'interactionElementType'
@@ -47,44 +63,37 @@ setClass("psimi25Interaction",
 setClass("psimi25Interactor",
          representation(shortLabel = "character",
                         uniprotId = "character",
-                        organismName = "character",
-                        taxId = "character",
                         xref = "environment"
                         ),
-         contains=c("sourceDbAndId")
+         contains=c("sourceDbAndId", "organismIdAndName")
          )
 
-## psimi25 complex
+##------------------------------##
+## Complex entry
+##------------------------------##
+setClass("psimi25ComplexEntry",
+         representation(complexes = "list"),
+         contains=c("psimi25Entry")
+         )
+
 setClass("psimi25Complex",
          representation(shortLabel = "character",
                         fullName = "character",
-                        organismName = "character",
-                        taxId = "character",
                         members = "data.frame",
                         attributes = "character"
                         ),
-         contains=c("sourceDbAndId")
+         contains=c("sourceDbAndId", "organismIdAndName")
          )
 
-## psimi25 complex Entry
-setClass("psimi25ComplexEntry",
-         representation(releaseDate = "character",
-                        interactors = "list",
-                        complexes = "list"
-                        )
-         )
-
-## psimi25 graph
+##------------------------------##
+## Graph: graph, hypergraph, etc
+##------------------------------##
 setClass("psimi25Graph",
-         representation(interactors = "list",
-                        abstract = "pubMedAbst"),
-         contains = "graphNEL"
-         )
+         contains = c("psimi25GraphBase", "graphNEL"))
 
 setClass("psimi25Hypergraph",
          representation(interactors = "list"),
-         contains = "Hypergraph",
-         )
+         contains = c("psimi25GraphBase", "Hypergraph"))
 
 ## psimi25 experiment
 ## TODO: needs to implement sourceDbAndId as superclass
@@ -122,7 +131,7 @@ setClass("psimi25Source",
            )
          )
 
-#### ATTENTION: new interfaces not in use
+#### ATTENTION: new XML interfaces not in use
 ####------------------------------------------------------------##
 #### PSI-MI 25 Elementary parent classes
 #### 24 complex types (R name, wcw. with convenient wrapper) in dependence-order

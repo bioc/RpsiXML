@@ -1,3 +1,7 @@
+Release 1.5.23 (Oct. 07, 2009)
+Internal Changes:
+  + Add 'organismIdAndName', 'psimi25Entry' (abstract) and 'psimi25GraphBase' (abstact) classes to reduce redundancy in class definitions
+
 Release 1.5.22 (Oct. 07, 2009)
 Internal Changes:
   + Add 'sourceDbAndId' private class recoding pairs source database and ID
