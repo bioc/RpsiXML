@@ -4,7 +4,9 @@
 \alias{interactions,psimi25InteractionEntry-method}
 \alias{interactors,psimi25InteractionEntry-method}
 \alias{organismName,psimi25InteractionEntry-method}
-\alias{releaseDate,psimi25InteractionEntry-method}
+\alias{releaseDate}
+\alias{releaseDate-methods}
+\alias{releaseDate,psimi25Entry-method}
 \alias{show,psimi25InteractionEntry-method}
 \alias{taxId,psimi25InteractionEntry-method}
 \title{Class "psimi25InteractionEntry" }

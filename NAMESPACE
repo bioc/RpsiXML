@@ -26,6 +26,10 @@ exportMethods("taxId",
               "organismName",
               "organismName<-")
 
+exportMethods("interactors",
+              "interactors<-",
+              "numInteractors")
+
 exportMethods("abstract",
               "availableXrefs",
               "edgeLabel",

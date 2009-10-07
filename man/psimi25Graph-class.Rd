@@ -2,7 +2,7 @@
 \docType{class}
 \alias{psimi25Graph-class}
 \alias{show,psimi25Graph-method}
-\alias{abstract,psimi25Graph-method}
+\alias{abstract,psimi25GraphBase-method}
 
 \title{Class "psimi25Graph" ~~~ }
 \description{ A graph object representing data extracted from PSI-MI 2.5

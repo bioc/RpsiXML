@@ -17,18 +17,23 @@
 ##----------------------------------------##
 setClass("sourceDbAndId",
          representation(sourceDb="character",
-                        sourceId="character"))
+                        sourceId="character"),
+         contains="VIRTUAL")
 setClass("organismTaxIdAndName",
          representation(taxId="character",
-                        organismName="character"))
-setClass("psimi25Entry",
-         representation(releaseDate="character",
-                        interactors="list"),
-         contains=c("organismTaxIdAndName","VIRTUAL"))
-setClass("psimi25GraphBase",
-         representation(interactors="list",
-                        abstract = "pubMedAbst"),
+                        organismName="character"),
          contains="VIRTUAL")
+setClass("interactorListBase",
+         representation(interactors="list"),
+         contains="VIRTUAL")
+
+setClass("psimi25Entry",
+         representation(releaseDate="character"),
+         contains=c("organismTaxIdAndName","interactorListBase", "VIRTUAL"))
+
+setClass("psimi25GraphBase",
+         representation(abstract = "pubMedAbst"),
+         contains=c("interactorListBase", "VIRTUAL"))
 
 ##----------------------------------------##
 ## Public Classes

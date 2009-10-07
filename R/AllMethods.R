@@ -73,6 +73,43 @@ setReplaceMethod("organismName", c("organismTaxIdAndName", "character"), functio
 })
 
 ##------------------------------------------------------------##
+## interactorListBase methods
+##------------------------------------------------------------##
+setMethod("interactors", "interactorListBase", function(x) {
+  x@interactors
+})
+setMethod("numInteractors", "interactorListBase", function(x) {
+  xit <- interactors(x)
+  xitLength <- length(xit)
+  return(xitLength)
+})
+setReplaceMethod("interactors", c("interactorListBase", "list"), function(x,value) {
+  x@interactors <- value
+  return(x)
+})
+setReplaceMethod("interactors", c("interactorListBase", "NULL"), function(x,value) {
+  x@interactors <- list()
+  return(x)
+})
+##------------------------------------------------------------##
+## psimi25Entry methods
+##------------------------------------------------------------##
+setMethod("releaseDate", "psimi25Entry", function(x) {
+  x@releaseDate
+})
+setReplaceMethod("releaseDate", c("psimi25Entry", "character"), function(x,value) {
+  x@releaseDate <- value
+  return(x)
+})
+
+##------------------------------------------------------------##
+## psimi25GraphBase methods
+##------------------------------------------------------------##
+setMethod("abstract", "psimi25GraphBase", function(object) {
+  object@abstract
+})
+
+##------------------------------------------------------------##
 ## show methods
 ##------------------------------------------------------------##
 setMethod("show", "psimi25Interactor", function(object) {
@@ -110,7 +147,7 @@ setMethod("show", "psimi25InteractionEntry", function(object) {
       "==================================\n",
       "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
       "[ taxonomy ID ]: ", object@taxId, "\n",
-      "[ interactors ]: there are ", length(interactors(object)), 
+      "[ interactors ]: there are ", numInteractors(object), 
       " interactors in total, here are the first few ones:\n")
   print(utils::head(interactorInfo(object)))
   cat("...\n", "[ interactions ]: there are ", 
@@ -158,8 +195,6 @@ setMethod("show", "psimi25Graph", function(object){
 
 
 
-setMethod("abstract", signature(object="psimi25Graph"),
-          function(object) object@abstract)
 
 setMethod("sourceDb", signature(x="psimi25Source"),
           function(x) x@sourceDb)
@@ -256,28 +291,6 @@ setMethod("availableXrefs",
             ints <- interactors(x)
             return(availableXrefs(ints, ...))
           })
-
-setMethod("interactors", signature(x="psimi25InteractionEntry"),
-          function(x) x@interactors)
-
-setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="NULL"),
-          function(x,value) {
-            x@interactors <- list()
-            return(x)
-          })
-setReplaceMethod("interactors", signature(x="psimi25InteractionEntry", value="list"),
-          function(x,value) {
-            vcInt <- sapply(value, inherits, "psimi25Interactor")
-            if(!all(vcInt))
-              stop("'value' must be a list of psimi25Interactors")
-            x@interactors <- value
-            return(x)
-            })           
-
-setMethod("interactors", signature(x="psimi25ComplexEntry"),
-          function(x) x@interactors)
-setMethod("interactors", signature(x="psimi25Graph"),
-          function(x) x@interactors)
 
 
 setMethod("interactorInfo", signature(x="psimi25InteractionEntry"),
@@ -380,14 +393,6 @@ setMethod("pubmedID", "psimi25Interaction", function(x) {
 
 
 
-setMethod("releaseDate", signature(x="psimi25InteractionEntry"),
-          function(x) x@releaseDate)
-setReplaceMethod("releaseDate", signature(x="psimi25InteractionEntry", value="character"),
-                 function(x, value) {
-                   x@releaseDate <- value
-                   return(x)
-                 })
-
 setMethod("interactionType", signature(object="psimi25Interaction"),
           function(object) object@interactionType)
 
@@ -401,11 +406,6 @@ setMethod("parseInteractor", signature(x="psimi25Source"),
 setMethod("parseComplex", signature(x="psimi25Source"),
           function(x,...) x@parseComplex(...,x)
           )
-
-setMethod("numInteractors", signature(x="psimi25InteractionEntry"), function(x) {
-  xit <- interactors(x)
-  return(length(xit))
-})
 
 setMethod("numInteractions", signature(x="psimi25InteractionEntry"), function(x) {
   xit <- interactions(x)
@@ -438,14 +438,6 @@ setMethod("complexes", "psimi25Hypergraph", function(x) {
   hyperedgeNodes(x)
 })
 
-setMethod("interactors", "psimi25Hypergraph", function(x) {
-  x@interactors
-})
-
-setMethod("numInteractors", "psimi25Hypergraph", function(x) {
-  xit <- interactors(x)
-  return(length(xit))
-})
 
 setMethod("numEdges", "psimi25Hypergraph", function(object) {
   return(length(hyperedges(object)))
