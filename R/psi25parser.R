@@ -130,11 +130,11 @@ parseXmlInteractor <- function(root, namespaces, sourceDb, uniprotsymbol) {
   subDoc <- xmlDoc(root)
   sourceIds <- XMLattributeValueByPath(doc = subDoc, path = "/ns:interactor", 
                                               name = "id", namespaces = namespaces)
-  shortLabels <- XMLvalueByPath(doc = subDoc,
+  shortLabels <- nonNullXMLvalueByPath(doc = subDoc,
                                        path="/ns:interactor/ns:names/ns:shortLabel",
                                        namespaces = namespaces)
   if(isLengthOneAndNA(shortLabels)) {
-    shortLabels <- XMLvalueByPath(doc = subDoc,
+    shortLabels <- nonNullXMLvalueByPath(doc = subDoc,
                                           path="/ns:interactor/ns:names/ns:fullName",
                                           namespaces = namespaces)
   }
