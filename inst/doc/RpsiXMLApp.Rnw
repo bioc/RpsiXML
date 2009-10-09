@@ -284,9 +284,6 @@ observation that most edges in the example graph are
 reprocated. 
 
 <<unload, echo=FALSE, results=hide>>=
-unloadNamespace("ppiStats")
-unloadNamespace("ScISI")
-unloadNamespace("Rintact")
 library(RpsiXML)
 @ 
 %\section{Build computational interaction network with orthologues}
