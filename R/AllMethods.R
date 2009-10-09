@@ -33,6 +33,13 @@ setReplaceMethod("name", c("ANY","character"), function(object,value) {
   return(object)
 })
 
+## solve the generic conflicts between utils::head and hypergraph::head
+setMethod("head", "ANY", function(.Object) {
+  utils::head(.Object)
+})
+setMethod("tail", "ANY", function(.Object) {
+  utils::tail(.Object)
+})
 
 ##------------------------------------------------------------##
 ## sourceDbAndId methods

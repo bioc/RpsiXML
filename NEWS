@@ -1,3 +1,7 @@
+Release 1.5.25 (Oct. 08, 2009)
+API Changes:
+  + (r42265) The issue of conflicts between utils::head(tail) and hypergraph::head(tail) is solve by setting the method for ANY to the form in utils. However this solution is not perfect, since the conflict warning still appears.
+
 Release 1.5.24 (Oct. 07, 2009)
 API Changes:
   + The 'import' field is cleaned, only necessary methods are imported.

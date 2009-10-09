@@ -77,7 +77,7 @@ nonNullXMLattributeValueByPath <- function(doc, path, name, namespaces) {
 
 ####################################################
 ## PSI-MI 2.5 XML entry parsers
-## Low-level parsers, only accessible for developers
+## Private low-level parsers
 ####################################################
 
 ## experiment parser
@@ -108,12 +108,12 @@ parseXmlExperiment <- function(root, namespaces, sourceDb) {
   ### if sourceId not found, try alternatives
   if(isLengthOneAndNA(sourceId)) {
     sourceId <- XMLattributeValueByPath(doc = subDoc,
-                                               path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
-                                                 sourceDb,
-                                                 "']|/ns:experimentDescription",sep=""), 
-                                               name = "id", namespaces = namespaces)
+                                        path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
+                                          sourceDb,
+                                          "']|/ns:experimentDescription",sep=""), 
+                                        name = "id", namespaces = namespaces)
   }
-
+  
   free(subDoc)
   experiment <- new("psimi25Experiment",
                     sourceDb = null2na(sourceDb),
@@ -185,7 +185,7 @@ parseXmlInteractor <- function(root, namespaces, sourceDb, uniprotsymbol) {
 ## complex parser TODO: needs to know why 'as.character' is needed
 parseXmlComplex <- function(root, namespaces, sourceDb) {
   subDoc <- xmlDoc(root)
-
+  
   sourceId <- as.character(XMLattributeValueByPath(doc=subDoc,
                                                    path=paste("/ns:interaction/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
                                                    name="id",

@@ -1,9 +1,12 @@
+
 ## import methods
 importClassesFrom("graph", "graphNEL")
-importClassesFrom("hypergraph", "Hypergraph")
+importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge")
 importMethodsFrom("methods", "show")
 importMethodsFrom("Biobase", "abstract")
+
 importFrom("graph", "numNodes", "numEdges","nodes","edges")
+importFrom("hypergraph", "head", "tail")
 
 ## export classes
 exportClasses(psimi25InteractionEntry,
