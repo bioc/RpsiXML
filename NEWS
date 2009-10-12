@@ -1,3 +1,7 @@
+Release 1.5.26 (Oct. 12, 2009)
+Internal Changes:
+  + (r42316) 'getMapped' is renamed as 'getValueByMatchingMatrixColumn' and moved out of the main function of 'parsePsimi25Interaction'
+
 Release 1.5.25 (Oct. 08, 2009)
 API Changes:
   + (r42265) The issue of conflicts between utils::head(tail) and hypergraph::head(tail) is solve by setting the method for ANY to the form in utils. However this solution is not perfect, since the conflict warning still appears.

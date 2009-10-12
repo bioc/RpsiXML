@@ -74,6 +74,17 @@ nonNullXMLattributeValueByPath <- function(doc, path, name, namespaces) {
   return(null2na(x))
 }
 
+getValueByMatchingMatrixColumn <- function(x, matrix, nameCol, valueCol) {
+  names <- matrix[,nameCol]
+  ind <- match(x, names)
+  if (length(ind) == 1 && is.na(ind)) {
+    value <- as.character(NA)
+  } else {
+    value <- unlist(matrix[ind, valueCol])
+  }
+  return(value)
+}
+
 
 ####################################################
 ## PSI-MI 2.5 XML entry parsers
@@ -237,17 +248,7 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
   entry <- getNodeSet(psimi25Doc, "/ns:entrySet/ns:entry", namespaces)
   entryCount <- length(entry)
 
-  getMapping <- function(x, matrix, nameCol, valueCol) {
-    names <- matrix[,nameCol]
-    ind <- match(x, names)
-    if (length(ind) == 1 && is.na(ind)) {
-      value <- as.character(NA)
-    } else {
-      value <- unlist(matrix[ind, valueCol])
-    }
-    return(value)
-  }
-  
+ 
   ## get interaction details from interaction node
   getInteraction <- function(theNodes, index,  sourcedb, expEnv, interactorInfo, namespaces) {
     interactions <- vector("list",length=length(theNodes))
@@ -335,16 +336,14 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
       ## neutral component
       rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='neutral component']/ns:interactorRef"
       neutralComponentRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
-      
       free(subDoc)
       
- 
       srcLabel <- "sourceId"; uniLabel <- "uniprotId"
-      participantUniprot <- getMapping(participantRefs, interactorInfo, srcLabel, uniLabel)
-      preyUniprot <- getMapping(preyRefs, interactorInfo, srcLabel, uniLabel)
-      baitUniprot <- getMapping(baitRefs, interactorInfo, srcLabel, uniLabel)
-      inhibitorUniprot <- getMapping(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
-      neutralComponentUniprot <- getMapping(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
+      participantUniprot <- getValueByMatchingMatrixColumn(participantRefs, interactorInfo, srcLabel, uniLabel)
+      preyUniprot <- getValueByMatchingMatrixColumn(preyRefs, interactorInfo, srcLabel, uniLabel)
+      baitUniprot <- getValueByMatchingMatrixColumn(baitRefs, interactorInfo, srcLabel, uniLabel)
+      inhibitorUniprot <- getValueByMatchingMatrixColumn(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
+      neutralComponentUniprot <- getValueByMatchingMatrixColumn(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
 
       ## TODO: expSourceId is obsolete!
       interactions[[i]] <- new("psimi25Interaction",
