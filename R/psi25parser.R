@@ -22,13 +22,9 @@ genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
       mode(bpMat1) <- "numeric"
     }
   }
-  
-  if(directed){
-    bpGraph <- as(bpMat1, "graphNEL")
-  }
-  
-  else{
-    bpGraph <- as(bpMat1, "graphNEL")
+
+  bpGraph <- as(bpMat1, "graphNEL")
+  if(!directed){
     bpGraph <- ugraph(removeSelfLoops(bpGraph))
   }
   bpGraph  
@@ -83,12 +79,14 @@ getValueByMatchingMatrixColumn <- function(x, matrix, nameCol, valueCol) {
 }
 
 
-####################################################
+##------------------------------------------------------------##
 ## PSI-MI 2.5 XML entry parsers
 ## Private low-level parsers
-####################################################
+##------------------------------------------------------------##
 
-## experiment parser
+##----------------------------------------##
+## Experiment Parser
+##----------------------------------------##
 parseXmlExperimentNode <- function(root, namespaces, sourceDb) {
   subDoc <- xmlDoc(root)
   interactionType <- nonNullXMLvalueByPath(doc = subDoc,
@@ -157,8 +155,9 @@ parseXmlExperimentNodeSet <- function(nodes, psimi25source, namespaces, verbose)
   return(experimentEnv)
 }
 
-
-## interactor parser
+##----------------------------------------##
+## Interactor Parser
+##----------------------------------------##
 parseXmlInteractorNode <- function(root, namespaces, sourceDb, uniprotsymbol) {
   subDoc <- xmlDoc(root)
   sourceIds <- XMLattributeValueByPath(doc = subDoc, path = "/ns:interactor", 
@@ -214,7 +213,9 @@ parseXmlInteractorNode <- function(root, namespaces, sourceDb, uniprotsymbol) {
   return(interactor)
 }
 
-## interaction parser
+##----------------------------------------##
+## Interaction Parser
+##----------------------------------------##
 getInteractionNodeSetPath <- function(basePath) {
   path <- paste(basePath, "/ns:interactionList/ns:interaction", 
                 sep = "", collapse = "")
@@ -412,7 +413,9 @@ parseXmlComplexNode <- function(root, namespaces, sourceDb) {
        attributes=attributes)
 }
 
-## entry parser
+##----------------------------------------##
+## Entry Parser
+##----------------------------------------##
 getEntryBasePath <- function(index) {
   basePath <- paste("/ns:entrySet/ns:entry[", index, "]", sep = "", collapse = "")
   return(basePath)
@@ -557,9 +560,9 @@ parseXmlEntryNodeSet <- function(psimi25file, psimi25source, verbose=TRUE) {
   }
 }
 
-##############################################
-## High-level parsers taking files as input
-##############################################
+##------------------------------------------------------------##
+## High-level public parsers
+##------------------------------------------------------------##
 
 ## File parser: parsing file into interaction entries
 parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
