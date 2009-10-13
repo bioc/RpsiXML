@@ -30,8 +30,11 @@ exportMethods("taxId",
               "organismName<-")
 
 exportMethods("interactors",
-              "interactors<-",
-              "numInteractors")
+              "interactions",
+              "numInteractors",
+              "numInteractions")
+
+exportMethods("releaseDate")
 
 exportMethods("abstract",
               "availableXrefs",
@@ -40,18 +43,13 @@ exportMethods("abstract",
               "show",
               "initialize",
               "translateID",
-              "interactors",
               "interactorInfo",
-              "interactions",
               "interactionType",
               "complexes",
               "parseComplex",
               "parseExperiment",
               "parseInteractor",
-              "numInteractions",
-              "numInteractors",
               "uniprot",
-              "releaseDate",
               "revInciMat"
               )
 

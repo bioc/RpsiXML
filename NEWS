@@ -3,9 +3,17 @@ Internal Changes:
   + (r42344) 'parseXmlExperimentNodeSet' has been refactored, add 'getExperimentNodeSetPath' function
   + (r42344) 'parseXmlComplex' and 'parseXmlInteractor' renamed into 'parseXmlComplexNode' and 'parseXmlInteractorNode' respectively
 
+Release 1.5.30 (Oct. 13, 2009)
+Internal Changes:
+  + (r42347) A major refactoring splitting the parseXmlInteractionNode, parseXmlEntryNode, etc. 
+Test suite
+  + Remove 'class_test.R', will be replaced by RUnit
+
 Release 1.5.26 (Oct. 12, 2009)
 Internal Changes:
   + (r42316) 'getMapped' is renamed as 'getValueByMatchingMatrixColumn' and moved out of the main function of 'parsePsimi25Interaction'
+API Changes:
+  + (r42347) 'interactions<-' and 'releaseDate<-' are exported
 
 Release 1.5.25 (Oct. 08, 2009)
 API Changes:

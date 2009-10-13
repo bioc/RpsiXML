@@ -135,6 +135,10 @@ getExperimentNodeSetPath <- function(basePath) {
   return(path)
 }
 
+getXmlExperimentNodeSet <- function(doc, basePath, namespaces) {
+  experimentPath <- getExperimentNodeSetPath(basePath)
+  experimentNodes <- getNodeSet(doc, experimentPath, namespaces)
+}
 parseXmlExperimentNodeSet <- function(nodes, psimi25source, namespaces, verbose) {
   if(verbose)
     statusDisplay("  Parsing experiments: ")
@@ -154,7 +158,7 @@ parseXmlExperimentNodeSet <- function(nodes, psimi25source, namespaces, verbose)
 }
 
 
-## interactor parse
+## interactor parser
 parseXmlInteractorNode <- function(root, namespaces, sourceDb, uniprotsymbol) {
   subDoc <- xmlDoc(root)
   sourceIds <- XMLattributeValueByPath(doc = subDoc, path = "/ns:interactor", 
@@ -210,6 +214,161 @@ parseXmlInteractorNode <- function(root, namespaces, sourceDb, uniprotsymbol) {
   return(interactor)
 }
 
+## interaction parser
+getInteractionNodeSetPath <- function(basePath) {
+  path <- paste(basePath, "/ns:interactionList/ns:interaction", 
+                sep = "", collapse = "")
+  return(path)
+}
+
+getInteractionNodeSet <- function(doc, basePath, namespaces) {
+  interactionPath <- getInteractionNodeSetPath(basePath)
+
+  interactionNodes <- getNodeSet(doc=doc,
+                                 path=interactionPath, 
+                                 namespaces = namespaces)
+  return(interactionNodes)
+}
+
+getInteractionPubmedPath <- function(sourceDb) {
+  path <- paste("/ns:interaction/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep="")
+  return(path)
+}
+
+parseXmlInteractionNode <- function(node,
+                                    psimi25source,
+                                    expEnv,
+                                    interactorInfo,
+                                    namespaces,
+                                    verbose) {
+  subDoc <- xmlDoc(node)
+  sourceDb <- sourceDb(psimi25source)
+  psimi25Id <- nonNullXMLattributeValueByPath(doc = subDoc,
+                                              path = getInteractionPubmedPath(sourceDb),
+                                              name = "id", namespaces = namespaces)[[1]]
+  expRef <- XMLvalueByPath(doc = subDoc,
+                           path = "/ns:interaction/ns:experimentList/ns:experimentRef",
+                           namespaces = namespaces)
+  
+  if ((!is.null(expRef)) && exists(expRef, envir = expEnv)) {
+    expData <- get(expRef, envir = expEnv)
+    interactionType <- expData@interactionType
+    expPsimi25 <- expData@sourceId
+    expPubMed <- expData@expPubMed
+  }
+  else {
+    interactionType <- nonNullXMLvalueByPath(doc = subDoc,
+                                             path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:shortLabel",
+                                             namespaces = namespaces)[[1]]
+    if(isLengthOneAndNA(interactionType)) {
+      interactionType <- nonNullXMLvalueByPath(doc = subDoc,
+                                               path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:fullName",
+                                               namespaces = namespaces)[[1]]
+    }
+    expPsimi25 <- nonNullXMLattributeValueByPath(doc = subDoc,
+                                                 path = sprintf("/ns:interaction/ns:experimentList/ns:experimentDescription/ns:xref/ns:primaryRef[@db='%s']",sourceDb),
+                                                 name = "id",
+                                                 namespaces = namespaces)[[1]]
+    expPubMed <- nonNullXMLattributeValueByPath(doc = subDoc,
+                                                path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']",
+                                                name = "id",
+                                                namespaces = namespaces)[[1]]
+  }
+  ## misc attributes
+  ## confidence value
+  rolePath <-  "/ns:interaction/ns:confidenceList/ns:confidence/ns:value"
+  confidenceValue <- nonNullXMLvalueByPath(doc=subDoc,path = rolePath, namespaces=namespaces)
+  
+  ## participant
+  rolePath <- "/ns:interaction/ns:participantList/ns:participant/ns:interactorRef"
+  participantRefs <- nonNullXMLvalueByPath(doc=subDoc, path=rolePath, namespaces=namespaces)
+  if(length(participantRefs) == 1 && is.na(participantRefs)) {
+    rolePath <- "/ns:interaction/ns:participantList/ns:participant/ns:interactor"
+    participantRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
+                                                      path=rolePath,
+                                                      name="id", namespaces=namespaces)
+  }
+  
+  ## bait
+  rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='bait']/ns:interactorRef"
+  baitRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
+  if(length(baitRefs)==1 && is.na(baitRefs)) {
+    rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='bait']/ns:interactor"
+    baitRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
+                                               path=rolePath,
+                                               name="id", namespaces=namespaces)
+  }
+  
+  ##prey
+  rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='prey']/ns:interactorRef"
+  preyRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
+  if(length(preyRefs) == 1 && is.na(preyRefs)) {
+    rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='prey']/ns:interactor"
+    preyRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
+                                               path=rolePath,
+                                               name="id", namespaces=namespaces)
+  }
+  
+  ## inhibitor
+  rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='inhibitor']/ns:interactorRef"
+  inhibitorRefs <- nonNullXMLvalueByPath(doc=subDoc, path=rolePath, namespaces=namespaces)
+  
+  ## neutral component
+  rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='neutral component']/ns:interactorRef"
+  neutralComponentRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
+  free(subDoc)
+  
+  srcLabel <- "sourceId"; uniLabel <- "uniprotId"
+  participantUniprot <- getValueByMatchingMatrixColumn(participantRefs, interactorInfo, srcLabel, uniLabel)
+  preyUniprot <- getValueByMatchingMatrixColumn(preyRefs, interactorInfo, srcLabel, uniLabel)
+  baitUniprot <- getValueByMatchingMatrixColumn(baitRefs, interactorInfo, srcLabel, uniLabel)
+  inhibitorUniprot <- getValueByMatchingMatrixColumn(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
+  neutralComponentUniprot <- getValueByMatchingMatrixColumn(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
+  
+  interaction <- new("psimi25Interaction",
+                     sourceDb = sourceDb,
+                     sourceId = as.character(psimi25Id), ## FIXME: can we do it nullable?
+                     interactionType = interactionType, 
+                     expPubMed = expPubMed,
+                     ##expSourceId = expPsimi25, 
+                     confidenceValue = confidenceValue,
+                     participant = participantUniprot,
+                     bait = baitRefs,
+                     baitUniProt = baitUniprot, 
+                     prey = preyRefs,
+                     preyUniProt = preyUniprot,
+                     inhibitor = inhibitorUniprot, 
+                     neutralComponent = neutralComponentUniprot
+                     )
+  if(verbose)
+    statusDisplay(".")    
+  return(interaction)
+  
+}
+
+parseXmlInteractionNodeSet <- function(nodes,
+                                       psimi25source,
+                                       expEnv,
+                                       interactorInfo,
+                                       namespaces,
+                                       verbose) {
+  
+  if (verbose)
+    statusDisplay("  Parsing interactions:\n")
+
+  interactions <- lapply(nodes, parseXmlInteractionNode,
+                         psimi25source=psimi25source,
+                         expEnv=expEnv,
+                         interactorInfo=interactorInfo,
+                         namespaces=namespaces,
+                         verbose=verbose)
+  
+  if(verbose) {
+    statusDisplay("\n")
+  }
+  
+  return(interactions)
+}
 
 ## complex parser TODO: needs to know why 'as.character' is needed
 parseXmlComplexNode <- function(root, namespaces, sourceDb) {
@@ -253,210 +412,136 @@ parseXmlComplexNode <- function(root, namespaces, sourceDb) {
        attributes=attributes)
 }
 
-##############################################
-## High-level parsers taking files as input
-##############################################
+## entry parser
+getEntryBasePath <- function(index) {
+  basePath <- paste("/ns:entrySet/ns:entry[", index, "]", sep = "", collapse = "")
+  return(basePath)
+}
 
-## File parser: parsing file into interaction entries
-parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
+getReleaseDatePath <- function(basePath) {
+  releaseDatePath <- paste(basePath, "/ns:source", sep = "", collapse = "")
+  return(releaseDatePath)
+}
+
+getPrimaryInteractorPath <- function(basePath) {
+  interactorPath <- paste(basePath, "/ns:interactorList/ns:interactor", 
+                          sep = "", collapse = "")
+  return(interactorPath)
+}
+
+
+getSecondaryInteractorPath <- function(basePath) {
+  interactorPath <-  paste(basePath, "/ns:interactionList/ns:interaction/ns:participantList/ns:participant/ns:interactor",
+                           sep="", collapse="")
+  return(interactorPath)
+}
+
+getInteractorNodeSet <- function(doc, basePath, namespaces) {
+  interactorPath <- getPrimaryInteractorPath(basePath)
+  interactorNodes <- getNodeSet(doc, interactorPath, namespaces)
+  if(length(interactorNodes) == 0) { ## in case no interactorList was provided
+    interactorPath <- getSecondaryInteractorPath(basePath)
+    interactorNodes <- getNodeSet(doc, interactorPath, 
+                                  namespaces)
+  }
+  return(interactorNodes)
+}
+
+parseXmlInteractorNodeSet <- function(nodes, psimi25source,
+                                      namespaces, verbose) {
+  if(verbose)
+    statusDisplay("  Parsing interactors:\n")
+
+  interactorIds <- sapply(nodes, xmlGetAttr, name = "id")
+  interactorCount <- length(nodes)
+  interactors <- vector("list",length=interactorCount)
+  if (interactorCount > 0) {
+    for (p in seq(interactorCount)) {
+      if(verbose)
+        statusIndicator(p, interactorCount)
+      theRes <- parseInteractor(psimi25source, nodes[[p]], namespaces)
+      interactors[[p]] <- theRes
+    }
+  }
+  if(verbose)
+    statusDisplay("\n")
+  
+  interactorInfMat <- interactorInfo(interactors)
+  names(interactors) <- interactorInfMat[,"uniprotId"]
+  return(interactors)
+}
+
+parseXmlEntryNode <- function(doc, index, namespaces, psimi25source, verbose=TRUE) {
+  if(verbose)
+    statusDisplay(paste("Parsing entry",index,"\n",sep=" "))
+
+  basePath <- getEntryBasePath(index)
+  thisEntry <- new("psimi25InteractionEntry")
+
+  ## experiment
+  experimentNodes <- getXmlExperimentNodeSet(doc=doc, basePath=basePath,
+                                             namespaces=namespaces)
+  experimentEnv <- parseXmlExperimentNodeSet(nodes=experimentNodes, psimi25source=psimi25source, 
+                                             namespaces=namespaces, verbose=verbose)
+  
+  ## misc information
+  releaseDatePath <- getReleaseDatePath(basePath)
+  releaseDate <- xpathApply(doc = doc, path = releaseDatePath, 
+                            fun = xmlGetAttr, name = "releaseDate", namespaces = namespaces)
+  releaseDate(thisEntry) <- null2na(unlist(releaseDate))
+  
+  ## interactor
+  interactorNodes <- getInteractorNodeSet(doc=doc, basePath=basePath, namespaces=namespaces)
+  interactors <- parseXmlInteractorNodeSet(nodes=interactorNodes,
+                                           psimi25source=psimi25source,
+                                           namespaces=namespaces,
+                                           verbose=verbose)
+  interactorInfMat <- interactorInfo(interactors)
+  
+  organismName <- unique(unlist(interactorInfMat[, "organismName"]))
+  organismName(thisEntry) <- organismName
+  taxId <- unique(unlist(interactorInfMat[, "taxId"]))
+  taxId(thisEntry) <- taxId
+
+  ## interaction
+  interactionNodes <- getInteractionNodeSet(doc=doc,
+                                            basePath=basePath,
+                                            namespaces=namespaces)
+  sourcedb <- sourceDb(psimi25source)
+  interactions <- parseXmlInteractionNodeSet(nodes=interactionNodes,
+                                             psimi25source = psimi25source,
+                                             expEnv = experimentEnv,
+                                             interactorInfo = interactorInfMat,
+                                             namespaces=namespaces,
+                                             verbose=verbose)
+  
+  interactions(thisEntry) <- interactions
+  rownames(interactorInfMat) <- interactorInfMat[, "uniprotId"]
+  interactors(thisEntry) <- interactors
+
+  return(thisEntry)
+}
+
+
+parseXmlEntryNodeSet <- function(psimi25file, psimi25source, verbose=TRUE) {
+
   psimi25Doc <- xmlTreeParse(psimi25file, useInternalNodes = TRUE)
-                           
+  
   psimi25NS <- getDefaultNamespace(psimi25Doc)
   namespaces <- c(ns = psimi25NS)
   entry <- getNodeSet(psimi25Doc, "/ns:entrySet/ns:entry", namespaces)
-  entryCount <- length(entry)
-
- 
-  ## get interaction details from interaction node
-  getInteraction <- function(theNodes, index,  sourcedb, expEnv, interactorInfo, namespaces) {
-    interactions <- vector("list",length=length(theNodes))
-    if (verbose)
-      statusDisplay("  Parsing interactions:\n")
-    for (i in seq(along=theNodes)) {
-      if (verbose) {
-        statusIndicator(i, length(theNodes))
-      }
-      theNode <- theNodes[[i]]
-      subDoc <- xmlDoc(theNode)
-      psimi25Ids <- xpathApply(doc = subDoc,
-                               path = paste("/ns:interaction/ns:xref/ns:primaryRef[@db='",
-                                sourcedb,"']",sep=""), 
-                               fun = xmlGetAttr, name = "id", namespaces = namespaces)
-      psimi25Id <- null2na(unlist(psimi25Ids)[[1]])
-      
-      expRef <- XMLvalueByPath(doc = subDoc,
-                                    path = "/ns:interaction/ns:experimentList/ns:experimentRef",
-                                    namespaces = namespaces)
-
-      if ((!is.null(expRef)) && exists(expRef, envir = expEnv)) {
-        expData <- get(expRef, envir = expEnv)
-        interactionType <- expData@interactionType
-        expPsimi25 <- expData@sourceId
-        expPubMed <- expData@expPubMed
-      }
-      else {
-        interactionType <- nonNullXMLvalueByPath(doc = subDoc,
-                                                 path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:shortLabel",
-                                                 namespaces = namespaces)[[1]]
-        if(isLengthOneAndNA(interactionType)) {
-          interactionType <- nonNullXMLvalueByPath(doc = subDoc,
-                                                   path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:fullName",
-                                                   namespaces = namespaces)[[1]]
-        }
-        expPsimi25 <- nonNullXMLattributeValueByPath(doc = subDoc,
-                                                     path = sprintf("/ns:interaction/ns:experimentList/ns:experimentDescription/ns:xref/ns:primaryRef[@db='%s']",sourcedb),
-                                                     name = "id",
-                                                     namespaces = namespaces)[[1]]
-        expPubMed <- nonNullXMLattributeValueByPath(doc = subDoc,
-                                                    path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']",
-                                                    name = "id",
-                                                    namespaces = namespaces)[[1]]
-      }
-      ## misc attributes
-      ## confidence value
-      rolePath <-  "/ns:interaction/ns:confidenceList/ns:confidence/ns:value"
-      confidenceValue <- nonNullXMLvalueByPath(doc=subDoc,path = rolePath, namespaces=namespaces)
-      
-      ## participant
-      rolePath <- "/ns:interaction/ns:participantList/ns:participant/ns:interactorRef"
-      participantRefs <- nonNullXMLvalueByPath(doc=subDoc, path=rolePath, namespaces=namespaces)
-      if(length(participantRefs) == 1 && is.na(participantRefs)) {
-        rolePath <- "/ns:interaction/ns:participantList/ns:participant/ns:interactor"
-        participantRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
-                                                          path=rolePath,
-                                                          name="id", namespaces=namespaces)
-      }
-      
-      ## bait
-      rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='bait']/ns:interactorRef"
-      baitRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
-      if(length(baitRefs)==1 && is.na(baitRefs)) {
-         rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='bait']/ns:interactor"
-         baitRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
-                                                    path=rolePath,
-                                                    name="id", namespaces=namespaces)
-      }
-      
-      ##prey
-      rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='prey']/ns:interactorRef"
-      preyRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
-      if(length(preyRefs) == 1 && is.na(preyRefs)) {
-        rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='prey']/ns:interactor"
-        preyRefs <- nonNullXMLattributeValueByPath(doc=subDoc,
-                                                   path=rolePath,
-                                                   name="id", namespaces=namespaces)
-      }
-      
-      ## inhibitor
-      rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='inhibitor']/ns:interactorRef"
-      inhibitorRefs <- nonNullXMLvalueByPath(doc=subDoc, path=rolePath, namespaces=namespaces)
-
-      ## neutral component
-      rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='neutral component']/ns:interactorRef"
-      neutralComponentRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
-      free(subDoc)
-      
-      srcLabel <- "sourceId"; uniLabel <- "uniprotId"
-      participantUniprot <- getValueByMatchingMatrixColumn(participantRefs, interactorInfo, srcLabel, uniLabel)
-      preyUniprot <- getValueByMatchingMatrixColumn(preyRefs, interactorInfo, srcLabel, uniLabel)
-      baitUniprot <- getValueByMatchingMatrixColumn(baitRefs, interactorInfo, srcLabel, uniLabel)
-      inhibitorUniprot <- getValueByMatchingMatrixColumn(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
-      neutralComponentUniprot <- getValueByMatchingMatrixColumn(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
-
-      ## TODO: expSourceId is obsolete!
-      interactions[[i]] <- new("psimi25Interaction",
-                               sourceDb = sourcedb,
-                               sourceId = as.character(psimi25Id), ## FIXME: can we do it nullable?
-                               interactionType = interactionType, 
-                               expPubMed = expPubMed,
-##                               expSourceId = expPsimi25, 
-                               confidenceValue = confidenceValue,
-                               participant = participantUniprot,
-                               bait = baitRefs,
-                               baitUniProt = baitUniprot, 
-                               prey = preyRefs,
-                               preyUniProt = preyUniprot,
-                               inhibitor = inhibitorUniprot, 
-                               neutralComponent = neutralComponentUniprot
-                               )
-    }
-    if(verbose) {
-      statusDisplay("\n")
-    }
-    interactions
-  }
 
   if(verbose)
-    statusDisplay(paste(length(entryCount),"Entries found\n",sep=" "))
-  entryList <- lapply(seq(entryCount), function(i) {
-    if(verbose)
-      statusDisplay(paste("Parsing entry",i,"\n",sep=" "))
-    basePath <- paste("/ns:entrySet/ns:entry[", i, "]", sep = "", 
-                      collapse = "")
-    thisEntry <- new("psimi25InteractionEntry")
-
-    ## experiment
-    experimentPath <- getExperimentNodeSetPath(basePath)
-    experimentNodes <- getNodeSet(psimi25Doc, experimentPath, namespaces)
-    experimentEnv <- parseXmlExperimentNodeSet(nodes=experimentNodes, psimi25source=psimi25source, 
-                                             namespaces=namespaces, verbose=verbose)
+    statusDisplay(paste(length(entry),"Entries found\n",sep=" "))
     
-    ## misc information
-    releaseDatePath <- paste(basePath, "/ns:source", sep = "", collapse = "")
-    releaseDate <- xpathApply(doc = psimi25Doc, path = releaseDatePath, 
-                              fun = xmlGetAttr, name = "releaseDate", namespaces = namespaces)
-    thisEntry@releaseDate <- null2na(unlist(releaseDate))
-
-    ## interactor
-    interactorPath <- paste(basePath, "/ns:interactorList/ns:interactor", 
-                            sep = "", collapse = "")
-    interactorNodes <- getNodeSet(psimi25Doc, interactorPath, 
-                                  namespaces)
-    if(length(interactorNodes) == 0) { ## in case no interactorList was provided
-      interactorPath <- paste(basePath, "/ns:interactionList/ns:interaction/ns:participantList/ns:participant/ns:interactor",
-                              sep="", collapse="")
-      interactorNodes <- getNodeSet(psimi25Doc, interactorPath, 
-                                    namespaces)
-    }
-    interactorIds <- sapply(interactorNodes, xmlGetAttr, 
-                            name = "id")
-    interactorCount <- length(interactorNodes)
-    interactors <- vector("list",length=interactorCount)
-    if(verbose)
-      statusDisplay("  Parsing interactors:\n")
-    if (interactorCount > 0) {
-      for (p in seq(interactorCount)) {
-        if(verbose)
-          statusIndicator(p, interactorCount)
-        theRes <- parseInteractor(psimi25source, interactorNodes[[p]], namespaces)
-        interactors[[p]] <- theRes
-      }
-    }
-    if(verbose)
-      statusDisplay("\n")
-    interactorInfMat <- interactorInfo(interactors)
-    names(interactors) <- interactorInfMat[,"uniprotId"]
-    
-    organismName <- unique(unlist(interactorInfMat[, "organismName"]))
-    thisEntry@organismName <- organismName
-    taxId <- unique(unlist(interactorInfMat[, "taxId"]))
-    thisEntry@taxId <- taxId
-    interactionPath <- paste(basePath, "/ns:interactionList/ns:interaction", 
-                             sep = "", collapse = "")
-    interactionNodes <- getNodeSet(psimi25Doc, interactionPath, 
-                                   namespaces = namespaces)
-    sourcedb <- sourceDb(psimi25source)
-
-    interactions <- getInteraction(interactionNodes,
-                                   sourcedb = sourcedb, expEnv = experimentEnv,
-                                   interactorInfo = interactorInfMat,
-                                   namespaces=namespaces)
-    
-    thisEntry@interactions <- interactions
-    rownames(interactorInfMat) <- interactorInfMat[, "uniprotId"]
-    thisEntry@interactors <- interactors
-    thisEntry
-  })
+  entryCount <- length(nodes)
+  entryList <- list()
+  for(i in 1:entryCount) {
+    entryList[[i]] <- parseXmlEntryNode(doc=psimi25Doc, index=i,
+                                        namespaces=namespaces,
+                                        psimi25source=psimi25source,
+                                        verbose=verbose)
+  }
   
   free(psimi25Doc)
   if (length(entryList) > 1) {
@@ -470,6 +555,16 @@ parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
   } else {
     return(entryList[[1]])
   }
+}
+
+##############################################
+## High-level parsers taking files as input
+##############################################
+
+## File parser: parsing file into interaction entries
+parsePsimi25Interaction <- function (psimi25file, psimi25source, verbose=TRUE) {
+  parsedEntry <- parseXmlEntryNodeSet(psimi25file, psimi25source, verbose=TRUE)
+  return(parsedEntry)
 }
 
 

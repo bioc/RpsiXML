@@ -18,9 +18,12 @@ setGeneric("taxId<-", function(x, value) standardGeneric("taxId<-"))
 setGeneric("organismName", function(x) standardGeneric("organismName"))
 setGeneric("organismName<-", function(x, value) standardGeneric("organismName<-"))
 
+setGeneric("interactions", function(x) standardGeneric("interactions"))
+setGeneric("interactions<-", function(x, value) standardGeneric("interactions<-"))
 setGeneric("interactors", function(x) standardGeneric("interactors"))
 setGeneric("interactors<-", function(x, value) standardGeneric("interactors<-"))
 setGeneric("numInteractors", function(x) standardGeneric("numInteractors"))
+setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
 
 setGeneric("releaseDate", function(x) standardGeneric("releaseDate"))
 setGeneric("releaseDate<-", function(x, value) standardGeneric("releaseDate<-"))
@@ -28,8 +31,7 @@ setGeneric("releaseDate<-", function(x, value) standardGeneric("releaseDate<-"))
 setGeneric("availableXrefs", function(x,...) standardGeneric("availableXrefs"))
 setGeneric("translateID", function(r, ...) standardGeneric("translateID"))
 
-setGeneric("interactions", function(x) standardGeneric("interactions"))
-setGeneric("interactions<-", function(x, value) standardGeneric("interactions<-"))
+
 setGeneric("complexes", function(x) standardGeneric("complexes"))
 setGeneric("members", function(x) standardGeneric("members"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
@@ -43,7 +45,7 @@ setGeneric("parseComplex", function(x,...) standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods
-setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
+
 
 ## edge/node methods
 setGeneric("edgeLabel", function(x,...) standardGeneric("edgeLabel"))
