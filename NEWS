@@ -1,3 +1,8 @@
+Release 1.5.27 (Oct. 13, 2009)
+Internal Changes:
+  + (r42344) 'parseXmlExperimentNodeSet' has been refactored, add 'getExperimentNodeSetPath' function
+  + (r42344) 'parseXmlComplex' and 'parseXmlInteractor' renamed into 'parseXmlComplexNode' and 'parseXmlInteractorNode' respectively
+
 Release 1.5.26 (Oct. 12, 2009)
 Internal Changes:
   + (r42316) 'getMapped' is renamed as 'getValueByMatchingMatrixColumn' and moved out of the main function of 'parsePsimi25Interaction'

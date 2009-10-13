@@ -119,15 +119,15 @@ setClass("psimi25Source",
            sourceDb = "source database identifier in the psi-mi 25 file",
            uniprotPath = "NA",
            parseExperiment = function(root, namespaces, psimi25source) {
-             parseXmlExperiment(root, namespaces, sourceDb(psimi25source))
+             parseXmlExperimentNode(root, namespaces, sourceDb(psimi25source))
            },
            parseInteractor = function(root, namespaces, psimi25source) {
-             parseXmlInteractor(root, namespaces,
+             parseXmlInteractorNode(root, namespaces,
                                      sourceDb(psimi25source),
                                     uniprot(psimi25source))
            },
            parseComplex = function(root, namespaces, psimi25source) {
-             parseXmlComplex(root, namespaces, sourceDb(psimi25source))
+             parseXmlComplexNode(root, namespaces, sourceDb(psimi25source))
            }
            )
          )
