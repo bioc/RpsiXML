@@ -419,6 +419,13 @@ setMethod("numInteractions", signature(x="psimi25InteractionEntry"), function(x)
   return(length(xit))
 })
 
+setMethod("pubmedID", signature(x="psimi25InteractionEntry"), function(x) {
+  xit <- interactions(x)  
+  pubmedid <- sapply(xit, pubmedID)
+  uniquePubmedID <- unique(pubmedid)
+  return(uniquePubmedID)
+})
+
 ##--------------------##
 ## hypergraph methods
 ##--------------------##

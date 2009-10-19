@@ -6,6 +6,7 @@ hprdxml <- file.path(xmlDir, "hprd_200709_test.xml")
 hprdSet <- parsePsimi25Interaction(hprdxml, HPRD.PSIMI25)
 hprdInteractors <- interactors(hprdSet)
 hprdInteractorInfo <- interactorInfo(hprdSet)
+pubmedID(hprdSet)
 
 ## BiOGRID: schema check failed, trivial
 gridxml <- file.path(xmlDir, "biogrid_200804_test.xml")

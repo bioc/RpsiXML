@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-We demonstrate the capabilities of the software package \Rpackage{RpsiXML}. This 
+We demonstrate the use and capabilities of the software package \Rpackage{RpsiXML} by examples. Thie
 package provides a programmatic interface with those databases which adhere to 
 the PSI-MI XML2.5 standardization for molecular interactions. Each experimental
 dataset from any of the databases can be read into R and converted into a 

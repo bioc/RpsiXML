@@ -1,3 +1,12 @@
+Release 1.5.31 (Oct. 19, 2009)
+Documentation:
+  + (r42468) Modify the man page of psimi25InteractionEntry to reflect the current data structure of interactors. Thanks the report by Robert Gentleman.
+API Changes:
+  + (r42469) Add 'pubmedID' method for psimi25InteractionEntry object to return unique PubMed IDs of the papers reporting the interactions stored in the entry.
+
+Release 1.5.30
+  + A major refactoring of parsing functions
+
 Release 1.5.27 (Oct. 13, 2009)
 Internal Changes:
   + (r42344) 'parseXmlExperimentNodeSet' has been refactored, add 'getExperimentNodeSetPath' function
