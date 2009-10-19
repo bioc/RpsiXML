@@ -9,6 +9,7 @@
 \alias{releaseDate,psimi25Entry-method}
 \alias{show,psimi25InteractionEntry-method}
 \alias{taxId,psimi25InteractionEntry-method}
+\alias{pubmedID,psimi25InteractionEntry-method}
 \title{Class "psimi25InteractionEntry" }
 \description{ A class representing interaction data parsed from PSI-MI
   2.5 XML files}
@@ -22,9 +23,8 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
       NCBI taxonomy ID(s) of the interactors }
     \item{\code{releaseDate}:}{Object of class \code{"character"}, character, release date of the data entry, 
 	recorded in the \code{entry} element of the XML file}
-    \item{\code{interactors}:}{Object of class \code{"matrix"}, interactor information in a matrix, Each row represents one
-      interactor. Source IDs are used as row names. Each column represents one annotation. 
-      Annotations include: UniProt ID, short label, organism name, and NCBI taxonomy ID }
+    \item{\code{interactors}:}{Object of class \code{"list"}, a list of
+      \code{psimi25Interactor-class} objects, each represents one interactor.}
     \item{\code{interactions}:}{Object of class \code{"list"}, list, a list of \code{psimi25Interaction-class} objects, 
 	each represents one interaction. }
   }
@@ -35,7 +35,7 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
     return a list of \code{psimi25Intearaction} objects, each
     representing one interaction}
     \item{interactors}{\code{signature(x = "psimi25InteractionEntry")}: a method to find 
-all the interactors within the psimi25InteractionEntry and print them }
+      all the interactors within the psimi25InteractionEntry and print them }
     \item{organismName}{\code{signature(x = "psimi25InteractionEntry")}:
       returns organism names of the interactors }
     \item{releaseDate}{\code{signature(x = "psimi25InteractionEntry")}:
@@ -44,10 +44,13 @@ all the interactors within the psimi25InteractionEntry and print them }
       print method}
     \item{taxId}{\code{signature(x = "psimi25InteractionEntry")}:
       returns NCBI taxonomy ID }
-    \item{numInteractors}{\code{signature(x = "psimi25InteractionEny")}:
-      returns the number of interactors }
-    \item{numInteractions}{\code{signature(x = "psimi25InteractionEny")}:
-      returns the number of interactions }
+    \item{numInteractors}{\code{signature(x = "psimi25InteractionEntry")}:
+      returns the number of interactors.}
+    \item{numInteractions}{\code{signature(x = "psimi25InteractionEntry")}:
+      returns the number of interactions.}
+    \item{pubmedID}{\code{signature(x = "psimi25InteractionEntry")}:
+      returns the (unique) PubMed IDs of the papers reporting the
+      interactions in the entry.}
   }
   
 }
