@@ -2,7 +2,8 @@
 \docType{class}
 \alias{psimi25Complex-class}
 \alias{show,psimi25Complex-method}
-\alias{complexAttributes,psimi25Complex-method}
+\alias{show,pattributesListBase-method}
+\alias{attributesList,attributesListBase-method}
 \alias{members,psimi25Complex-method}
 \alias{complexName,psimi25Complex-method}
 
@@ -28,8 +29,8 @@
     \item{\code{taxId}:}{Object of class \code{"character"}, taxonomy ID}
     \item{\code{members}:}{Object of class \code{"data.frame"}, members
       (UniProt ID if available)}
-    \item{\code{attributes}:}{Object of class \code{"character"},
-      attributes of the complex }
+    \item{\code{attributesList}:}{A list of attributes of the complex,
+      each as an object of \code{psimi25Attribute} object}
   }
 }
 \section{Methods}{
@@ -39,13 +40,13 @@
     \item{sourceDb}{\code{signature(x = "psimi25Complex")}: returns source database }
     \item{sourceId}{\code{signature(x = "psimi25Complex")}: returns
       source ID }
-    \item{complexAttributes}{\code{signature(x = "psimi25Complex")}: returns
+    \item{attributesList}{\code{signature(x = "psimi25Complex")}: returns
       attributes of the complex}
     \item{members}{\code{signature(x = "psimi25Complex")}: returns
       members of the complex}
     \item{complexName}{\code{signature(x = "psimi25Complex")}: returns
       complex name }
-	 }
+  }
 }
 \author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{\code{\link{parsePsimi25Complex}}}

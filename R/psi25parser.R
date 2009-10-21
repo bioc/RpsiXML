@@ -85,8 +85,37 @@ getValueByMatchingMatrixColumn <- function(x, matrix, nameCol, valueCol) {
 ##------------------------------------------------------------##
 
 ##----------------------------------------##
-## misc parsers
+## Attributes Parser
 ##----------------------------------------##
+parseXmlAttribute <- function(node, namespaces) {
+  attributeName <- xmlGetAttr(node, name="name", default=as.character(NA))
+  attributeNameAc <- xmlGetAttr(node, name="nameAc", default=as.character(NA))
+  attributeValue <- xmlValue(node)
+  
+  attribute <- new("psimi25Attribute",
+                   name=attributeName,
+                   nameAc=attributeNameAc,
+                   attribute=attributeValue)
+}
+
+parseXmlAttributeNodeSet <- function(nodes, namespaces) {
+  if(length(nodes)==0) {
+    return(list())
+  } else {
+    attributes <- sapply(nodes, parseXmlAttribute, namespaces=namespaces)
+    return(attributes)
+  }
+}
+
+parseXmlAttributesListByPath <- function(doc,
+                                        path,
+                                        namespaces) {
+  attributeNodeSets <- getNodeSet(doc=doc,
+                                  path=path,
+                                  namespaces=namespaces)
+  attributes <- parseXmlAttributeNodeSet(attributeNodeSets)
+  return(attributes)
+}
 
 ##----------------------------------------##
 ## Experiment Parser
@@ -402,18 +431,11 @@ parseXmlComplexNode <- function(node,
   interactorRef <- as.character(XMLvalueByPath(doc=subDoc,
                                                path="/ns:interaction/ns:participantList/ns:participant/ns:interactorRef",
                                                namespaces=namespaces))
+
+  attributesList <- parseXmlAttributesListByPath(doc=subDoc,
+                                                 path="/ns:interaction/ns:attributeList/ns:attribute[@name]",
+                                                 namespaces=namespaces)
   
-  attributeNodes <- getNodeSet(subDoc, 
-                               "/ns:interaction/ns:attributeList/ns:attribute[@name]",
-                               namespaces=namespaces)
-  
-  if (length(attributeNodes)>0) {
-    attributeNames <- sapply(attributeNodes, xmlGetAttr, name="name")
-    attributes <- sapply(attributeNodes, xmlValue)
-    names(attributes) <- attributeNames
-  } else {
-    attributes <- character(0)
-  }
   free(subDoc)
   complex <- new("psimi25Complex",
                  sourceDb=sourcedb,
@@ -421,7 +443,7 @@ parseXmlComplexNode <- function(node,
                  shortLabel=shortLabel,
                  fullName=fullName,
                  interactorRef=interactorRef,
-                 attributes=attributes)
+                 attributesList=attributesList)
   return(complex)
   
 
@@ -661,7 +683,7 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
                                           psimi25source=psimi25source,
                                           namespaces=namespaces,
                                           verbose=verbose)
-
+  
   
   ## complex
   complexNodes <- getNodeSet(psiDoc, "//ns:interactionList/ns:interaction", namespaces)

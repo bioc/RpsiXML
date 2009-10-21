@@ -86,9 +86,9 @@ export(parsePsimi25Interaction,
 
 ## complex 
 export(complexName,
-       complexAttributes,
+       attributesList,
        members)
-       ## ,"members<-")
+
        
 ## validate
 export(validatePSIMI25)

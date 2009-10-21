@@ -1,7 +1,7 @@
 \name{complexName}
 \alias{complexName}
 \alias{members}
-\alias{complexAttributes}
+\alias{attributesList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Accessor functions for complex }
 \description{
@@ -11,7 +11,7 @@
 \usage{
 complexName(x,...)
 members(x)
-complexAttributes(x,...)
+attributesList(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,9 +25,8 @@ complexAttributes(x,...)
   \item{complexName}{Returns the name of the complex in characters}
   \item{members}{A data frame of protein members building the
     complex and their information}
-  \item{complexAttributes}{A named vector of character strings, the
-    names are the attribute names while the values are attributes
-    documented in the PSI-MI 2.5 file}
+  \item{attributesList}{A list of \code{psimi25Attribute} objects,
+    recording the attribute name, name accession and value.}
 }
 \author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{\code{\link{psimi25Complex-class}}}
@@ -39,7 +38,7 @@ intactComplexSet <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25)
 complexSample <- complexes(intactComplexSet)[[2]]
 
 complexName(complexSample)
-complexAttributes(complexSample)
+attributesList(complexSample)
 members(complexSample)
 }
 \keyword{ models }

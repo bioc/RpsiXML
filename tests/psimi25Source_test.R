@@ -64,7 +64,7 @@ translateID(intactComplexGraph, "intact", NA)
 
 complexSample <- complexes(intactComplexSet)[[2]]
 complexName(complexSample)
-complexAttributes(complexSample)
+attributesList(complexSample)
 members(complexSample)
 
 ## DIP: schema check failed, namespace not unique, modified
