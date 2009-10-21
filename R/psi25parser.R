@@ -1,4 +1,4 @@
-## misc functions
+# misc functions
 genBPGraph <- function(bpMat, directed=TRUE, bp=TRUE){
   bpMat1 <- bpMat
   b <- rownames(bpMat)
@@ -587,23 +587,13 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
   ## interactor
   interactorNodes <- getNodeSet(psiDoc,
                                 "//ns:interactorList/ns:interactor", namespaces)
-  interactorIds <- sapply(interactorNodes, xmlGetAttr, name="id")
-  interactorCount <- length(interactorNodes)
-  interactors <- vector("list", length=interactorCount)
-  if(verbose)
-    statusDisplay("  Parsing interactors:\n")
-  for (i in seq(interactorCount)) {
-    if(verbose)
-      statusIndicator(i, interactorCount)
-    theRes <- parseInteractor(psimi25source, interactorNodes[[i]], namespaces)
-    interactors[[i]] <- theRes
-  }
-  if(verbose)
-    statusDisplay("\n")
-  
+  interactors <- parseXmlInteractorNodeSet(nodes=interactorNodes,
+                                           psimi25source=psimi25source,
+                                           namespaces=namespaces,
+                                           verbose=verbose)
+  interactorIds <- sapply(interactors, sourceId)
   interactorInfo <- interactorInfo(interactors)
-  names(interactors) <- interactorInfo[,"uniprotId"]
-
+  
   ## complex
   complexNodes <- getNodeSet(psiDoc, "//ns:interactionList/ns:interaction", namespaces)
   if (verbose)

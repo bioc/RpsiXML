@@ -43,8 +43,7 @@ buildPCHypergraph(xmlFiles, psimi25source, split.by = c("none", "organismName", 
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
 
-pc2 <- buildPCHypergraph(intactComplexxml,
-INTACT.PSIMI25,split.by="organismName")
+pc2 <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25,split.by="organismName")
 
 pc2[2]
 complexes(pc2[[2]])[1:3]
