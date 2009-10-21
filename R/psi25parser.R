@@ -85,6 +85,10 @@ getValueByMatchingMatrixColumn <- function(x, matrix, nameCol, valueCol) {
 ##------------------------------------------------------------##
 
 ##----------------------------------------##
+## misc parsers
+##----------------------------------------##
+
+##----------------------------------------##
 ## Experiment Parser
 ##----------------------------------------##
 parseXmlExperimentNode <- function(root, namespaces, sourceDb) {
@@ -371,15 +375,22 @@ parseXmlInteractionNodeSet <- function(nodes,
   return(interactions)
 }
 
-## complex parser TODO: needs to know why 'as.character' is needed
-parseXmlComplexNode <- function(root, namespaces, sourceDb) {
-  subDoc <- xmlDoc(root)
-  
+##----------------------------------------##
+## complex parser
+## TODO: needs to know why 'as.character' is needed
+##----------------------------------------##
+
+parseXmlComplexNode <- function(node,
+                                namespaces,
+                                psimi25source) {
+
+  subDoc <- xmlDoc(node)
+  sourcedb <- sourceDb(psimi25source)
   sourceId <- as.character(XMLattributeValueByPath(doc=subDoc,
-                                                   path=paste("/ns:interaction/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
+                                                   path=paste("/ns:interaction/ns:xref/ns:primaryRef[@db='",sourcedb,"']",sep=""),
                                                    name="id",
                                                    namespaces=namespaces))
-
+  
   shortLabel <- as.character(XMLvalueByPath(doc=subDoc,
                                             path="/ns:interaction/ns:names/ns:shortLabel",
                                             namespaces=namespaces))
@@ -388,7 +399,7 @@ parseXmlComplexNode <- function(root, namespaces, sourceDb) {
                                           path="/ns:interaction/ns:names/ns:fullName",
                                           namespaces=namespaces))
   
-  interactorIds <- as.character(XMLvalueByPath(doc=subDoc,
+  interactorRef <- as.character(XMLvalueByPath(doc=subDoc,
                                                path="/ns:interaction/ns:participantList/ns:participant/ns:interactorRef",
                                                namespaces=namespaces))
   
@@ -404,15 +415,51 @@ parseXmlComplexNode <- function(root, namespaces, sourceDb) {
     attributes <- character(0)
   }
   free(subDoc)
+  complex <- new("psimi25Complex",
+                 sourceDb=sourcedb,
+                 sourceId=sourceId,
+                 shortLabel=shortLabel,
+                 fullName=fullName,
+                 interactorRef=interactorRef,
+                 attributes=attributes)
+  return(complex)
   
-  list(sourceDb = sourceDb,
-       sourceId = sourceId,
-       shortLabel= shortLabel,
-       fullName=fullName,
-       interactorIds=interactorIds,
-       attributes=attributes)
+
 }
 
+annotateComplexesWithInteractors <- function(complexes,
+                                              interactors) {
+  interactorIds <- sapply(interactors, sourceId)
+  interactorInfo <- interactorInfo(interactors)
+
+  for(i in seq(along=complexes)) {
+    thisComplex <- complexes[[i]]
+    thisNodeInteractorIds <- interactorRef(thisComplex)
+    participantRef <- split(thisNodeInteractorIds, 
+                            as.factor(thisNodeInteractorIds))
+    multiplicity <- sapply(participantRef, length)
+    if ( !all(names(participantRef) %in% interactorIds) ) {
+      msg <- paste("parse complex ", shortLabel(thisComplex), 
+                   "can't resolve all interactor references.")
+      stop(msg)
+    }	
+    participantIndex <- interactorIds %in% names(participantRef)
+    participants <- interactorInfo[participantIndex, "sourceId"];
+    participantsUniProt <- interactorInfo[participantIndex, "uniprotId"];
+    names(participants) <- as.character(participants)
+    participants <- data.frame(sourceId=participants, uniprotId = participantsUniProt, multiplicity=multiplicity)
+    thisOrganism <- unique(as.character(interactorInfo[participantIndex,"organismName"]))
+    thisTaxid <- unique(as.character(interactorInfo[participantIndex, "taxId"]))
+    
+    taxId(thisComplex) <- thisTaxid
+    organismName(thisComplex) <- thisOrganism
+    members(thisComplex) <- participants
+    complexes[[i]] <- thisComplex
+  }
+
+  return(complexes)
+}
+  
 ##----------------------------------------##
 ## Entry Parser
 ##----------------------------------------##
@@ -614,48 +661,26 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
                                           psimi25source=psimi25source,
                                           namespaces=namespaces,
                                           verbose=verbose)
-  interactorIds <- sapply(interactors, sourceId)
-  interactorInfo <- interactorInfo(interactors)
+
   
   ## complex
   complexNodes <- getNodeSet(psiDoc, "//ns:interactionList/ns:interaction", namespaces)
   if (verbose)
     statusDisplay("  Parsing complexes:\n")
-  complexList <- lapply(complexNodes, function(thisNode) {
-    thisComplex <- parseComplex(psimi25source, thisNode, namespaces)
-    participantRef <- split(thisComplex$interactorIds, 
-                            as.factor(thisComplex$interactorIds))
-    multiplicity <- sapply(participantRef, length)
-    if ( !all(names(participantRef) %in% interactorIds) ) {
-      msg <- paste("parse complex ", thisComplex$shortLabel, 
-                   "can't resolve all interactor references.")
-      stop(msg)
-    }	
-    participantIndex <- interactorIds %in% names(participantRef)
-    participants <- interactorInfo[participantIndex, "sourceId"];
-    participantsUniProt <- interactorInfo[participantIndex, "uniprotId"];
-    names(participants) <- as.character(participants)
-    participants <- data.frame(sourceId=participants, uniprotId = participantsUniProt, multiplicity=multiplicity)
-    thisOrganism <- unique(as.character(interactorInfo[participantIndex,"organismName"]))
-    thisTaxid <- unique(as.character(interactorInfo[participantIndex, "taxId"]))
-    
-    new("psimi25Complex",
-        sourceDb = thisComplex$sourceDb,
-        sourceId = thisComplex$sourceId,
-        shortLabel=thisComplex$shortLabel,
-        fullName=thisComplex$fullName,
-        organismName=thisOrganism,
-        taxId=thisTaxid,
-        members=participants,
-        attributes=thisComplex$attributes
-        )
-  })
+  
+  complexList <- lapply(complexNodes, parseXmlComplexNode,
+                        namespaces=namespaces,
+                        psimi25source=psimi25source)
+  annotatedComplexList <- annotateComplexesWithInteractors(complexes=complexList,
+                                                           interactors=interactors)
+  
   if(verbose)
     statusDisplay("\n")
   free(psiDoc)
+  
   new("psimi25ComplexEntry",
       interactors=interactors,
-      complexes=complexList,
+      complexes=annotatedComplexList,
       releaseDate=releaseDate)
 }
 
@@ -674,7 +699,7 @@ psimi25XML2Graph <- function(psimi25files,psimi25source,
     result <- lapply(psimi25files, parsePsimi25Complex, psimi25source,...)
     bpGraph <- complexEntry2graph(result)
   }
-
+  
   return(bpGraph)
 }
 
