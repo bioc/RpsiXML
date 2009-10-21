@@ -16,6 +16,29 @@
 ## Private and Virtual Classes
 ##----------------------------------------##
 
+## created helper classes
+setClass("sourceDbAndId",
+         representation(sourceDb="character",
+                        sourceId="character"),
+         contains="VIRTUAL")
+setClass("organismTaxIdAndName",
+         representation(taxId="character",
+                        organismName="character"),
+         contains="VIRTUAL")
+setClass("interactorListBase",
+         representation(interactors="list"),
+         contains="VIRTUAL")
+setClass("attributesListBase",
+         representation(attributesList="list"),
+         contains="VIRTUAL")
+setClass("psimi25Entry",
+         representation(releaseDate="character"),
+         contains=c("organismTaxIdAndName","interactorListBase", "VIRTUAL"))
+
+setClass("psimi25GraphBase",
+         representation(abstract = "pubMedAbst"),
+         contains=c("interactorListBase", "VIRTUAL"))
+
 ## basic classes defined by PSI-MI 2.5
 setClass("psimi25Names",
          representation(shortLabel="character",
@@ -30,7 +53,8 @@ setClass("psimi25Cv",
 setClass("psimi25Attribute",
          representation(name="character",
                         nameAc="character",
-                        attribute="character"))
+                        attribute="character"),
+         prototype=list(name="name",nameAc="nameAc", attribute="attribute"))
 setClass("psimi25Confidence",
          representation(unit="psimi25Cv",
                         value="character"))
@@ -48,29 +72,9 @@ setClass("psimi25Feature",
                         ## featureDetectionMethod,
                         ## experimentRefList,
                         featureRangeList="list"
-                        ## attributeList
-                        ))
+                        ),
+         contains="attributesListBase")
 
-## created helper classes
-setClass("sourceDbAndId",
-         representation(sourceDb="character",
-                        sourceId="character"),
-         contains="VIRTUAL")
-setClass("organismTaxIdAndName",
-         representation(taxId="character",
-                        organismName="character"),
-         contains="VIRTUAL")
-setClass("interactorListBase",
-         representation(interactors="list"),
-         contains="VIRTUAL")
-
-setClass("psimi25Entry",
-         representation(releaseDate="character"),
-         contains=c("organismTaxIdAndName","interactorListBase", "VIRTUAL"))
-
-setClass("psimi25GraphBase",
-         representation(abstract = "pubMedAbst"),
-         contains=c("interactorListBase", "VIRTUAL"))
 
 ##----------------------------------------##
 ## Public Classes
@@ -79,6 +83,23 @@ setClass("psimi25GraphBase",
 ##------------------------------##
 ## Interaction entry
 ##------------------------------##
+
+## psimi25 experiment
+setClass("psimi25Experiment",
+         representation(interactionType = "character",
+                        expPubMed = "character"),
+         contains=c("sourceDbAndId")
+         )
+
+setClass("psimi25Source",
+         representation(label="character",
+                        sourceDb = "character",
+                        uniprotSymbol = "character"),
+         prototype = list(
+           label = "Label for the database",
+           sourceDb = "source database identifier in the psi-mi 25 file",
+           uniprotPath = "NA"))
+
 ## PSI-MI 25 Interaction Entry, roughly corresponding to to the 'entry' definition in MIF25.xsd
 setClass("psimi25InteractionEntry",
          representation(interactions = "list"),
@@ -95,9 +116,8 @@ setClass("psimi25Participant",
                         experimentalPrepartionList="list",
                         featureList="list",
                         hostOrganismList="list",
-                        confidenceList="list",
-                        attributeList="list")
-                        )
+                        confidenceList="list"),
+         contains="attributesListBase")
 
 ## psimi25 interaction, roughly matching the 'interactionElementType'
 setClass("psimi25Interaction",
@@ -135,10 +155,9 @@ setClass("psimi25Complex",
          representation(shortLabel = "character",
                         fullName = "character",
                         members = "data.frame",
-                        attributes = "character",
                         interactorRef="character"
                         ),
-         contains=c("sourceDbAndId", "organismTaxIdAndName")
+         contains=c("sourceDbAndId", "organismTaxIdAndName", "attributesListBase")
          )
 
 ##------------------------------##
@@ -150,25 +169,6 @@ setClass("psimi25Graph",
 setClass("psimi25Hypergraph",
          representation(interactors = "list"),
          contains = c("psimi25GraphBase", "Hypergraph"))
-
-## psimi25 experiment
-setClass("psimi25Experiment",
-         representation(interactionType = "character",
-                        expPubMed = "character"),
-         contains=c("sourceDbAndId")
-         )
-
-setClass("psimi25Source",
-         representation(label="character",
-                        sourceDb = "character",
-                        uniprotSymbol = "character"
-                        ),
-         prototype = list(
-           label = "Label for the database",
-           sourceDb = "source database identifier in the psi-mi 25 file",
-           uniprotPath = "NA"
-           )
-         )
 
 #### ATTENTION: new XML interfaces not in use
 ####------------------------------------------------------------##

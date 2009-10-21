@@ -41,13 +41,15 @@ setGeneric("shortLabel", function(x) standardGeneric("shortLabel"))
 setGeneric("shortLabel<-", function(x,value) standardGeneric("shortLabel<-"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
 
+setGeneric("attributesList", function(x) standardGeneric("attributesList"))
+setGeneric("attributesList<-", function(x,value) standardGeneric("attributesList<-"))
+
 setGeneric("complexName", function(x,...) standardGeneric("complexName"))
-setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttributes"))
 setGeneric("interactorRef", function(x) standardGeneric("interactorRef"))
 setGeneric("interactorRef<-", function(x,value) standardGeneric("interactorRef<-"))
 
-setGeneric("interactorInfo", function(x) standardGeneric("interactorInfo"))
 
+setGeneric("interactorInfo", function(x) standardGeneric("interactorInfo"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods

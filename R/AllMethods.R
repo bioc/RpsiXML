@@ -98,6 +98,18 @@ setReplaceMethod("interactors", c("interactorListBase", "NULL"), function(x,valu
   x@interactors <- list()
   return(x)
 })
+
+##------------------------------------------------------------##
+## attributesList  methods
+##------------------------------------------------------------##
+setMethod("attributesList", "attributesListBase", function(x) {
+  x@attributesList
+})
+setReplaceMethod("attributesList", c("attributesListBase", "list"), function(x, value) {
+  x@attributesList <- value
+  return(x)
+})
+
 ##------------------------------------------------------------##
 ## psimi25Entry methods
 ##------------------------------------------------------------##
@@ -119,9 +131,32 @@ setMethod("abstract", "psimi25GraphBase", function(object) {
 ##------------------------------------------------------------##
 ## show methods
 ##------------------------------------------------------------##
+
+setMethod("show", "psimi25Attribute", function(object) {
+  cat(sprintf("%s: %s\n", object@name, object@attribute))
+})
+
+getHorizontalSepLine <- function(pattern="-", factor=0.8) {
+  sepWidth <- round(options("width")[[1]] * factor)
+  sep <- sprintf("%s\n",paste(rep(pattern, sepWidth), collapse=""))
+  return(sep)
+}
+showHorizontalSepLine <- function(pattern="-", factor=0.8) {
+  sepLine <- getHorizontalSepLine(pattern=pattern, factor=factor)
+  cat(sepLine)
+}
+
+showListWithoutNames <- function(list, title="List", indent=2) {
+  cat(title, "\n")
+  for(i in seq(along=list)) {
+    cat(rep(" ", indent))
+    show(list[[i]])
+  }
+}
+
 setMethod("show", "psimi25Interactor", function(object) {
   cat("interactor (", object@uniprotId, "):\n",
-      "---------------------------------\n",
+      getHorizontalSepLine(),
       "[ source database ]: ", object@sourceDb, "\n",
       "[ source ID ]: ", object@sourceId, "\n",
       "[ short label ]: ", object@shortLabel, "\n",
@@ -133,7 +168,7 @@ setMethod("show", "psimi25Interactor", function(object) {
 
 setMethod("show", "psimi25Interaction", function(object) {
   cat("interaction (", object@sourceId, "):\n",
-      "---------------------------------\n",
+      getHorizontalSepLine(),
       "[ source database ]:", object@sourceDb, "\n",
       "[ source experiment ID ]:", object@sourceId, "\n",
       "[ interaction type ]:", object@interactionType, "\n",
@@ -165,18 +200,15 @@ setMethod("show", "psimi25InteractionEntry", function(object) {
 })
 
 setMethod("show","psimi25Complex", function(object) {
-  cat("complex (", object@sourceId, ")\n",
-      "---------------------------------\n",
-      "[ source database ]: ", object@sourceDb, "\n",
-      "[ source ID ]: ", object@sourceId, "\n",
-      "[ full name ]: ", object@fullName, "\n",
-      "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
-      "[ taxonomy ID ]: ", object@taxId, "\n",
-      "[ attributes ]: \n")
-  attrs = object@attributes
-  for (i in seq(along=attrs))
-    cat(strbreak(paste(names(attrs)[i], attrs[i], sep=": ")), "\n")
-  cat(" [ members ]: \n")
+  cat(paste("complex (", object@sourceId, ")\n",
+            getHorizontalSepLine(),
+            "[ source database ]: ", object@sourceDb, "\n",
+            "[ source ID ]: ", object@sourceId, "\n",
+            "[ full name ]: ", object@fullName, "\n",
+            "[ organism ]: ", paste(object@organismName, collapse=", "), "\n",
+            "[ taxonomy ID ]: ", object@taxId, "\n",sep=""))
+  showListWithoutNames(attributesList(object), title="[ attributesList ]:")
+  cat("[ members ]: \n")
   print(object@members)
 })
 
@@ -199,8 +231,6 @@ setMethod("show", "psimi25Graph", function(object){
   print(as(object, "graph"))
   print(class(object))
 })
-
-
 
 
 setMethod("sourceDb", signature(x="psimi25Source"),
@@ -373,9 +403,6 @@ setMethod("shortLabel", "psimi25Complex", function(x) {
 
 setMethod("complexName", "psimi25Complex", function(x) {
   return(x@fullName)
-})
-setMethod("complexAttributes", "psimi25Complex", function(x) {
-  return(x@attributes)
 })
 
 
