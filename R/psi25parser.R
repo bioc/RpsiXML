@@ -101,22 +101,22 @@ parseXmlExperimentNode <- function(root, namespaces, sourceDb) {
   
   ## it seems that xpathApply treats XPath in a case-insensitive way, to be confirmed
   expPubMed <- nonNullXMLattributeValueByPath(doc = subDoc,
-                                       path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']", 
-                                       name = "id",
-                                       namespaces = namespaces)
+                                              path = "/ns:experimentDescription/ns:bibref/ns:xref/ns:primaryRef[@db='pubmed']", 
+                                              name = "id",
+                                              namespaces = namespaces)
   
   ## experiment source Id
   sourceId <- nonNullXMLattributeValueByPath(doc = subDoc,
-                                      path = paste("/ns:experimentDescription/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
-                                      name="id", namespaces=namespaces)
+                                             path = paste("/ns:experimentDescription/ns:xref/ns:primaryRef[@db='",sourceDb,"']",sep=""),
+                                             name="id", namespaces=namespaces)
   
   ## if sourceId not found, try alternatives
   if(isLengthOneAndNA(sourceId)) {
     sourceId <- nonNullXMLattributeValueByPath(doc = subDoc,
-                                        path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
-                                          sourceDb,
-                                          "']|/ns:experimentDescription",sep=""), 
-                                        name = "id", namespaces = namespaces)
+                                               path = paste("ns:experimentList/ns:experimentDescription/ns:xref/ns:secondaryRef[@db='",
+                                                 sourceDb,
+                                                 "']|/ns:experimentDescription",sep=""), 
+                                               name = "id", namespaces = namespaces)
   }
   
   free(subDoc)
@@ -462,7 +462,10 @@ parseXmlInteractorNodeSet <- function(nodes, psimi25source,
     for (p in seq(interactorCount)) {
       if(verbose)
         statusIndicator(p, interactorCount)
-      theRes <- parseInteractor(psimi25source, nodes[[p]], namespaces)
+      theRes <- parseXmlInteractorNode(root=nodes[[p]],
+                                       namespaces=namespaces,
+                                       sourceDb=sourceDb(psimi25source),
+                                       uniprotsymbol=uniqueIdentifierSymbol(psimi25source))
       interactors[[p]] <- theRes
     }
   }
