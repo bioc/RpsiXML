@@ -5,7 +5,7 @@
 \title{Class "psimi25Experiment"}
 \description{ Representing an experiment recorded in PSI-MI 2.5 XML files}
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{\link{parseExperiment}}
+  The object is usually only initialized internally
 }
 \section{Slots}{
 	 \describe{
@@ -23,9 +23,9 @@ Objects can be created by calls of the form \code{\link{parseExperiment}}
 No methods defined with class "psimi25Experiment" in the signature.
 }
 \author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
-\seealso{
-  \code{\link{parseExperiment}}
-}
+%\seealso{
+
+%}
 \examples{
 showClass("psimi25Experiment")
 }

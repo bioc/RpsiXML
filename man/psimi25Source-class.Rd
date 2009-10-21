@@ -1,9 +1,6 @@
 \name{psimi25Source-class}
 \docType{class}
 \alias{psimi25Source-class}
-\alias{parseComplex,psimi25Source-method}
-\alias{parseExperiment,psimi25Source-method}
-\alias{parseInteractor,psimi25Source-method}
 \alias{uniprot,psimi25Source-method}
 
 \title{Class "psimi25Source"}
@@ -27,31 +24,10 @@ Objects can be created by calls of the form \code{new("psimi25Source", ...)}
     attributes of the interactors, telling the parser where to find
     UniProt symbol of the interactors. The value must be overwritten by
     the objects.}
-    \item{\code{parseExperiment}:}{Object of class \code{"function"},
-      the function to parse experiment from the PSI-MI 2.5 file. Except
-      for special need this function should not be overwritten by the
-      objects, since it parses the experiment node strictly according
-      the PSI-MI standard }
-    \item{\code{parseInteractor}:}{Object of class \code{"function"},
-      the function to parse interactor from the PSI-MI 2.5 file. Except
-      for special need this function should not be overwritten by the
-      objects, since it parses the interactor node strictly according
-      the PSI-MI standard  }
-    \item{\code{parseComplex}:}{Object of class \code{"function"},
-      the function to parse complex from the PSI-MI 2.5 file. Except
-      for special need this function should not be overwritten by the
-      objects, since it parses the complex node strictly according
-      the PSI-MI standard }
   }
 }
 \section{Methods}{
   \describe{
-    \item{parseComplex}{\code{signature(x = "psimi25Source")}: parse
-      complex node of PSI-MI 2.5 file }
-    \item{parseExperiment}{\code{signature(x = "psimi25Source")}: parse
-      experiment node of PSI-MI 2.5 file}
-    \item{parseInteractor}{\code{signature(x = "psimi25Source")}: parse
-      interactor node of PSI-MI 2.5 file}
     \item{sourceDb}{\code{signature(x = "psimi25Source")}: returns the
       source database}
     \item{uniprot}{\code{signature(x = "psimi25Source")}: returns the
@@ -67,11 +43,6 @@ Objects can be created by calls of the form \code{new("psimi25Source", ...)}
   this new psimi25Source object. In case of warnings or errors, it may
   mean that the file provided is not strictly compatible with PSI-MI 2.5
   data exchange format standard, please then contact the data provider.
-
-  By 02.06.08, six sources have been registered in the release version
-  of \code{RpsiXML}:  BIOGRID.PSIMI25, DIP.PSIMI25, HPRD.PSIMI25, INTACT.PSIMI25,,
-  MINT.PSIMI25,MIPS.PSIMI25. Along the development we will implement
-  more data sources under PSI-MI 25 standard.
 }
 
 \seealso{

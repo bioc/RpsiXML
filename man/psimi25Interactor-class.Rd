@@ -37,9 +37,9 @@
 }
 \author{ Jitao David Zhang \email{j.zhang@dkfz.de} }
 
-\seealso{
-  \code{\link{parseInteractor}}
-}
+%\seealso{
+%  \code{\link{parseInteractor}}
+%}
 \examples{
 showClass("psimi25Interactor")
 }

@@ -1,6 +1,6 @@
 \name{complexName}
 \alias{complexName}
-\alias{complexMembers}
+\alias{members}
 \alias{complexAttributes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Accessor functions for complex }
@@ -10,7 +10,7 @@
 }
 \usage{
 complexName(x,...)
-complexMembers(x,...)
+members(x)
 complexAttributes(x,...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -23,7 +23,7 @@ complexAttributes(x,...)
 }
 \value{
   \item{complexName}{Returns the name of the complex in characters}
-  \item{complexMembers}{A data frame of protein members building the
+  \item{members}{A data frame of protein members building the
     complex and their information}
   \item{complexAttributes}{A named vector of character strings, the
     names are the attribute names while the values are attributes
@@ -40,6 +40,6 @@ complexSample <- complexes(intactComplexSet)[[2]]
 
 complexName(complexSample)
 complexAttributes(complexSample)
-complexMembers(complexSample)
+members(complexSample)
 }
 \keyword{ models }

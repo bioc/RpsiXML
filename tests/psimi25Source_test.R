@@ -65,7 +65,7 @@ translateID(intactComplexGraph, "intact", NA)
 complexSample <- complexes(intactComplexSet)[[2]]
 complexName(complexSample)
 complexAttributes(complexSample)
-complexMembers(complexSample)
+members(complexSample)
 
 ## DIP: schema check failed, namespace not unique, modified
 dipxml <- file.path(xmlDir, "dip_2008_test.xml")

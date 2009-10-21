@@ -3,7 +3,7 @@
 \alias{psimi25Complex-class}
 \alias{show,psimi25Complex-method}
 \alias{complexAttributes,psimi25Complex-method}
-\alias{complexMembers,psimi25Complex-method}
+\alias{members,psimi25Complex-method}
 \alias{complexName,psimi25Complex-method}
 
 \title{Class "psimi25Complex"}
@@ -21,6 +21,8 @@
       label of the complex}
     \item{\code{fullName}:}{Object of class \code{"character"}, full
       name of the complex}
+    \item{\code{interactorRef}:}{Object of class \code{"character"},
+      reference ID of the interactor}
     \item{\code{organismName}:}{Object of class \code{"character"},
       orgnism name}
     \item{\code{taxId}:}{Object of class \code{"character"}, taxonomy ID}
@@ -39,7 +41,7 @@
       source ID }
     \item{complexAttributes}{\code{signature(x = "psimi25Complex")}: returns
       attributes of the complex}
-    \item{complexMembers}{\code{signature(x = "psimi25Complex")}: returns
+    \item{members}{\code{signature(x = "psimi25Complex")}: returns
       members of the complex}
     \item{complexName}{\code{signature(x = "psimi25Complex")}: returns
       complex name }

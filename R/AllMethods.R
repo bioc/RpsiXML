@@ -355,10 +355,22 @@ setMethod("complexes", signature(x="psimi25ComplexEntry"),
           function(x) x@complexes)
 
 
-
-setMethod("complexMembers", "psimi25Complex", function(x) {
+setMethod("members", "psimi25Complex", function(x) {
   return(x@members)
 })
+setReplaceMethod("members", c("psimi25Complex","data.frame"), function(x,value) {
+  x@members <- value
+  return(x)
+})
+setMethod("interactorRef", "psimi25Complex", function(x) {
+  return(x@interactorRef)
+})
+          
+## TODO: refactor to psimi25Names
+setMethod("shortLabel", "psimi25Complex", function(x) {
+  return(x@shortLabel)
+})
+
 setMethod("complexName", "psimi25Complex", function(x) {
   return(x@fullName)
 })
@@ -406,16 +418,6 @@ setMethod("pubmedID", "psimi25Interaction", function(x) {
 setMethod("interactionType", signature(object="psimi25Interaction"),
           function(object) object@interactionType)
 
-
-setMethod("parseExperiment", signature(x="psimi25Source"),
-          function(x,...) x@parseExperiment(...,x)
-          )
-setMethod("parseInteractor", signature(x="psimi25Source"),
-          function(x,...) x@parseInteractor(..., x)
-          )
-setMethod("parseComplex", signature(x="psimi25Source"),
-          function(x,...) x@parseComplex(...,x)
-          )
 
 setMethod("numInteractions", signature(x="psimi25InteractionEntry"), function(x) {
   xit <- interactions(x)
