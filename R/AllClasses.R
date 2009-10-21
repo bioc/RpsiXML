@@ -15,6 +15,43 @@
 ##----------------------------------------##
 ## Private and Virtual Classes
 ##----------------------------------------##
+
+## basic classes defined by PSI-MI 2.5
+setClass("psimi25Names",
+         representation(shortLabel="character",
+                        fullName="character",
+                        alias="character"),
+         contains="VIRTUAL")
+setClass("psimi25Xref",
+         contains="environment")
+setClass("psimi25Cv",
+         representation(psimi25Names="psimi25Names",
+                        xref="psimi25Xref"))
+setClass("psimi25Attribute",
+         representation(name="character",
+                        nameAc="character",
+                        attribute="character"))
+setClass("psimi25Confidence",
+         representation(unit="psimi25Cv",
+                        value="character"))
+setClass("psimi25HostOrganism",
+         representation(ncbiTaxId="character",
+                        psimi25Names="psimi25Names"
+                        ## cellType,
+                        ## compartment,
+                        ## tissue
+                        ))
+setClass("psimi25Feature",
+         representation(psimi25Names="psimi25Names",
+                        xref="psimi25Xref",
+                        featureType="psimi25Cv",
+                        ## featureDetectionMethod,
+                        ## experimentRefList,
+                        featureRangeList="list"
+                        ## attributeList
+                        ))
+
+## created helper classes
 setClass("sourceDbAndId",
          representation(sourceDb="character",
                         sourceId="character"),
@@ -47,6 +84,20 @@ setClass("psimi25InteractionEntry",
          representation(interactions = "list"),
          contains=c("psimi25Entry")
          )
+
+setClass("psimi25Participant",
+         representation(interactorRef="character",
+                        psimi25Names="psimi25Names",
+                        xref="psimi25Xref",
+                        biologicalRole="psimi25Cv",
+                        participantIdentificationList="list",
+                        experimentalRoleList="list",
+                        experimentalPrepartionList="list",
+                        featureList="list",
+                        hostOrganismList="list",
+                        confidenceList="list",
+                        attributeList="list")
+                        )
 
 ## psimi25 interaction, roughly matching the 'interactionElementType'
 setClass("psimi25Interaction",

@@ -206,6 +206,9 @@ setMethod("show", "psimi25Graph", function(object){
 setMethod("sourceDb", signature(x="psimi25Source"),
           function(x) x@sourceDb)
 
+setMethod("uniqueIdentifierSymbol", signature("psimi25Source"),
+          function(x) x@uniprotSymbol)
+
 setMethod("uniprot", signature("psimi25Source"),
           function(x) x@uniprotSymbol)
 setMethod("uniprot", signature("psimi25Interactor"),

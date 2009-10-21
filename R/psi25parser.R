@@ -426,6 +426,14 @@ getReleaseDatePath <- function(basePath) {
   return(releaseDatePath)
 }
 
+parseReleaseDate <- function(doc, basePath, namespaces) {
+  releaseDatePath <- getReleaseDatePath(basePath)
+  releaseDate <- nonNullXMLattributeValueByPath(doc = doc,
+                                                path = releaseDatePath, 
+                                                name = "releaseDate",
+                                                namespaces = namespaces)
+  return(releaseDate)
+}
 getPrimaryInteractorPath <- function(basePath) {
   interactorPath <- paste(basePath, "/ns:interactorList/ns:interactor", 
                           sep = "", collapse = "")
@@ -491,10 +499,9 @@ parseXmlEntryNode <- function(doc, index, namespaces, psimi25source, verbose=TRU
                                              namespaces=namespaces, verbose=verbose)
   
   ## misc information
-  releaseDatePath <- getReleaseDatePath(basePath)
-  releaseDate <- xpathApply(doc = doc, path = releaseDatePath, 
-                            fun = xmlGetAttr, name = "releaseDate", namespaces = namespaces)
-  releaseDate(thisEntry) <- null2na(unlist(releaseDate))
+  releaseDate(thisEntry) <- parseReleaseDate(doc=doc,
+                                             basePath=basePath,
+                                             namespaces=namespaces)
   
   ## interactor
   interactorNodes <- getInteractorNodeSet(doc=doc, basePath=basePath, namespaces=namespaces)
@@ -579,11 +586,11 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
   psiDoc <- xmlTreeParse(psimi25file, useInternalNodes=TRUE)
   psiNS <- xmlNamespaceDefinitions(psiDoc)
   namespaces <- c(ns=psiNS[[1]]$uri)
+  basePath <- getEntryBasePath(1)
   
-  releaseDate <- nonNullXMLattributeValueByPath(doc=psiDoc,
-                                                path="//ns:entry/ns:source", 
-                                                name="releaseDate", 
-                                                namespaces=namespaces)[[1]]
+  releaseDate <- parseReleaseDate(doc=psiDoc,
+                                  basePath=basePath,
+                                  namespaces=namespaces)
   ## interactor
   interactorNodes <- getNodeSet(psiDoc,
                                 "//ns:interactorList/ns:interactor", namespaces)

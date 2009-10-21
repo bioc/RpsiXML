@@ -28,6 +28,8 @@ setGeneric("numInteractions", function(x) standardGeneric("numInteractions"))
 setGeneric("releaseDate", function(x) standardGeneric("releaseDate"))
 setGeneric("releaseDate<-", function(x, value) standardGeneric("releaseDate<-"))
 
+setGeneric("uniqueIdentifierSymbol", function(x) standardGeneric("uniqueIdentifierSymbol"))
+           
 setGeneric("availableXrefs", function(x,...) standardGeneric("availableXrefs"))
 setGeneric("translateID", function(r, ...) standardGeneric("translateID"))
 
@@ -45,8 +47,6 @@ setGeneric("parseComplex", function(x,...) standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods
-
-
 ## edge/node methods
 setGeneric("edgeLabel", function(x,...) standardGeneric("edgeLabel"))
 setGeneric("hyperedgeNodes", function(x,...) standardGeneric("hyperedgeNodes"))

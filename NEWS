@@ -1,3 +1,7 @@
+Release 1.5.32 (not released yet)
+Internal Changes:
+  + (r42536) parseXmlInteractorNodes uses 'parseXmlInteractorNode instead of indirect calling parseInteractor now
+
 Release 1.5.31 (Oct. 19, 2009)
 Documentation:
   + (r42468) Modify the man page of psimi25InteractionEntry to reflect the current data structure of interactors. Thanks the report by Robert Gentleman.
