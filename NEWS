@@ -1,6 +1,10 @@
 Release 1.5.32 (not released yet)
 Internal Changes:
   + (r42536) parseXmlInteractorNodes uses 'parseXmlInteractorNode instead of indirect calling parseInteractor now
+  + (r42537) refactor the parsing of interactors in parseComplex function. Till now only the parseComplex remains to be refactored
+  + (r42538) add 'parseReleaseDate' function to avoid repeating codes in parsing interaction and complexes
+  + (r42539) add 'parseXmlEntryInteractors' to allow one-call to parse interactors in one entry
+  + (r42541) remove function slots in psimi25source objects; rename 'complexMembers' to 'members' directly
 
 Release 1.5.31 (Oct. 19, 2009)
 Documentation:

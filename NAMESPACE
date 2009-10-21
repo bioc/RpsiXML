@@ -46,9 +46,6 @@ exportMethods("abstract",
               "interactorInfo",
               "interactionType",
               "complexes",
-              "parseComplex",
-              "parseExperiment",
-              "parseInteractor",
               "uniprot",
               "revInciMat"
               )
@@ -82,14 +79,16 @@ export(parsePsimi25Interaction,
        inhibitor,
        neutralComponent,
        pubmedID,
-       ## complex accessors
-       complexName,
-       complexMembers,
-       complexAttributes,
        null2na, 
        getAbstractByPMID,
        xref
        )
 
+## complex 
+export(complexName,
+       complexAttributes,
+       members)
+       ## ,"members<-")
+       
 ## validate
 export(validatePSIMI25)

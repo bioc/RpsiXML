@@ -36,14 +36,18 @@ setGeneric("translateID", function(r, ...) standardGeneric("translateID"))
 
 setGeneric("complexes", function(x) standardGeneric("complexes"))
 setGeneric("members", function(x) standardGeneric("members"))
+setGeneric("members<-", function(x,value) standardGeneric("members<-"))
+setGeneric("shortLabel", function(x) standardGeneric("shortLabel"))
+setGeneric("shortLabel<-", function(x,value) standardGeneric("shortLabel<-"))
 setGeneric("fullName", function(x) standardGeneric("fullName"))
 
+setGeneric("complexName", function(x,...) standardGeneric("complexName"))
+setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttributes"))
+setGeneric("interactorRef", function(x) standardGeneric("interactorRef"))
+setGeneric("interactorRef<-", function(x,value) standardGeneric("interactorRef<-"))
 
 setGeneric("interactorInfo", function(x) standardGeneric("interactorInfo"))
 
-setGeneric("parseExperiment", function(x,...) standardGeneric("parseExperiment"))
-setGeneric("parseInteractor", function(x,...) standardGeneric("parseInteractor"))
-setGeneric("parseComplex", function(x,...) standardGeneric("parseComplex"))
 setGeneric("uniprot", function(x) standardGeneric("uniprot"))
 
 ## count methods
@@ -62,10 +66,6 @@ setGeneric("inhibitor", function(x,...) standardGeneric("inhibitor"))
 setGeneric("neutralComponent", function(x,...) standardGeneric("neutralComponent"))
 setGeneric("pubmedID", function(x,...) standardGeneric("pubmedID"))
 setGeneric("confidenceValue", function(x,...) standardGeneric("confidenceValue"))
-
-setGeneric("complexMembers", function(x,...) standardGeneric("complexMembers"))
-setGeneric("complexName", function(x,...) standardGeneric("complexName"))
-setGeneric("complexAttributes", function(x,...) standardGeneric("complexAttributes"))
 
 setGeneric("revInciMat", function(x,...) standardGeneric("revInciMat"))
 
@@ -169,8 +169,7 @@ setGeneric("imexId", function(object) standardGeneric("imexId"))
 setGeneric("imexId<-", function(object,value) standardGeneric("imexId<-"))
 
 ## pariticpant type
-setGeneric("interactorRef", function(object) standardGeneric("interactorRef"))
-setGeneric("interactorRef<-", function(object,value) standardGeneric("interactorRef<-"))
+
 setGeneric("interactor", function(object) standardGeneric("interactor"))
 setGeneric("interactor<-", function(object,value) standardGeneric("interactor<-"))
 setGeneric("interactionRef", function(object) standardGeneric("interactionRef"))

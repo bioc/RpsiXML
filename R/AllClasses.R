@@ -135,7 +135,8 @@ setClass("psimi25Complex",
          representation(shortLabel = "character",
                         fullName = "character",
                         members = "data.frame",
-                        attributes = "character"
+                        attributes = "character",
+                        interactorRef="character"
                         ),
          contains=c("sourceDbAndId", "organismTaxIdAndName")
          )
@@ -160,26 +161,12 @@ setClass("psimi25Experiment",
 setClass("psimi25Source",
          representation(label="character",
                         sourceDb = "character",
-                        uniprotSymbol = "character",
-                        parseExperiment = "function",
-                        parseInteractor = "function",
-                        parseComplex = "function"
+                        uniprotSymbol = "character"
                         ),
          prototype = list(
            label = "Label for the database",
            sourceDb = "source database identifier in the psi-mi 25 file",
-           uniprotPath = "NA",
-           parseExperiment = function(root, namespaces, psimi25source) {
-             parseXmlExperimentNode(root, namespaces, sourceDb(psimi25source))
-           },
-           parseInteractor = function(root, namespaces, psimi25source) {
-             parseXmlInteractorNode(root, namespaces,
-                                     sourceDb(psimi25source),
-                                    uniprot(psimi25source))
-           },
-           parseComplex = function(root, namespaces, psimi25source) {
-             parseXmlComplexNode(root, namespaces, sourceDb(psimi25source))
-           }
+           uniprotPath = "NA"
            )
          )
 
