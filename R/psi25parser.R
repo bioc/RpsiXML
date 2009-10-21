@@ -485,6 +485,22 @@ parseXmlInteractorNodeSet <- function(nodes, psimi25source,
   return(interactors)
 }
 
+## shortcut of getting interactor node set and parse them
+parseXmlEntryInteractors <- function(doc,
+                                     basePath,
+                                     psimi25source,
+                                     namespaces,
+                                     verbose=TRUE) {
+  interactorNodes <- getInteractorNodeSet(doc=doc,
+                                          basePath=basePath,
+                                          namespaces=namespaces)
+  interactors <- parseXmlInteractorNodeSet(nodes=interactorNodes,
+                                           psimi25source=psimi25source,
+                                           namespaces=namespaces,
+                                           verbose=verbose)
+  return(interactors)
+}
+
 parseXmlEntryNode <- function(doc, index, namespaces, psimi25source, verbose=TRUE) {
   if(verbose)
     statusDisplay(paste("Parsing entry",index,"\n",sep=" "))
@@ -504,12 +520,13 @@ parseXmlEntryNode <- function(doc, index, namespaces, psimi25source, verbose=TRU
                                              namespaces=namespaces)
   
   ## interactor
-  interactorNodes <- getInteractorNodeSet(doc=doc, basePath=basePath, namespaces=namespaces)
-  interactors <- parseXmlInteractorNodeSet(nodes=interactorNodes,
-                                           psimi25source=psimi25source,
-                                           namespaces=namespaces,
-                                           verbose=verbose)
+  interactors <- parseXmlEntryInteractors(doc=doc,
+                                          basePath=basePath,
+                                          psimi25source=psimi25source,
+                                          namespaces=namespaces,
+                                          verbose=verbose)
   interactorInfMat <- interactorInfo(interactors)
+
   
   organismName <- unique(unlist(interactorInfMat[, "organismName"]))
   organismName(thisEntry) <- organismName
@@ -587,17 +604,16 @@ parsePsimi25Complex <- function(psimi25file, psimi25source, verbose=FALSE) {
   psiNS <- xmlNamespaceDefinitions(psiDoc)
   namespaces <- c(ns=psiNS[[1]]$uri)
   basePath <- getEntryBasePath(1)
-  
+
   releaseDate <- parseReleaseDate(doc=psiDoc,
                                   basePath=basePath,
                                   namespaces=namespaces)
   ## interactor
-  interactorNodes <- getNodeSet(psiDoc,
-                                "//ns:interactorList/ns:interactor", namespaces)
-  interactors <- parseXmlInteractorNodeSet(nodes=interactorNodes,
-                                           psimi25source=psimi25source,
-                                           namespaces=namespaces,
-                                           verbose=verbose)
+  interactors <- parseXmlEntryInteractors(doc=psiDoc,
+                                          basePath=basePath,
+                                          psimi25source=psimi25source,
+                                          namespaces=namespaces,
+                                          verbose=verbose)
   interactorIds <- sapply(interactors, sourceId)
   interactorInfo <- interactorInfo(interactors)
   
