@@ -922,7 +922,6 @@ separateXMLDataByExpt <- function(xmlFiles, psimi25source, type = "direct", dire
 
 getDesired <- function(interactionEntry, intType){
 
-  #options(error=recover)
   x <- interactions(interactionEntry)
   
   dataL <- lapply(x, function(y){

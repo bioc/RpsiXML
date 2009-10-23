@@ -43,8 +43,7 @@ setClass("psimi25GraphBase",
 setClass("psimi25Names",
          representation(shortLabel="character",
                         fullName="character",
-                        alias="character"),
-         contains="VIRTUAL")
+                        alias="character"))
 setClass("psimi25Xref",
          contains="environment")
 setClass("psimi25Cv",
