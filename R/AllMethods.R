@@ -250,11 +250,13 @@ setMethod("translateID", signature(r="psimi25Graph"),
             trIds <- translateID(its, to=to)
             ##tc asks - is it safer to put nodes(r) = trIds[nodes(r)]
             ##since the names of trIds is the uniprot Ids?
-            ##  -- is it necessary? trIds are the vector of same length returned by translateID. It should match
-            ##     nodes(r) well. Am I right? And try names(trIds) here, you will find a suffix ".id" is added
-            trNodes <- names(trIds)[match(nodes(r), names(trIds))]
+
+            ## TODO: fix the "[[" 1: it should add a duplicate node automatically
+            trNodes <- sapply(trIds[match(nodes(r), names(trIds))], "[[", 1)
             trNodes[is.na(trNodes)] <- "NA"
-            nodes(r) <- trNodes
+
+            nodes(r) <- unname(trNodes)
+
             return(r)
           })
 
@@ -274,7 +276,7 @@ setMethod("translateID", signature(r="list"),
                            paste(ALLDB, collapse=",")
                            ))
             }
-            sapply(r, translateID, to=to)
+            return(sapply(r, translateID, to=to))
           })
 
 setMethod("translateID",
