@@ -248,12 +248,16 @@ setMethod("translateID", signature(r="psimi25Graph"),
           function(r, to){
             its <- interactors(r)
             trIds <- translateID(its, to=to)
+            oldIds <- nodes(r)
             ##tc asks - is it safer to put nodes(r) = trIds[nodes(r)]
             ##since the names of trIds is the uniprot Ids?
 
             ## TODO: fix the "[[" 1: it should add a duplicate node automatically
-            trNodes <- sapply(trIds[match(nodes(r), names(trIds))], "[[", 1)
-            trNodes[is.na(trNodes)] <- "NA"
+            trNodes <- sapply(trIds[match(oldIds, names(trIds))], "[[", 1)
+
+            ## for NAs: use the UniProt instead
+            isFailedTranslation <- is.na(trNodes)
+            trNodes[isFailedTranslation] <- oldIds[isFailedTranslation]
 
             nodes(r) <- unname(trNodes)
 
