@@ -247,6 +247,7 @@ setMethod("uniprot", signature("psimi25Interactor"),
 setMethod("translateID", signature(r="psimi25Graph"),
           function(r, to){
             its <- interactors(r)
+            
             trIds <- translateID(its, to=to)
             oldIds <- nodes(r)
             ##tc asks - is it safer to put nodes(r) = trIds[nodes(r)]
@@ -258,8 +259,20 @@ setMethod("translateID", signature(r="psimi25Graph"),
             ## for NAs: use the UniProt instead
             isFailedTranslation <- is.na(trNodes)
             trNodes[isFailedTranslation] <- oldIds[isFailedTranslation]
+            
+            newNodeNames <- trNodes
+            ## handling duplicate nodes
+            if(anyDuplicated(newNodeNames)) {
+              manyToOne <- names(which(table(newNodeNames) > 1))
+              toCollapse <- lapply(manyToOne, function(x) names(which(newNodeNames==x)))
+              for(i in 1:length(toCollapse)) {
+                r <- combineNodes(toCollapse[[i]], r, toCollapse[[i]][1])
+              }
+              newNodeNames <- newNodeNames[!duplicated(newNodeNames)]
+            } 
 
-            nodes(r) <- unname(trNodes)
+            nodes(r) <- unname(newNodeNames)
+
 
             return(r)
           })

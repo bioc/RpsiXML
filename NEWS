@@ -10,7 +10,8 @@ Public Changes:
   + (r42547) simi25Complex contains the virtual class attributesListBase now. 'comlexAttributes' function has been removed, instead user should use 'attributesList'
   + (r42589) 'psimi25Names' is not an abstract class any more
   + (r43055) 'translateID' fixes a bug and returns the real translted ID. TODO: if more than one translated IDs are returned, the original node (and its connections) should be duplicated.
-  + 'translateID' fixes: if a node is failed to be translated (NA), the default identifier (uniprotID) will be used.
+  + (r43055) 'translateID' fixes: if a node is failed to be translated (NA), the default identifier (uniprotID) will be used.
+  + 'translateID' fixes: if more than one nodes are translated into same identifier, only the first is left
 
 Release 1.5.31 (Oct. 19, 2009)
 Documentation:
