@@ -65,31 +65,31 @@
                                      directed=TRUE, 
                                      abstract=FALSE)
 
-  if(require("hom.Mm.inp.db") & require("org.Mm.eg.db")) {
-    newGraph = graphConverter(mintGraph[[1]], "MUSMU", "HOMSA")
-  }
+#
+#  if(require("hom.Mm.inp.db") & require("org.Mm.eg.db")) {
+#    newGraph = graphConverter(mintGraph[[1]], "MUSMU", "HOMSA")
+#  }
 
   ##Get a hypergraph
   xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
   intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
   hyperGraph <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25)
 
-  if(require("hom.Hs.inp.db")) {
-  ##Convert it
-  newHyper = hyperGraphConverter(hyperGraph, "HOMSA", "MUSMU", "UNIPROT",
-  "UNIPROT")
-  }
+#  if(require("hom.Hs.inp.db")) {
+#  ##Convert it
+#  newHyper = hyperGraphConverter(hyperGraph, "HOMSA", "MUSMU", "UNIPROT",
+#  "UNIPROT")
+#  }
 
   ##Get a incidence matrix from ScISI
   if(require(ScISI)) {
     data(ScISIC)
-
-    if(require("org.Sc.eg.db")) {
-    ##Convert it
-    newScISIC = hyperGraphConverter(ScISIC, "SACCE", "MUSMU",
-    srcIDType="ORF", destIDType = "EG")
-  }
-  }
+#   if(require("org.Sc.eg.db")) {
+#     ##Convert it
+#     newScISIC = hyperGraphConverter(ScISIC, "SACCE", "MUSMU",
+#                 srcIDType="ORF", destIDType = "EG")
+#    }
+#  }
 }
 
 \keyword{manip}
