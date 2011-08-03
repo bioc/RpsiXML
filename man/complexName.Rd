@@ -28,7 +28,7 @@ attributesList(x)
   \item{attributesList}{A list of \code{psimi25Attribute} objects,
     recording the attribute name, name accession and value.}
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{\code{\link{psimi25Complex-class}}}
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")

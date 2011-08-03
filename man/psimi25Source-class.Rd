@@ -35,7 +35,7 @@ Objects can be created by calls of the form \code{new("psimi25Source", ...)}
   } 
 }
        
-\author{ Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com> }
 \note{
   In case of a new data repository, you can first try creating a
   new object of the class with \code{label}, \code{sourceDb} and

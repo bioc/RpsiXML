@@ -48,7 +48,7 @@
       complex name }
   }
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{\code{\link{parsePsimi25Complex}}}
 \examples{
 showClass("psimi25Complex")

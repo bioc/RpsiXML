@@ -14,7 +14,7 @@ uniprot(x)
 \value{
   A character string of the identifier
 }
-\author{ Tony Chiang <tchiang@ebi.ac.uk>, Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Tony Chiang <tchiang@ebi.ac.uk>, Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{ \code{\link{psimi25Source-class}} }
 \examples{
 uniprot(HPRD.PSIMI25)

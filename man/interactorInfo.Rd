@@ -24,7 +24,7 @@ interactorInfo(x)
   \item{uniprotId}{UniProt ID, NA if not available}
   \item{organismName}{the organism of the interactor protein}
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{\code{\link{xref}}, \code{\link{availableXrefs}}}
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")

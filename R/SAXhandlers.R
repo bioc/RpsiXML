@@ -2,7 +2,7 @@
 ##
 ## Handler/Callbacks for SAX (Simple API for XML) parse
 ##
-## Jitao David Zhang <j.zhang@dkfz.de>, http://www.NextBioMotif.com
+## Jitao David Zhang <jitao_david.zhang@roche.com>, http://www.NextBioMotif.com
 ## Copyrighted 2009, released, see '../LICENSE' for the license
 ##
 ##

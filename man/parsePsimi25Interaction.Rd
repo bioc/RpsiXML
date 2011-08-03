@@ -39,7 +39,7 @@ parsePsimi25Complex(psimi25file, psimi25source, verbose=FALSE)
   \item{MIPS/CORUM}{\url{http://mips.gsf.de/}}
  }
 }
-\author{ Jitao David Zhang <j.zhang@dkfz-heidelberg.de>, Tony Chiang
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang
   <tchiang@ebi.ac.uk> }
 \seealso{
   \code{\link{psimi25Interaction-class}},

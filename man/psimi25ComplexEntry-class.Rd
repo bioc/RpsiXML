@@ -30,7 +30,7 @@ Objects can be created by calls of the form \code{parsePsimi25Complex}
       information of all the complexes}
 	 }
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk>}
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk>}
 \seealso{
   \code{\link{parsePsimi25Complex}}
   \code{\linkS4class{psimi25ComplexEntry}}

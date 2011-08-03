@@ -34,7 +34,7 @@ Class \code{\link[graph:graphNEL-class]{graphNEL}}, by class "graphNEL", distanc
       abstract information for the dataset from NCBI}
   }
 }
-\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{
   \code{\link{psimi25XML2Graph}},\code{S4class\link{psimi25Hypergraph-class}}
 }

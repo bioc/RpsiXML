@@ -3,7 +3,7 @@
 ##  Makefile script as short-cut for package content management
 ##
 ##
-##      Author: Jitao David Zhang <j.zhang@dkfz.de>
+##      Author: Jitao David Zhang <jitao_david.zhang@roche.com>
 ##                   
 ##                   - make install  calls R CMD INSTALL
 ##                   - make check    calls R CMD check (with RUnit)

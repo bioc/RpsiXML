@@ -35,7 +35,7 @@ buildPCHypergraph(xmlFiles, psimi25source, split.by = c("none", "organismName", 
   split, a list of \code{\link{psimi25Hypergraph-class}} is returned,
   which is indexed by either the organism name or the taxonomy ID.
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{ \code{\link{psimi25Hypergraph-class}} for the use of
   hypergraph objects, \code{\link{separateXMLDataByExpt}} for similar
   functionality but for interaction mode files}

@@ -20,7 +20,7 @@ translateID(r, ...)
 \value{
   The object of the same class as the parameter
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{see \code{\link{translateID-methods}} }
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")

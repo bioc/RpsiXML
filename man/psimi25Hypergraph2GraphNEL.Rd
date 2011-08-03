@@ -19,7 +19,7 @@ psimi25Hypergraph2GraphNEL(x)
   An object of the class \code{graphNEL}
 }
 \author{
-  Jitao David Zhang <j.zhang@dkfz.de>
+  Jitao David Zhang <jitao_david.zhang@roche.com>
 }
 \examples{
 ## to be implemented

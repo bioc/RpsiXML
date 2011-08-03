@@ -31,7 +31,7 @@ neutralComponent(x,...)
   The source database identifier is returned.
 }
 \references{The UniProt database \url{http://www.expasy.uniprot.org/}}
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk>}
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk>}
 \seealso{ \code{\link{psimi25Interaction-class}} }
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")

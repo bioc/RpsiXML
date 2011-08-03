@@ -63,7 +63,7 @@ Class \code{Hypergraph}, directly
     
   }
 }
-\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{
   \code{\link{psimi25XML2Graph}},\code{S4class\link{psimi25Graph-class}}
 }

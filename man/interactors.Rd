@@ -30,7 +30,7 @@ numInteractors(x)
   The getting method returns a list of interactors. The setting method
   mutates the object. The count method returns the list length as integer.
 }
-\author{Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk>}
+\author{Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk>}
 \seealso{ \code{\link{psimi25InteractionEntry-class}},
   \code{\link{psimi25ComplexEntry-class}}
 }

@@ -30,7 +30,7 @@ ignore.stderr = TRUE)
   libxml2 library \url{http://xmlsoft.org/}
   PSI-MI 2.5 XML schema \url{http://psidev.sourceforge.net/mi/rel25/src/MIF25.xsd}
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 \note{
   This function sofar depends on the tool "xmllint" bundled with libxml2
   library. We plan to compile it later to run independent of the tool.

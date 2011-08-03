@@ -16,7 +16,7 @@ interactions(x)
 \value{
   A list of interactions
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{ \code{\link{psimi25InteractionEntry-class}} }
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")

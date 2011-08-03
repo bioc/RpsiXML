@@ -15,7 +15,7 @@ complexes(x)
   A list of \code{psimi25Complex}
 }
 \references{ PSI-MI 2.5 XML data exchange format \url{http://www.psidev.info/index.php?q=node/60} }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 \seealso{ \code{\link{psimi25Complex-class}} }
 \examples{
 ## Not run:

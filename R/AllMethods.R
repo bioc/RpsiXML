@@ -2,7 +2,7 @@
 ##
 ## AllMethods: S4-class methods for RpsiXML package
 ##
-## Author: Jitao David Zhang <j.zhang@dkfz.de>
+## Author: Jitao David Zhang <jitao_david.zhang@roche.com>
 ##----------------------------------------------------------------------------##
 
 ##------------------------------------------------------------##

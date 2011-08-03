@@ -65,7 +65,7 @@ Objects can be created by calls of the form \code{parsePsimi25Interaction}
     returns the confidence value of the interaction}
   }
 }
-\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <j.zhang@dkfz.de> }
+\author{ Tony Chiang <tchiang@ebi.ac.uk> , Jitao David Zhang <jitao_david.zhang@roche.com> }
 \seealso{
   \code{\link{parsePsimi25Interaction}},\code{S4CLASS\link{psimi25Interactor-class}},
   \code{S4CLASS\link{psimi25Experiment-class}}, \code{S4class\link{psimi25InteractionEntry-class}}

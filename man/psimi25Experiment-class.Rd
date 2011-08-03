@@ -22,7 +22,7 @@
 \section{Methods}{
 No methods defined with class "psimi25Experiment" in the signature.
 }
-\author{ Jitao David Zhang <j.zhang@dkfz.de>, Tony Chiang <tchiang@ebi.ac.uk> }
+\author{ Jitao David Zhang <jitao_david.zhang@roche.com>, Tony Chiang <tchiang@ebi.ac.uk> }
 %\seealso{
 
 %}

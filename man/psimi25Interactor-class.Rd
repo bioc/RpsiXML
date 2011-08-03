@@ -35,7 +35,7 @@
     cross-references of the given interactor}
  }
 }
-\author{ Jitao David Zhang \email{j.zhang@dkfz.de} }
+\author{ Jitao David Zhang \email{jitao_david.zhang@roche.com} }
 
 %\seealso{
 %  \code{\link{parseInteractor}}
