@@ -82,14 +82,13 @@
 #  }
 
   ##Get a incidence matrix from ScISI
-  if(require(ScISI)) {
+  if(require(ScISI))
     data(ScISIC)
 #   if(require("org.Sc.eg.db")) {
 #     ##Convert it
 #     newScISIC = hyperGraphConverter(ScISIC, "SACCE", "MUSMU",
 #                 srcIDType="ORF", destIDType = "EG")
 #    }
-#  }
 }
 
 \keyword{manip}
