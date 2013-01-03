@@ -1,4 +1,7 @@
-Release 1.7.0 (not released yet)
+Release 1.18.1
+  + Fixing bugs due to upstream changes of libxml
+
+Release 1.7.0
 Internal Changes:
   + (r42536) parseXmlInteractorNodes uses 'parseXmlInteractorNode instead of indirect calling parseInteractor now
   + (r42537) refactor the parsing of interactors in parseComplex function. Till now only the parseComplex remains to be refactored

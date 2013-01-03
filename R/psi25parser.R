@@ -626,7 +626,7 @@ parseXmlEntryNodeSet <- function(psimi25file, psimi25source, verbose=TRUE) {
 
   psimi25Doc <- xmlTreeParse(psimi25file, useInternalNodes = TRUE)
   
-  psimi25NS <- getDefaultNamespace(psimi25Doc)
+  psimi25NS <- getDefaultNamespace(psimi25Doc, simplify=TRUE)
   namespaces <- c(ns = psimi25NS)
   entry <- getNodeSet(psimi25Doc, "/ns:entrySet/ns:entry", namespaces)
 
