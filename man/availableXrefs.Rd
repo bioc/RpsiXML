@@ -39,7 +39,7 @@ xref(object)
   the examples.
 }
 \value{
-  \item{xref }{Returns a matrix with two columns: \code{db} (external database
+  \item{xref}{Returns a matrix with two columns: \code{db} (external database
     name) and \code{id} (external database index) }
   \item{availableXrefs }{A vector of characters, the names of external
     databases referenced in the file}
