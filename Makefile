@@ -12,12 +12,13 @@
 ################################################################################
 
 R=R
-PKG          := RpsiXML
-PKG_VERSION  := 1.x
 
-PKG_ROOT_DIR := $(shell pwd)
-PKG_DIST_ROOT_DIR := ../$(PKG).tmp
-PKG_HIDDEN_FILES  := Makefile 
+PKG=`awk 'BEGIN{FS=":"}{if ($$1=="Package") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION`
+PKG_VERSION=`awk 'BEGIN{FS=":"}{if ($$1=="Version") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION`
+
+PKG_ROOT_DIR=`pwd`
+PKG_DIST_ROOT_DIR=../$(PKG).tmp
+PKG_HIDDEN_FILES=Makefile 
 
 install: 
 	@echo '====== Installing Package ======'
