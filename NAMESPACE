@@ -1,12 +1,16 @@
 
 ## import methods
+import(XML)
 importClassesFrom("graph", "graphNEL")
-importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge")
+importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge", "hyperedges", "toGraphNEL")
 importMethodsFrom("methods", "show")
-importMethodsFrom("Biobase", "abstract")
+importMethodsFrom("Biobase", "abstract", "listlen")
+importMethodsFrom("annotate", "pubmed", "buildPubMedAbst")
 
-importFrom("graph", "numNodes", "numEdges","nodes","edges")
-importFrom("hypergraph", "head", "tail")
+importFrom("AnnotationDbi", "idConverter")
+importFrom("graph", "numNodes", "numEdges","nodes","edges", "ugraph")
+importFrom("RBGL", "removeSelfLoops")
+importFrom("hypergraph", "head", "tail", "Hyperedge")
 
 ## export classes
 exportClasses(psimi25InteractionEntry,
