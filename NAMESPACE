@@ -2,7 +2,7 @@
 ## import methods
 import(XML)
 importClassesFrom("graph", "graphNEL")
-importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge", "hyperedges", "toGraphNEL")
+importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge")
 importMethodsFrom("methods", "show")
 importMethodsFrom("Biobase", "abstract", "listlen")
 importMethodsFrom("annotate", "pubmed", "buildPubMedAbst")
