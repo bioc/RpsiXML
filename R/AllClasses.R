@@ -97,7 +97,7 @@ setClass("psimi25Source",
          prototype = list(
            label = "Label for the database",
            sourceDb = "source database identifier in the psi-mi 25 file",
-           uniprotPath = "NA"))
+           uniprotSymbol = "NA"))
 
 ## PSI-MI 25 Interaction Entry, roughly corresponding to to the 'entry' definition in MIF25.xsd
 setClass("psimi25InteractionEntry",
