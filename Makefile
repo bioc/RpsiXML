@@ -26,9 +26,9 @@ install:
 	@echo '====== Installing finished ======'
 	@echo ' '
 
-check:	
+check: 
 	@echo '====== Checking Package ======'
-	@(export R_DEVELOP_MODE=TRUE; cd ..; ${R} CMD check $(PKG))
+	@(R -e "devtools::check()")
 	@echo '====== Checking finished ======'
 	@echo ' '
 
@@ -43,3 +43,9 @@ dist:
 	@(export R_DEVELOP_MODE=TRUE; cd ..; ${R} CMD check $(PKG)_$(PKG_VERSION).tar.gz)
 	@echo '====== Checking finished  ======'
 	@echo ' '
+
+clean:
+	@echo '====== Cleaning Package ======'
+	@(R -e "devtools::clean_all()")
+	@echo '====== Cleaning finished ======'
+
