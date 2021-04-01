@@ -11,6 +11,8 @@ importFrom("AnnotationDbi", "idConverter")
 importFrom("graph", "numNodes", "numEdges","nodes","edges", "ugraph")
 importFrom("RBGL", "removeSelfLoops")
 importFrom("hypergraph", "head", "tail", "Hyperedge")
+importFrom("methods", "as", "callNextMethod", "is", "new", "slot")
+importFrom("utils", "download.file")
 
 ## export classes
 exportClasses(psimi25InteractionEntry,
