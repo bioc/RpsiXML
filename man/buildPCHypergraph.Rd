@@ -10,7 +10,9 @@
   taxonomy ID of the complexes.
 }
 \usage{
-buildPCHypergraph(xmlFiles, psimi25source, split.by = c("none", "organismName", "taxId"), ...)
+buildPCHypergraph(xmlFiles, psimi25source,
+		  split.by = c("none", "organismName", "taxId"),
+		  ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

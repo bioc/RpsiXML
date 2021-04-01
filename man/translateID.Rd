@@ -36,8 +36,9 @@ translateID(it, "entrezgene")
 intactxml <- file.path(xmlDir, "intact_2008_test.xml")
 intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
 intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25)
-intactGraphNew <- translateID(intactGraph,"sourceId")## translate the nodes of the graph to another identifier
-                              
+## translate the nodes of the graph to another identifier
+intactGraphNew <- translateID(intactGraph,"sourceId")
+
 intactSetInteractors <- interactors(intactSet)
 intactXrefExample <- xref(intactSetInteractors[[1]])
 translateID(intactSetInteractors,"intact")

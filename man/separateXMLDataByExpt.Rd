@@ -7,7 +7,9 @@
   type of the files.
 }
 \usage{
-separateXMLDataByExpt(xmlFiles, psimi25source, type = "direct", directed = TRUE, abstract = FALSE,...)
+separateXMLDataByExpt(xmlFiles, psimi25source,
+		      type = "direct", directed = TRUE,
+		      abstract = FALSE,...)
 }
 \arguments{
   \item{xmlFiles}{ Single file name or a vector of PSI-MI 2.5 XML file names or
