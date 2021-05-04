@@ -4,7 +4,7 @@ validatePSIMI25 <- function(file,
 
   ## backup file name
   ofile <- file
-  
+
   ## if file a URL?
   isURL <- length(grep("^(ftp|http|file)://", file)) > 0
 
@@ -22,13 +22,13 @@ validatePSIMI25 <- function(file,
     }
     return(invisible(0))
   }
-  
+
   val <- system(paste("xmllint --noout --schema", schema, file),ignore.stderr=T)
 
   if ( val == 0 ) {
-    cat(paste(ofile, "valid!\n"))
+    cat(paste(ofile, "is valid!\n"))
   } else {
-    cat(paste(ofile, "invalid! Error code:",val,"\n"))
+    cat(paste(ofile, "is invalid! Error code:",val,"\n"))
     if(!ignore.stderr) {
       system(paste("xmllint --noout --schema", schema, file))
     } else {

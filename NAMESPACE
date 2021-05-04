@@ -95,6 +95,8 @@ export(parsePsimi25Interaction,
        nodes,
        degree,
        numNodes,
+       numEdges,
+       hyperedges,
        xref
        )
 
