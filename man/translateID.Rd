@@ -25,7 +25,7 @@ translateID(r, ...)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-hprdxml <- file.path(xmlDir, "hprd_200709_test.xml")
+hprdxml <- file.path(xmlDir, "hprd_200709_test.xml.gz")
 hprdSet <- parsePsimi25Interaction(hprdxml, HPRD.PSIMI25)
 
 it <- interactors(hprdSet)[[1]]
@@ -33,7 +33,7 @@ translateID(it, "uniprot")
 translateID(it, "entrezgene")
 
 ##Not run
-intactxml <- file.path(xmlDir, "intact_2008_test.xml")
+intactxml <- file.path(xmlDir, "intact_2008_test.xml.gz")
 intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
 intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25)
 ## translate the nodes of the graph to another identifier
@@ -44,7 +44,7 @@ intactXrefExample <- xref(intactSetInteractors[[1]])
 translateID(intactSetInteractors,"intact")
 translateID(intactSetInteractors[[1]],"intact")
 
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexSet <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25)
 intactComplexGraph <- psimi25XML2Graph(intactComplexxml, INTACT.PSIMI25, type="complex")
 translateID(intactComplexGraph, "intact", "P49432")

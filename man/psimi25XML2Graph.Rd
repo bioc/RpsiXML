@@ -44,10 +44,10 @@ directed = TRUE, ...)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-intactxml <- file.path(xmlDir, "intact_2008_test.xml")
+intactxml <- file.path(xmlDir, "intact_2008_test.xml.gz")
 intactGraph <- psimi25XML2Graph(intactxml, INTACT.PSIMI25, type="interaction")
 
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexGraph <- psimi25XML2Graph(intactComplexxml, INTACT.PSIMI25, type="complex")
 }
 \keyword{ models }

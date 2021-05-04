@@ -20,7 +20,7 @@ interactionType(object)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-hprdxml <- file.path(xmlDir, "hprd_200709_test.xml")
+hprdxml <- file.path(xmlDir, "hprd_200709_test.xml.gz")
 hprdSet <- parsePsimi25Interaction(hprdxml, HPRD.PSIMI25)
 
 interExp <- interactions(hprdSet)[[1]]

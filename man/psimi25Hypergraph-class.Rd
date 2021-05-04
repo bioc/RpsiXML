@@ -69,7 +69,7 @@ Class \code{Hypergraph}, directly
 }
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 pc1 <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25)
 
 ## print number of proteins and complexes (edges)

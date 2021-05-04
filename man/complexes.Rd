@@ -21,7 +21,7 @@ complexes(x)
 ## Not run:
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexSet <- parsePsimi25Complex(intactComplexxml,
 INTACT.PSIMI25)
 

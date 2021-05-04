@@ -19,7 +19,7 @@ A dump() method is supplied to deliver the list.
 \author{ Vince Carey <stvjc@channing.harvard.edu> }
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-fn <- file.path(xmlDir, "hprd_200709_test.xml")
+fn <- file.path(xmlDir, "hprd_200709_test.xml.gz")
 XML::xmlEventParse(fn, eListHandler())$dump()
 }
 \keyword{ models }

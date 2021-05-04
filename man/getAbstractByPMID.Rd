@@ -18,7 +18,7 @@ getAbstractByPMID(pmID)
 
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-intactxml <- file.path(xmlDir, "intact_2008_test.xml")
+intactxml <- file.path(xmlDir, "intact_2008_test.xml.gz")
 x <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25)
 y <- interactions(x)[[1]]
 getAbstractByPMID(pubmedID(y))

@@ -37,12 +37,12 @@ numInteractors(x)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-hprdxml <- file.path(xmlDir, "hprd_200709_test.xml")
+hprdxml <- file.path(xmlDir, "hprd_200709_test.xml.gz")
 hprdSet <- parsePsimi25Interaction(hprdxml, HPRD.PSIMI25)
 interactors(hprdSet)
 
 ## Not run:
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexSet <- parsePsimi25Complex(intactComplexxml,
 INTACT.PSIMI25)
 

@@ -43,7 +43,7 @@ buildPCHypergraph(xmlFiles, psimi25source,
   functionality but for interaction mode files}
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 
 pc2 <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25,split.by="organismName")
 

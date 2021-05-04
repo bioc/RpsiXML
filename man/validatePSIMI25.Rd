@@ -36,7 +36,7 @@ ignore.stderr = TRUE)
   library. We plan to compile it later to run independent of the tool.
 }
 \examples{
-okFile <- system.file("extdata/psi25files/intact_2008_test.xml",
+okFile <- system.file("extdata/psi25files/intact_2008_test.xml.gz",
                       package="RpsiXML")
 validatePSIMI25(okFile)
 }

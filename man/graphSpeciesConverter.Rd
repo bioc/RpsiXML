@@ -58,7 +58,7 @@
   directory <- system.file("/extdata/psi25files",
                            package="RpsiXML")
   mintXML <- file.path(directory, 
-                       "mint_200711_test.xml")
+                       "mint_200711_test.xml.gz")
   mintGraph <- separateXMLDataByExpt(xmlFiles=mintXML, 
                                      psimi25source = MINT.PSIMI25, 
                                      type = "indirect", 
@@ -72,7 +72,7 @@
 
   ##Get a hypergraph
   xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-  intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+  intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
   hyperGraph <- buildPCHypergraph(intactComplexxml, INTACT.PSIMI25)
 
 #  if(require("hom.Hs.inp.db")) {

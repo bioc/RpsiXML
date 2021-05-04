@@ -33,7 +33,7 @@ attributesList(x)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexSet <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25)
 complexSample <- complexes(intactComplexSet)[[2]]
 

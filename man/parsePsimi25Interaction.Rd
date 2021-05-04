@@ -51,14 +51,14 @@ parsePsimi25Complex(psimi25file, psimi25source, verbose=FALSE)
 # parse interaction data
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-gridxml <- file.path(xmlDir, "biogrid_200804_test.xml")
+gridxml <- file.path(xmlDir, "biogrid_200804_test.xml.gz")
 gridSet <- parsePsimi25Interaction(gridxml, BIOGRID.PSIMI25)
 
-intactxml <- file.path(xmlDir, "intact_2008_test.xml")
+intactxml <- file.path(xmlDir, "intact_2008_test.xml.gz")
 intactSet <- parsePsimi25Interaction(intactxml, INTACT.PSIMI25, verbose=TRUE)
 
 # parse complex data
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 intactComplexSet <- parsePsimi25Complex(intactComplexxml, INTACT.PSIMI25)
 
 }

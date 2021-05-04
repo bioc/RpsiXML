@@ -36,7 +36,7 @@ neutralComponent(x,...)
 \examples{
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
 
-gridxml <- file.path(xmlDir, "biogrid_200804_test.xml")
+gridxml <- file.path(xmlDir, "biogrid_200804_test.xml.gz")
 gridSet <- parsePsimi25Interaction(gridxml, BIOGRID.PSIMI25)
 
 interExp <- interactions(gridSet)[[1]]
