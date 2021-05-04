@@ -13,12 +13,11 @@
 
 R=R
 
-PKG=`awk 'BEGIN{FS=":"}{if ($$1=="Package") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION`
-PKG_VERSION=`awk 'BEGIN{FS=":"}{if ($$1=="Version") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION`
-
+PKG := $(shell awk 'BEGIN{FS=":"}{if ($$1=="Package") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION)
+PKG_VERSION=$(shell awk 'BEGIN{FS=":"}{if ($$1=="Version") {gsub(/ /, "",$$2);print $$2}}' DESCRIPTION)
 PKG_ROOT_DIR=`pwd`
-PKG_DIST_ROOT_DIR=../$(PKG).tmp
-PKG_HIDDEN_FILES=Makefile 
+PKG_SRC_DIR=$(PKG_ROOT_DIR)/src
+KG_HIDDEN_FILES=Makefile 
 
 install: 
 	@echo '====== Installing Package ======'
@@ -48,4 +47,9 @@ clean:
 	@echo '====== Cleaning Package ======'
 	@(R -e "devtools::clean_all()")
 	@echo '====== Cleaning finished ======'
+
+test:
+	@echo '====== Testing Package ======'
+	@(R -e "devtools::test()")
+	@echo '====== Testing finished ======'
 
