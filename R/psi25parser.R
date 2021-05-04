@@ -283,14 +283,13 @@ parseXmlInteractionNode <- function(node,
   expRef <- XMLvalueByPath(doc = subDoc,
                            path = "/ns:interaction/ns:experimentList/ns:experimentRef",
                            namespaces = namespaces)
-  
-  if ((!is.null(expRef)) && exists(expRef, envir = expEnv)) {
-    expData <- get(expRef, envir = expEnv)
-    interactionType <- expData@interactionType
-    expPsimi25 <- expData@sourceId
-    expPubMed <- expData@expPubMed
-  }
-  else {
+
+  if ((!is.null(expRef)) && length(expRef)>=1) {
+    expData <- mget(expRef, envir = expEnv, ifnotfound=NA)
+    interactionType <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@interactionType))
+    expPsimi25 <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@sourceId))
+    expPubMed <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@expPubMed))
+  } else {
     interactionType <- nonNullXMLvalueByPath(doc = subDoc,
                                              path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:shortLabel",
                                              namespaces = namespaces)[[1]]
@@ -312,7 +311,7 @@ parseXmlInteractionNode <- function(node,
   ## confidence value
   rolePath <-  "/ns:interaction/ns:confidenceList/ns:confidence/ns:value"
   confidenceValue <- nonNullXMLvalueByPath(doc=subDoc,path = rolePath, namespaces=namespaces)
-  
+
   ## participant
   rolePath <- "/ns:interaction/ns:participantList/ns:participant/ns:interactorRef"
   participantRefs <- nonNullXMLvalueByPath(doc=subDoc, path=rolePath, namespaces=namespaces)
@@ -322,7 +321,7 @@ parseXmlInteractionNode <- function(node,
                                                       path=rolePath,
                                                       name="id", namespaces=namespaces)
   }
-  
+
   ## bait
   rolePath <- "/ns:interaction/ns:participantList/ns:participant[ns:experimentalRoleList/ns:experimentalRole/ns:names/ns:fullName='bait']/ns:interactorRef"
   baitRefs <- nonNullXMLvalueByPath(doc=subDoc, path = rolePath, namespaces=namespaces)
@@ -358,20 +357,20 @@ parseXmlInteractionNode <- function(node,
   baitUniprot <- getValueByMatchingMatrixColumn(baitRefs, interactorInfo, srcLabel, uniLabel)
   inhibitorUniprot <- getValueByMatchingMatrixColumn(inhibitorRefs,  interactorInfo, srcLabel, uniLabel)
   neutralComponentUniprot <- getValueByMatchingMatrixColumn(neutralComponentRefs,  interactorInfo, srcLabel, uniLabel)
-  
+
   interaction <- new("psimi25Interaction",
                      sourceDb = sourceDb,
                      sourceId = as.character(psimi25Id), ## FIXME: can we do it nullable?
-                     interactionType = interactionType, 
+                     interactionType = interactionType,
                      expPubMed = expPubMed,
-                     ##expSourceId = expPsimi25, 
+                     ##expSourceId = expPsimi25,
                      confidenceValue = confidenceValue,
                      participant = participantUniprot,
                      bait = baitRefs,
-                     baitUniProt = baitUniprot, 
+                     baitUniProt = baitUniprot,
                      prey = preyRefs,
                      preyUniProt = preyUniprot,
-                     inhibitor = inhibitorUniprot, 
+                     inhibitor = inhibitorUniprot,
                      neutralComponent = neutralComponentUniprot
                      )
   if(verbose)
