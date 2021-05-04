@@ -1,9 +1,19 @@
 Package: RpsiXML
-Version: 2.33.1
-Date: 2020-04-01
+Version: 2.33.2
+Date: 2021-05-04
 Title: R interface to PSI-MI 2.5 files
+Authors@R:
+  c(person(given = "Jitao David",
+           family = "Zhang",
+           role = c("aut", "cre", "ctb"),
+           email = "jitao_david.zhang@roche.com",
+           comment = c(ORCID="0000-0002-3085-0909")),
+    person(given = "Stefan",
+           family = "Wiemann",
+           role = c("ctb")),
+    person(given="Marc", family="Carlson", role="ctb"),
+    person(given="Tony", family="Chiang", role="ctb")
 Author: Jitao David Zhang, Stefan Wiemann, Marc Carlson, with contributions from Tony Chiang
-Maintainer: Jitao David Zhang <jitao_david.zhang@roche.com>
 Depends: methods, annotate (>= 1.21.0), graph (>= 1.21.0), Biobase, RBGL (>= 1.17.0), XML (>= 2.4.0), hypergraph (>= 1.15.2), AnnotationDbi, utils
 Suggests: org.Hs.eg.db, org.Mm.eg.db, org.Dm.eg.db, org.Rn.eg.db, org.Sc.sgd.db, Rgraphviz, ppiStats, ScISI
 Description: Queries, data structure and interface to visualization of interaction datasets. This package inplements the PSI-MI 2.5 standard and supports up to now 8 databases. Further databases supporting PSI-MI 2.5 standard will be added continuously.
