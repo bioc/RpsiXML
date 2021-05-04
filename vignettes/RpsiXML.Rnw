@@ -124,7 +124,7 @@ library(RpsiXML)
 (Then we create a path to the files)
 <<sampleFiles, echo=TRUE, results=tex>>=
 xmlDir <- system.file("/extdata/psi25files",package="RpsiXML")
-gridxml <- file.path(xmlDir, "biogrid_200804_test.xml")
+gridxml <- file.path(xmlDir, "biogrid_200804_test.xml.gz")
 @ 
 
 \noindent The first line of code above creates a path to the desired directory while the second line
@@ -180,8 +180,8 @@ searches over the XML tree structure and returns the fields (nodes) of interest.
 the XML file we wish to parse:
 
 <<intactInteractionEX, echo=TRUE, results=tex>>=
-intactxml <- file.path(xmlDir, "intact_2008_test.xml")
-intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml")
+intactxml <- file.path(xmlDir, "intact_2008_test.xml.gz")
+intactComplexxml <- file.path(xmlDir,"intact_complexSample.xml.gz")
 @ 
 
 \noindent and then we parse the file using the \Rfunction{parsePsimi25Interaction} function:
