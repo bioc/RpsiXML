@@ -2,17 +2,22 @@
 ## import methods
 import(XML)
 importClassesFrom("graph", "graphNEL")
-importClassesFrom("hypergraph", "Hypergraph", "Hyperedge", "DirectedHyperedge")
+importClassesFrom("hypergraph", "Hypergraph", "Hyperedge",
+	"DirectedHyperedge")
+importMethodsFrom("hypergraph", "inciMat", "toGraphNEL",
+	"hyperedges", "hyperedgeLabels")
 importMethodsFrom("methods", "show")
 importMethodsFrom("Biobase", "abstract")
+importMethodsFrom("graph", "combineNodes", "nodes<-", "nodes",
+	"edges", "numNodes", "numEdges", "ugraph", "degree")
 
 importFrom("AnnotationDbi", "idConverter")
-importFrom("graph", "numNodes", "numEdges","nodes","edges", "ugraph")
 importFrom("RBGL", "removeSelfLoops")
 importFrom("hypergraph", "head", "tail", "Hyperedge")
-importFrom("methods", "as", "callNextMethod", "is", "new", "slot")
+importFrom("methods", "as", "callNextMethod", "is", "new", "slot", "initialize")
 importFrom("utils", "download.file")
-importFrom("annotate", "buildPubMedAbst")
+importFrom("annotate", "buildPubMedAbst", "pubmed")
+importFrom("Biobase", "listLen")
 
 
 ## export classes
@@ -48,7 +53,6 @@ exportMethods("abstract",
               "edgeLabel",
               "hyperedgeNodes",
               "show",
-              "initialize",
               "translateID",
               "interactorInfo",
               "interactionType",
@@ -88,6 +92,8 @@ export(parsePsimi25Interaction,
        pubmedID,
        null2na, 
        getAbstractByPMID,
+       nodes,
+       degree,
        xref
        )
 
@@ -96,6 +102,5 @@ export(complexName,
        attributesList,
        members)
 
-       
 ## validate
 export(validatePSIMI25)

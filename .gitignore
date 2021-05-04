@@ -1,0 +1,12 @@
+*.pdf
+*.tex
+*.gz
+*.bbl
+*.blg
+*.log
+
+*~
+*.swp
+/doc/
+/Meta/
+*.timestamp
