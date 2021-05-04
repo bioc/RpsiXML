@@ -12,7 +12,7 @@ Authors@R:
            family = "Wiemann",
            role = c("ctb")),
     person(given="Marc", family="Carlson", role="ctb"),
-    person(given="Tony", family="Chiang", role="ctb")
+    person(given="Tony", family="Chiang", role="ctb"))
 Author: Jitao David Zhang, Stefan Wiemann, Marc Carlson, with contributions from Tony Chiang
 Depends: methods, annotate (>= 1.21.0), graph (>= 1.21.0), Biobase, RBGL (>= 1.17.0), XML (>= 2.4.0), hypergraph (>= 1.15.2), AnnotationDbi, utils
 Suggests: org.Hs.eg.db, org.Mm.eg.db, org.Dm.eg.db, org.Rn.eg.db, org.Sc.sgd.db, Rgraphviz, ppiStats, ScISI
