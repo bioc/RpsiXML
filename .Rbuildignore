@@ -6,5 +6,6 @@ README.md
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^Makefile$
+^Dockerfile$
 ^coverage\.txt$
 ^coverage\.r$

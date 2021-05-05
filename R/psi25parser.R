@@ -285,10 +285,10 @@ parseXmlInteractionNode <- function(node,
                            namespaces = namespaces)
 
   if ((!is.null(expRef)) && length(expRef)>=1) {
-    expData <- mget(expRef, envir = expEnv, ifnotfound=NA)
-    interactionType <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@interactionType))
-    expPsimi25 <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@sourceId))
-    expPubMed <- sapply(expData, function(ed) ifelse(is.na(ed), NA, ed@expPubMed))
+    expData <- mget(expRef, envir = expEnv, ifnotfound=list(NULL))
+    interactionType <- sapply(expData, function(ed) ifelse(is.null(ed), NA, ed@interactionType))
+    expPsimi25 <- sapply(expData, function(ed) ifelse(is.null(ed), NA, ed@sourceId))
+    expPubMed <- sapply(expData, function(ed) ifelse(is.null(ed), NA, ed@expPubMed))
   } else {
     interactionType <- nonNullXMLvalueByPath(doc = subDoc,
                                              path = "/ns:interaction/ns:experimentList/ns:experimentDescription/ns:interactionDetectionMethod/ns:names/ns:shortLabel",
