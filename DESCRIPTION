@@ -1,5 +1,5 @@
 Package: RpsiXML
-Version: 2.37.0
+Version: 2.37.1
 Date: 2021-05-04
 Title: R interface to PSI-MI 2.5 files
 Authors@R:
@@ -45,7 +45,9 @@ Collate: AllClasses.R
 	 psimi25Source.R
 	 validatePSIMI25.R
 	 graphSpeciesConverter.R
+	 zzz.R
 License: LGPL-3
 URL: http://www.bioconductor.org
 biocViews: Infrastructure, Proteomics
 RoxygenNote: 7.1.1
+PackageStatus: Deprecated
